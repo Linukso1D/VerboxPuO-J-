@@ -174,6 +174,17 @@ public class In extends javax.swing.JFrame {
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Обмен валют");
@@ -1377,13 +1388,68 @@ public class In extends javax.swing.JFrame {
         jMenuBar2.setPreferredSize(new java.awt.Dimension(56, 31));
 
         jMenu3.setText("Файл");
-        jMenu3.setPreferredSize(new java.awt.Dimension(67, 19));
+        jMenu3.setPreferredSize(null);
 
         jMenuItem1.setText("Выйти");
         jMenuItem1.setMargin(new java.awt.Insets(0, -10, 0, 30));
         jMenu3.add(jMenuItem1);
 
         jMenuBar2.add(jMenu3);
+
+        jMenu1.setText("Касса");
+        jMenu1.setPreferredSize(null);
+
+        jMenuItem2.setText("Общее состояние");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuItem3.setText("Подкрепления");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
+
+        jMenuItem4.setText("Инкасация");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem4);
+
+        jMenuBar2.add(jMenu1);
+
+        jMenu2.setText("Обмен валют");
+        jMenu2.setPreferredSize(null);
+        jMenuBar2.add(jMenu2);
+
+        jMenu4.setText("Справочники");
+        jMenu4.setPreferredSize(null);
+
+        jMenuItem5.setText("Кассиры");
+        jMenu4.add(jMenuItem5);
+
+        jMenuItem6.setText("Инкассаторы");
+        jMenu4.add(jMenuItem6);
+
+        jMenuItem7.setText("О предприятии");
+        jMenu4.add(jMenuItem7);
+
+        jMenuBar2.add(jMenu4);
+
+        jMenu5.setText("Журнал операций");
+        jMenu5.setPreferredSize(null);
+        jMenuBar2.add(jMenu5);
+
+        jMenu6.setText("Отчеты");
+        jMenu6.setPreferredSize(null);
+        jMenuBar2.add(jMenu6);
 
         setJMenuBar(jMenuBar2);
 
@@ -1430,6 +1496,24 @@ public class In extends javax.swing.JFrame {
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+                jPanel9.setVisible(false);  
+                jPanel10.setVisible(false); 
+                jPanel11.setVisible(true); 
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+                jPanel9.setVisible(true);  
+                jPanel10.setVisible(false); 
+                jPanel11.setVisible(false); 
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+                 jPanel9.setVisible(false);  
+                jPanel10.setVisible(true); 
+                jPanel11.setVisible(false);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1528,9 +1612,20 @@ public class In extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JList jList1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
