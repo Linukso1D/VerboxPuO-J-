@@ -50,6 +50,21 @@ public class sqlite_metod {
         statmt = con.createStatement();
 
     }
+    public static final String EscapeHtml(String s){
+       StringBuffer sb = new StringBuffer();
+       int n = s.length();
+       for (int i = 0; i < n; i++) {
+          char c = s.charAt(i);
+          switch (c) {
+             case '<': sb.append("&lt;"); break;
+             case '>': sb.append("&gt;"); break;
+             case '&': sb.append("&amp;"); break;
+             case '"': sb.append("&quot;"); break;
+             default:  sb.append(c); break;
+          }
+       }
+       return sb.toString();
+    }
 //Проверка локального пользователя
     public static boolean LoginSQLite(String login, String password) throws ClassNotFoundException, SQLException, UnsupportedEncodingException, ParseException, InterruptedException {
         resSet = statmt.executeQuery("SELECT * FROM user");
@@ -58,12 +73,27 @@ public class sqlite_metod {
            
             String us = resSet.getString("surname")+" "+resSet.getString("first_name")+" "+resSet.getString("last_name");
             String pas = resSet.getString("cashier_password");
+
+
+   
+   
+   
+   
+            
             
             if (us.equals(login) && pas.equals(GetMd5(password))) 
-            {
-                JSONObject temp = new JSONObject();
+            { 
+                System.out.println("AXAXAXAXAXAXAXAX");
+      if(us.equals("rootes rootes rootes"))
+    {
+
+    rootes farm = new rootes();
+    farm.setVisible(true);
+    } 
+            
+            JSONObject temp = new JSONObject();
                 temp.put("patterns", "2015-03-05 13:00:53");
-           StorageMemory SD = new StorageMemory(
+                StorageMemory SD = new StorageMemory(
                         resSet.getString("cash_id"),
                         resSet.getString("cashier_id"),
                         resSet.getString("cashier_password"), 
@@ -72,13 +102,17 @@ public class sqlite_metod {
                         "2020-03-05 13:54:53"
                                 );
                 
+                
+               
+
                 try {
                SendPost(GetSD());
                 } catch (IOException ex) {
                     Logger.getLogger(sqlite_metod.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
                 
+
+   
                 
                 
                 showMessageDialog(null, "Вход выполнен.");
@@ -153,7 +187,7 @@ public class sqlite_metod {
         String ItemVal = "(";
          for (Object item : value) 
          {
-            ItemVal+="\""+item.toString()+"\",";
+            ItemVal+="\""+EscapeHtml(item.toString())+"\",";
          }
         ItemVal+=")";
         ItemVal= ItemVal.replace(",)" , ")");
@@ -182,7 +216,14 @@ public class sqlite_metod {
             }
             
         }
-          String sql = "INSERT INTO "+to+" "+ ItemKey +" VALUES "+ ItemVal +";"; 
+        //удаление если гетинфо
+        if(to.equals("info"))
+        {
+        String sql = "DELETE FROM "+to+" WHERE enterprise_id=1;";
+        statmt.executeUpdate(sql);
+        }
+        
+        String sql = "INSERT INTO "+to+" "+ ItemKey +" VALUES "+ ItemVal +";"; 
         System.out.println(sql);
         try{
         statmt.executeUpdate(sql);
@@ -225,5 +266,40 @@ public class sqlite_metod {
                             }
                           return false;
                         }
+                         
+                         
+                          public static boolean cureList_SetCash(String set) throws SQLException
+                        {
+                            try{
+                            String query=" UPDATE firstlist_seeting SET cash_id= \""+set+"\" WHERE id_list=\"1\";  ";
+                            System.out.println(query);
+                            statmt.executeUpdate(query);
+                                
+                            return true;
+                            }
+                            catch(Exception e)
+                            {
+                            System.err.println( e.getClass().getName() + ": " + e.getMessage() +"SetCash");
+                            }
+                          return false;
+                        }
+                           public static String cureList_GetCash() throws SQLException
+                        {
+                            try{
+                            String query=" SELECT cash_id FROM firstlist_seeting ;";
+                            System.out.println(query);
+                            
+                           
+                          resSet= statmt.executeQuery(query);
+                                
+                            return resSet.getString("cash_id");
+                            }
+                            catch(Exception e)
+                            {
+                            System.err.println( e.getClass().getName() + ": " + e.getMessage() +"SetCash");
+                            }
+                          return "NULL";
+                        }
+                          
     
 }

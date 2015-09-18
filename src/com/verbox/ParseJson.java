@@ -5,7 +5,9 @@
  */
 package com.verbox;
 
+import static com.verbox.DecodeUTF.DecodeUTF;
 import static com.verbox.sqlite_metod.Insert;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import org.json.simple.JSONArray;
@@ -23,8 +25,7 @@ public class ParseJson {
     // для левой логинизации касиры
     ArrayList CashierNameList;
     
-    //getinfo 
-    ArrayList info,infonamespace;
+   
 
     public ArrayList getCashierNameList() {
         if (!CashierNameList.isEmpty()) {
@@ -33,7 +34,7 @@ public class ParseJson {
         return null;
     }
 
-    //инициализация обекта
+    //инициализация обекта наверное для ероров
     JSONObject PJjson;
 
     //конструктор
@@ -74,8 +75,10 @@ public class ParseJson {
     }
     
     //----
-    public void  get_info(JSONObject json)
+    public static void  get_info(JSONObject json) throws SQLException, UnsupportedEncodingException
     {
+         //getinfo 
+    ArrayList info,infonamespace;
         info = new ArrayList();
         infonamespace = new ArrayList();
         if(json.isEmpty())
@@ -84,28 +87,24 @@ public class ParseJson {
         }
         else
         {
-        this.PJjson = json;
-        JSONObject Error = (JSONObject) PJjson.get("error");
-        setErrorCode((String) Error.get("code"));
-        setErrorMessage((String) Error.get("message"));
-        //Касиры
-        CashierNameList = new ArrayList();
+               
+            
+               
 //"super":false,"cashier_id":4,"cash_id":1,"cashier_password":"c4ca4238a0b923820dcc509a6f75849b","surname":"Петров","last_name":"Александрович","first_name":"Петя"
-        if (getErrorCode().equals("08")) {
-        } else {
+      
             
             JSONObject jo = (JSONObject) json.get("params");
             JSONObject enterprise = (JSONObject) jo.get("enterprise");
             
+
             
-            
-            
+
                 
                 info.add(enterprise.get("bookk_fio"));
                 info.add(enterprise.get("bookk_first_name"));
                 info.add(enterprise.get("bookk_last_name"));
                 info.add(enterprise.get("bookk_surname"));
-                info.add(enterprise.get("date_create"));
+     
                 info.add(enterprise.get("dir_fio"));
                 info.add(enterprise.get("dir_first_name"));
                 info.add(enterprise.get("dir_last_name"));
@@ -134,7 +133,7 @@ public class ParseJson {
                 infonamespace.add("bookk_first_name");
                 infonamespace.add("bookk_last_name");
                 infonamespace.add("bookk_surname");
-                infonamespace.add("date_create");
+               
                 infonamespace.add("dir_fio");
                 infonamespace.add("dir_first_name");
                 infonamespace.add("dir_last_name");
@@ -161,39 +160,15 @@ public class ParseJson {
                 
                 
                 
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-        //--  
+            boolean flag = Insert("info", infonamespace, info);
+            //--  
             
         }
         /*  for (Object item : CashierNameList) 
                     {
                         System.out.println("Name of user  "+ item);
                     }*/
-        }
+        
     }
 //-----
     private void setErrorCode(String ErrorCode) {

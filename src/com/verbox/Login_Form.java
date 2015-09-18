@@ -5,6 +5,7 @@
  */
 package com.verbox;
 
+import static com.verbox.json_metod.GetInfoJS;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -208,6 +209,24 @@ boolean log_in=false;
             Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
         }
          */
+        try {
+         ParseJson Ob = null;
+
+        
+          
+            Ob.get_info(SendPost(GetInfoJS()));
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         if (log_in)
         {
         In frm = new In();

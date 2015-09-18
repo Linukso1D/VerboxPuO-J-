@@ -57,6 +57,34 @@ public class json_metod {
         }
         return null;
     }
+        
+        
+        
+        
+        public static JSONObject GetInfoJS()   {
+        try {
+        Serial_XDDGet();
+        String tmp = Serial_XDDGetHash();
+        
+        JSONObject obparams = new JSONObject();
+        obparams.put("patterns", "2015-03-05 13:00:53");
+        JSONObject obj = new JSONObject();
+        obj.put("cash_id", "1");
+        obj.put("cash_password",   tmp);
+        obj.put("cashier_id", "1");
+        obj.put("cashier_password", "117475e8ed646af06790a513fd91f0fd");
+        obj.put("action_name", "get_info");
+        obj.put("params", obparams);
+        obj.put("lastmes", "2020-03-05 13:54:53");
+        return obj;
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(json_metod.class.getName()).log(Level.SEVERE, null, ex+"getPairLogin");
+        }
+        return null;
+    }
+                
+                
+                
   //Отправка и получение JSON-------- 
      public static JSONObject SendPost(JSONObject obj) throws IOException, org.json.simple.parser.ParseException, InterruptedException {
          if(!CheckInet())
