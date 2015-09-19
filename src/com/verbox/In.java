@@ -1419,12 +1419,12 @@ public class In extends javax.swing.JFrame {
 
         jMenu5.setText("Журнал операций");
         jMenu5.addMenuListener(new javax.swing.event.MenuListener() {
-            public void menuCanceled(javax.swing.event.MenuEvent evt) {
-            }
             public void menuDeselected(javax.swing.event.MenuEvent evt) {
             }
             public void menuSelected(javax.swing.event.MenuEvent evt) {
                 jMenu5MenuSelected(evt);
+            }
+            public void menuCanceled(javax.swing.event.MenuEvent evt) {
             }
         });
         jMenu5.addMouseListener(new java.awt.event.MouseAdapter() {

@@ -8,6 +8,9 @@ package com.verbox;
 import static com.verbox.Serial_XDD.Serial_XDDGet;
 import static com.verbox.Serial_XDD.Serial_XDDGetHash;
 import static com.verbox.sqlite_metod.GetMd5;
+import static com.verbox.sqlite_metod.cureList_GetCash;
+import static com.verbox.sqlite_metod.cureList_GetLog;
+import static com.verbox.sqlite_metod.cureList_GetPass;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -16,6 +19,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -36,7 +40,7 @@ public class json_metod {
 
 
 //запрос на получение пустого списка пользователей--------
-        public static JSONObject GetPairLogin()   {
+        public static JSONObject GetPairLogin() throws SQLException   {
         try {
         Serial_XDDGet();
         String tmp = Serial_XDDGetHash();
@@ -44,7 +48,7 @@ public class json_metod {
         JSONObject obparams = new JSONObject();
         obparams.put("patterns", "2015-03-05 13:00:53");
         JSONObject obj = new JSONObject();
-        obj.put("cash_id", "1");
+        obj.put("cash_id", cureList_GetCash());
         obj.put("cash_password",   tmp);
         obj.put("cashier_id", "1");
         obj.put("cashier_password", "117475e8ed646af06790a513fd91f0f");
@@ -61,7 +65,7 @@ public class json_metod {
         
         
         
-        public static JSONObject GetInfoJS()   {
+        public static JSONObject GetInfoJS() throws SQLException   {
         try {
         Serial_XDDGet();
         String tmp = Serial_XDDGetHash();
@@ -69,7 +73,7 @@ public class json_metod {
         JSONObject obparams = new JSONObject();
         obparams.put("patterns", "2015-03-05 13:00:53");
         JSONObject obj = new JSONObject();
-        obj.put("cash_id", "1");
+        obj.put("cash_id", cureList_GetCash());
         obj.put("cash_password",   tmp);
         obj.put("cashier_id", "1");
         obj.put("cashier_password", "117475e8ed646af06790a513fd91f0fd");
@@ -86,7 +90,7 @@ public class json_metod {
                 
                 
   //Отправка и получение JSON-------- 
-     public static JSONObject SendPost(JSONObject obj) throws IOException, org.json.simple.parser.ParseException, InterruptedException {
+     public static JSONObject SendPost(JSONObject obj) throws IOException, org.json.simple.parser.ParseException, InterruptedException, SQLException {
          if(!CheckInet())
          {
              JSONObject js = new JSONObject();
@@ -95,7 +99,9 @@ public class json_metod {
          }
         URL url = new URL("http://verbox.biz/application/apimanager");
         Base64 b = new Base64();
-        String encoding = b.encodeAsString(new String("barksa7:jcbyjdsq3qrjk").getBytes());
+        String encoding = b.encodeAsString(new String(cureList_GetLog()+":"+cureList_GetPass()).getBytes());
+        
+                
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);

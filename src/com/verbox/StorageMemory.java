@@ -18,19 +18,19 @@ import org.json.simple.JSONObject;
 public class StorageMemory {
 
     //generate cashier_id and cashier_password for sign in
-private static JSONObject obj = new JSONObject();
-    private String cash_id, cash_password, cashier_id, cashier_password, action_name,  lastmes;
-JSONObject params;
+    private static JSONObject obj = new JSONObject();
+    private String cash_id, cash_password, cashier_id, cashier_password, action_name, lastmes;
+    JSONObject params;
+
     public static JSONObject GetSD() throws UnsupportedEncodingException {
-              return obj;
+        return obj;
     }
 
     //эти аргументы мы инициализируем из функции логинизации sqlite metod login они хранятся в памяти постоянно
-
     public StorageMemory(String t1, String t3, String t4, String t5, JSONObject t6, String t7) throws UnsupportedEncodingException {
         Serial_XDDGet();
         String tmp = Serial_XDDGetHash();
-        
+
         setCash_id(t1);
         setCash_password(tmp);
         setCashier_id(t3);
@@ -38,8 +38,7 @@ JSONObject params;
         setAction_name(t5);
         setParams(t6);
         setLastmes(t7);
-        
-        
+
         obj.put("cash_id", getCash_id());
         obj.put("cash_password", getCash_password());
         obj.put("cashier_id", getCashier_id());
@@ -47,7 +46,6 @@ JSONObject params;
         obj.put("action_name", getAction_name());
         obj.put("params", getParams());
         obj.put("lastmes", getLastmes());
-        
 
     }
 

@@ -53,9 +53,18 @@ public class Login_Form extends javax.swing.JFrame {
        // Список пользователей dropdown login  
         try {
             ParseJson Ob;
-
+            System.out.println("EMPTY");
             Ob = new ParseJson(SendPost(GetPairLogin()));
 
+
+
+
+        } catch (IOException ex) {
+            Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+        
+        
             ArrayList User = new ArrayList();
             
          
@@ -70,13 +79,6 @@ public class Login_Form extends javax.swing.JFrame {
                         jComboBox1.addItem(item.toString());
                     }
                 }
-
-
-
-        } catch (IOException ex) {
-            Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
-            
-        }
 
     }
 

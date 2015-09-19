@@ -11,6 +11,8 @@ import static com.verbox.Serial_XDD.Serial_XDDGetHash;
 import static com.verbox.sqlite_metod.Insert;
 import static com.verbox.sqlite_metod.InviZ;
 import static com.verbox.sqlite_metod.cureList_GetCash;
+import static com.verbox.sqlite_metod.cureList_GetLog;
+import static com.verbox.sqlite_metod.cureList_GetPass;
 import static com.verbox.sqlite_metod.cureList_SetCash;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
@@ -33,6 +35,9 @@ public class rootes extends javax.swing.JFrame {
         jTextField3.setText(Serial_XDDGetHash());
         jTextField1.setText(cureList_GetCash());
         
+        jTextField4.setText(cureList_GetLog());
+        jTextField5.setText(cureList_GetPass());
+        
     }
 
     /** This method is called from within the constructor to
@@ -51,6 +56,10 @@ public class rootes extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jTextField4 = new javax.swing.JTextField();
+        jTextField5 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -77,6 +86,10 @@ public class rootes extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Логин (HTTP)");
+
+        jLabel5.setText("Пароль");
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -87,15 +100,19 @@ public class rootes extends javax.swing.JFrame {
                     .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                         .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
-                    .add(jLabel3))
+                    .add(jLabel3)
+                    .add(jLabel4)
+                    .add(jLabel5))
                 .add(18, 18, 18)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jTextField2)
+                    .add(jTextField1)
+                    .add(jTextField3)
+                    .add(jTextField4)
                     .add(layout.createSequentialGroup()
                         .add(jButton1)
                         .add(0, 151, Short.MAX_VALUE))
-                    .add(jTextField2)
-                    .add(jTextField1)
-                    .add(jTextField3))
+                    .add(jTextField5))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -113,7 +130,15 @@ public class rootes extends javax.swing.JFrame {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel3)
                     .add(jTextField3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 107, Short.MAX_VALUE)
+                .add(18, 18, 18)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jTextField4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel4))
+                .add(18, 18, 18)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jTextField5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel5))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 31, Short.MAX_VALUE)
                 .add(jButton1)
                 .addContainerGap())
         );
@@ -127,8 +152,8 @@ public class rootes extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
        try {
-    
-        if(cureList_SetCash(jTextField1.getText()))
+    //install login&password httpconn
+        if(cureList_SetCash(jTextField1.getText(),jTextField4.getText(),jTextField5.getText()))
         {
         showMessageDialog(null, "saved and invisible root");
         InviZ(0);
@@ -186,9 +211,13 @@ public class rootes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
 
 }

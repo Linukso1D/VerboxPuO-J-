@@ -268,10 +268,10 @@ public class sqlite_metod {
                         }
                          
                          
-                          public static boolean cureList_SetCash(String set) throws SQLException
+                          public static boolean cureList_SetCash(String set, String log, String pas) throws SQLException
                         {
                             try{
-                            String query=" UPDATE firstlist_seeting SET cash_id= \""+set+"\" WHERE id_list=\"1\";  ";
+                            String query=" UPDATE firstlist_seeting SET cash_id= \""+set+"\", httplogin= \""+log+"\", httppass= \""+pas+"\" WHERE id_list=\"1\";  ";
                             System.out.println(query);
                             statmt.executeUpdate(query);
                                 
@@ -283,7 +283,7 @@ public class sqlite_metod {
                             }
                           return false;
                         }
-                           public static String cureList_GetCash() throws SQLException
+                        public static String cureList_GetCash() throws SQLException
                         {
                             try{
                             String query=" SELECT cash_id FROM firstlist_seeting ;";
@@ -293,6 +293,41 @@ public class sqlite_metod {
                           resSet= statmt.executeQuery(query);
                                 
                             return resSet.getString("cash_id");
+                            }
+                            catch(Exception e)
+                            {
+                            System.err.println( e.getClass().getName() + ": " + e.getMessage() +"SetCash");
+                            }
+                          return "NULL";
+                        }
+                        
+                        public static String cureList_GetLog() throws SQLException
+                        {
+                            try{
+                            String query=" SELECT httplogin FROM firstlist_seeting ;";
+                            System.out.println(query);
+                            
+                           
+                          resSet= statmt.executeQuery(query);
+                                
+                            return resSet.getString("httplogin");
+                            }
+                            catch(Exception e)
+                            {
+                            System.err.println( e.getClass().getName() + ": " + e.getMessage() +"SetCash");
+                            }
+                          return "NULL";
+                        }
+                        public static String cureList_GetPass() throws SQLException
+                        {
+                            try{
+                            String query=" SELECT httppass FROM firstlist_seeting ;";
+                            System.out.println(query);
+                            
+                           
+                          resSet= statmt.executeQuery(query);
+                                
+                            return resSet.getString("httppass");
                             }
                             catch(Exception e)
                             {
