@@ -104,7 +104,6 @@ public class ParseJson {
                 info.add(enterprise.get("bookk_first_name"));
                 info.add(enterprise.get("bookk_last_name"));
                 info.add(enterprise.get("bookk_surname"));
-     
                 info.add(enterprise.get("dir_fio"));
                 info.add(enterprise.get("dir_first_name"));
                 info.add(enterprise.get("dir_last_name"));
@@ -133,7 +132,6 @@ public class ParseJson {
                 infonamespace.add("bookk_first_name");
                 infonamespace.add("bookk_last_name");
                 infonamespace.add("bookk_surname");
-               
                 infonamespace.add("dir_fio");
                 infonamespace.add("dir_first_name");
                 infonamespace.add("dir_last_name");

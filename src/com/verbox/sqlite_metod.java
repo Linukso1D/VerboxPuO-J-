@@ -101,11 +101,7 @@ public class sqlite_metod {
                         temp, 
                         "2020-03-05 13:54:53"
                                 );
-                
-                
-               
-
-                try {
+               try {
                SendPost(GetSD());
                 } catch (IOException ex) {
                     Logger.getLogger(sqlite_metod.class.getName()).log(Level.SEVERE, null, ex);
@@ -335,6 +331,33 @@ public class sqlite_metod {
                             }
                           return "NULL";
                         }
+                        
+    //читает то что принимает в параметрах и возвращает данные                    
+       public static ArrayList ReadSQLite(ArrayList what, String From) throws ClassNotFoundException, SQLException {
+        
+           
+           
+         String ItemKey = " ";
+         for(Object item : what) 
+         {
+            ItemKey+=item.toString()+",";
+         }
+        ItemKey+=" ";
+       
+           
+           
+           
+           resSet = statmt.executeQuery("SELECT "+ItemKey+" FROM "+From+" ;");
+        
+        ArrayList tm = new ArrayList();
+        int i=1;
+        while (resSet.next()) {
+            
+            tm.add(resSet.getString(i));
+            i++;
+        }
+        return tm;
+    }
                           
     
 }

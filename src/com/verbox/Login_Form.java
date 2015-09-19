@@ -217,6 +217,7 @@ boolean log_in=false;
         
           
             Ob.get_info(SendPost(GetInfoJS()));
+            //SetInfo()
             
         } catch (IOException ex) {
             Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);

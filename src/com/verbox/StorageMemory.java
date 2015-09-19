@@ -8,7 +8,10 @@ package com.verbox;
 import static com.verbox.Serial_XDD.Serial_XDDGet;
 import static com.verbox.Serial_XDD.Serial_XDDGetHash;
 import static com.verbox.sqlite_metod.GetMd5;
+import static com.verbox.sqlite_metod.ReadSQLite;
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import org.json.simple.JSONObject;
 
 /**
@@ -21,6 +24,7 @@ public class StorageMemory {
     private static JSONObject obj = new JSONObject();
     private String cash_id, cash_password, cashier_id, cashier_password, action_name, lastmes;
     JSONObject params;
+    ArrayList get_info;
 
     public static JSONObject GetSD() throws UnsupportedEncodingException {
         return obj;
@@ -48,6 +52,53 @@ public class StorageMemory {
         obj.put("lastmes", getLastmes());
 
     }
+    public void SetInfo() throws SQLException, ClassNotFoundException
+    {
+     get_info = new ArrayList();
+     ArrayList tmp = new ArrayList();
+                tmp.add("bookk_fio");               //ФИО бухгалтера
+                tmp.add("bookk_first_name");        //Имя бухгалтера
+                tmp.add("bookk_last_name");         //отчество
+                tmp.add("bookk_surname");           //фамилия бухг
+                tmp.add("dir_fio");                 //ФИО директора
+                tmp.add("dir_first_name");          //Имя директора
+                tmp.add("dir_last_name");           //Отчество Директора 
+                tmp.add("dir_surname");             //Фамилия директора
+                tmp.add("enterprise_full_name");    //полное имя предприятия
+                tmp.add("enterprise_mfo");          //МФО 
+                tmp.add("enterprise_name");         // я без понятия что это
+                tmp.add("enterprise_okpo");         //ОКПО предприятия
+                tmp.add("enterprise_short_name");   //короткое имя предприятия
+                tmp.add("logo_full_image");         //имя лого
+                tmp.add("logo_short_image");        //Имя еще одной картинки тоже хз
+                tmp.add("nat_city");                //Физ адр города
+                tmp.add("nat_city_code");           //физ индекс города
+                tmp.add("nat_house");               //физ номер дома
+                tmp.add("nat_office");              //физ офис
+                tmp.add("nat_street");              //физ улица
+                tmp.add("payment_account");         //расчетный счет
+                tmp.add("stamp_image");             // наверное печать предприятия
+                tmp.add("ur_city");                 //юр адрес город
+                tmp.add("ur_city_code");            //юр код города
+                tmp.add("ur_house");                //юр дом
+                tmp.add("ur_office");               //юр дом
+                tmp.add("ur_street");               // юр улица
+        
+       get_info= ReadSQLite(tmp, "info");        
+                
+                
+    }
+    //---Методы получения гет инфо структуры
+    public  String StorageGetInfo_bookk_fio()
+    {
+        System.out.println("GET INFO GET1 "+ get_info.get(1));
+        return (String) get_info.get(1);
+    }
+    
+    
+    //---Методы получения гет инфо структуры конец
+    
+    
 
     public String getCash_id() {
         return cash_id;
