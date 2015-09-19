@@ -15,6 +15,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -93,14 +94,15 @@ public class sqlite_metod {
             
             JSONObject temp = new JSONObject();
                 temp.put("patterns", "2015-03-05 13:00:53");
-                StorageMemory SD = new StorageMemory(
+                StorageMemory SD = new StorageMemory();
+                SD.StorageMemorySet(
                         resSet.getString("cash_id"),
                         resSet.getString("cashier_id"),
                         resSet.getString("cashier_password"), 
                         "get_info", 
                         temp, 
                         "2020-03-05 13:54:53"
-                                );
+                          );      
                try {
                SendPost(GetSD());
                 } catch (IOException ex) {
@@ -332,7 +334,7 @@ public class sqlite_metod {
                           return "NULL";
                         }
                         
-    //читает то что принимает в параметрах и возвращает данные                    
+    //читает то что принимает в параметрах и возвращает данные однострочное читение                  
        public static ArrayList ReadSQLite(ArrayList what, String From) throws ClassNotFoundException, SQLException {
         
            
@@ -341,21 +343,29 @@ public class sqlite_metod {
          for(Object item : what) 
          {
             ItemKey+=item.toString()+",";
+             
          }
-        ItemKey+=" ";
-       
-           
+          ItemKey+=")";
+        ItemKey= ItemKey.replace(",)" , " ");
+        
            
            
            resSet = statmt.executeQuery("SELECT "+ItemKey+" FROM "+From+" ;");
-        
+           
         ArrayList tm = new ArrayList();
-        int i=1;
+        //колово колонок 
+        ResultSetMetaData rsmd = resSet.getMetaData();
+        int fieldsCount = rsmd.getColumnCount();
         while (resSet.next()) {
             
+            
+            for(int i=1;i<fieldsCount;i++)
+            {
+          
             tm.add(resSet.getString(i));
-            i++;
+            }
         }
+          
         return tm;
     }
                           

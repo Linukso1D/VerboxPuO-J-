@@ -217,7 +217,9 @@ boolean log_in=false;
         
           
             Ob.get_info(SendPost(GetInfoJS()));
-            //SetInfo()
+            StorageMemory SD = new StorageMemory();
+            SD.SetInfo();
+            SD.StorageGetInfo("dir_fio");
             
         } catch (IOException ex) {
             Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
@@ -226,6 +228,8 @@ boolean log_in=false;
         } catch (InterruptedException ex) {
             Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
+            Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
         }
         
