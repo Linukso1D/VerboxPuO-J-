@@ -6,6 +6,7 @@
 package com.verbox;
 
 import static com.verbox.DecodeUTF.DecodeUTF;
+import static com.verbox.ErrorList.DesctiptError;
 import static com.verbox.sqlite_metod.Insert;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
@@ -57,7 +58,8 @@ public class ParseJson {
         JSONObject Error = (JSONObject) PJjson.get("error");
         setErrorCode((String) Error.get("code"));
         setErrorMessage((String) Error.get("message"));
-        showMessageDialog(null,getErrorMessage());
+       if (!"not_cashier".equals(getErrorMessage()))
+       {showMessageDialog(null, DesctiptError(getErrorMessage()));}
         }      
         else{
                                     if(json.get("params")!=null)
@@ -69,7 +71,7 @@ public class ParseJson {
                                     }
                                     }      
                                     
-                                    
+                        
                                     
             }
         

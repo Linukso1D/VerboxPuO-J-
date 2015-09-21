@@ -34,6 +34,7 @@ public class In extends javax.swing.JFrame {
          HideEl();
        //  размер окна
          setSize(1200,800);
+         jPanel11.setVisible(true);  
          //Присвоение гет инфо
                StorageMemory obj =getInstance();
                
