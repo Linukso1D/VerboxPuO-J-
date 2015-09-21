@@ -139,7 +139,6 @@ public class StorageMemory {
                 case "ur_house": index=24; break;                //юр дом
                 case "ur_office": index=25; break;               //юр дом
                 case "ur_street": index=26; break;               // юр улица  
-
 }
         if(get_info.get(index)==null){return "NULL SD getinfo memory";}
         else {
