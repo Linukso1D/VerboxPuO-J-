@@ -49,9 +49,21 @@ public class StorageMemory {
 
     
     
-    
-    public static JSONObject GetSD() throws UnsupportedEncodingException {
+    // добавляет данные в обьект OBJ из класса и ретурн
+    public JSONObject GetSD() throws UnsupportedEncodingException {
+        obj.clear();
+        obj.put("cash_id", getCash_id());
+        obj.put("cash_password", getCash_password());
+        obj.put("cashier_id", getCashier_id());
+        obj.put("cashier_password", getCashier_password());
+        obj.put("action_name", getAction_name());
+        obj.put("params", getParams());
+        obj.put("lastmes", getLastmes());
         return obj;
+    }
+    public void ClearObj()
+    {
+        obj.clear();
     }
     //эти аргументы мы инициализируем из функции логинизации sqlite metod login они хранятся в памяти постоянно
 
@@ -67,13 +79,7 @@ public class StorageMemory {
         setParams(t6);
         setLastmes(t7);
 
-        obj.put("cash_id", getCash_id());
-        obj.put("cash_password", getCash_password());
-        obj.put("cashier_id", getCashier_id());
-        obj.put("cashier_password", getCashier_password());
-        obj.put("action_name", getAction_name());
-        obj.put("params", getParams());
-        obj.put("lastmes", getLastmes());
+
 
     }
 

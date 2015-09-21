@@ -6,12 +6,18 @@
 package com.verbox;
 
 import static com.verbox.StorageMemory.getInstance;
+import static com.verbox.json_metod.SendPost;
 import java.awt.Color;
 import java.awt.Insets;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -378,6 +384,16 @@ public class In extends javax.swing.JFrame {
         jButton4.setBackground(new java.awt.Color(235, 255, 235));
         jButton4.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jButton4.setText("Открыть день");
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+        });
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1590,6 +1606,32 @@ public class In extends javax.swing.JFrame {
         jPanel16.setVisible(true);
         jPanel17.setVisible(true);
     }//GEN-LAST:event_jMenu6MouseClicked
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+//openday
+StorageMemory SD =getInstance();
+        try {
+            SD.setAction_name("openday");
+            
+         ParseJson pjs=new ParseJson(SendPost(SD.GetSD()));
+                 
+                 
+            
+// TODO add your handling code here:
+        } catch (IOException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton4MouseClicked
 
     /**
      * @param args the command line arguments

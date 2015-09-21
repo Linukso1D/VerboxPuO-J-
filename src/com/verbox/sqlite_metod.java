@@ -5,8 +5,7 @@
  */
 package com.verbox;
 
-import static com.verbox.Date.getFullDate;
-import static com.verbox.StorageMemory.GetSD;
+
 import static com.verbox.StorageMemory.getInstance;
 import static com.verbox.json_metod.SendPost;
 import java.io.IOException;
@@ -102,7 +101,7 @@ public class sqlite_metod {
     } 
             
             JSONObject temp = new JSONObject();
-                temp.put("patterns", getFullDate());
+                temp.put("patterns", "2015-03-05 13:00:53");
                
                 StorageMemory SD=getInstance();
                
@@ -112,10 +111,10 @@ public class sqlite_metod {
                         resSet.getString("cashier_password"), 
                         "get_info", 
                         temp, 
-                        getFullDate()
+                        "2020-03-05 13:54:53"
                           );      
                try {
-               SendPost(GetSD());
+               SendPost(SD.GetSD());
                 } catch (IOException ex) {
                     Logger.getLogger(sqlite_metod.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -281,7 +280,7 @@ public class sqlite_metod {
                         {
                             try{
                             String query=" UPDATE firstlist_seeting SET cash_id= \""+set+"\", httplogin= \""+log+"\", httppass= \""+pas+"\" WHERE id_list=\"1\";  ";
-                            System.out.println(query);
+                            
                             statmt.executeUpdate(query);
                                 
                             return true;
@@ -296,7 +295,7 @@ public class sqlite_metod {
                         {
                             try{
                             String query=" SELECT cash_id FROM firstlist_seeting ;";
-                            System.out.println(query);
+                            
                             
                            
                           resSet= statmt.executeQuery(query);

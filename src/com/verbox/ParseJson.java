@@ -10,6 +10,8 @@ import static com.verbox.sqlite_metod.Insert;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.showMessageDialog;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -47,34 +49,70 @@ public class ParseJson {
         else
         {
         this.PJjson = json;
+        
+        
+        // Ловим ошибки
+        if(PJjson.get("error")!=null)
+        {
         JSONObject Error = (JSONObject) PJjson.get("error");
         setErrorCode((String) Error.get("code"));
         setErrorMessage((String) Error.get("message"));
-        //Касиры
-        CashierNameList = new ArrayList();
-//"super":false,"cashier_id":4,"cash_id":1,"cashier_password":"c4ca4238a0b923820dcc509a6f75849b","surname":"Петров","last_name":"Александрович","first_name":"Петя"
-        if (getErrorCode().equals("08")) {
-        } else {
-            JSONArray msg = (JSONArray) json.get("cashiers");
-            for (int i = 0; i < msg.size(); i++) {
-                JSONObject mas2 = (JSONObject) msg.get(i);
-                CashierNameList.add(mas2.get("cashier_id"));
-                CashierNameList.add(mas2.get("cashier_password"));
-                CashierNameList.add(mas2.get("cash_id"));
-                CashierNameList.add(mas2.get("super"));
-                CashierNameList.add(mas2.get("surname"));
-                CashierNameList.add(mas2.get("last_name"));
-                CashierNameList.add(mas2.get("first_name"));
+        showMessageDialog(null,getErrorMessage());
+        }      
+        else{
+                                    if(json.get("params")!=null)
+                                    {
+                                    JSONArray msg = (JSONArray) json.get("params");
+                                    if(msg.size()==1)
+                                    {
+                                        showMessageDialog(null,msg.toJSONString()+"Выполнено ");
+                                    }
+                                    }      
+                                    
+                                    
+                                    
             }
-        }
-        /*  for (Object item : CashierNameList) 
-                    {
-                        System.out.println("Name of user  "+ item);
-                    }*/
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+//"super":false,"cashier_id":4,"cash_id":1,"cashier_password":"c4ca4238a0b923820dcc509a6f75849b","surname":"Петров","last_name":"Александрович","first_name":"Петя"
+                                    //Касиры список      
+                                    if(json.get("cashiers")!=null)
+                                    {
+                                    CashierNameList = new ArrayList();
+                                    if (getErrorCode().equals("08")) {
+                                    } else {
+                                    JSONArray msg = (JSONArray) json.get("cashiers");
+                                      for (int i = 0; i < msg.size(); i++) {
+                                    JSONObject mas2 = (JSONObject) msg.get(i);
+                                    CashierNameList.add(mas2.get("cashier_id"));
+                                    CashierNameList.add(mas2.get("cashier_password"));
+                                    CashierNameList.add(mas2.get("cash_id"));
+                                    CashierNameList.add(mas2.get("super"));
+                                    CashierNameList.add(mas2.get("surname"));
+                                    CashierNameList.add(mas2.get("last_name"));
+                                    CashierNameList.add(mas2.get("first_name"));
+                                    }
+                                    }
+                                    }
+                                    
+                                    
+                                   
+                                    
+                 
+                 
+                 
         }
     }
     
-    //----
+    //---- записывает инфу в бд
     public static void  get_info(JSONObject json) throws SQLException, UnsupportedEncodingException
     {
          //getinfo 
@@ -87,19 +125,9 @@ public class ParseJson {
         }
         else
         {
-               
-            
-               
-//"super":false,"cashier_id":4,"cash_id":1,"cashier_password":"c4ca4238a0b923820dcc509a6f75849b","surname":"Петров","last_name":"Александрович","first_name":"Петя"
-      
-            
+   //"super":false,"cashier_id":4,"cash_id":1,"cashier_password":"c4ca4238a0b923820dcc509a6f75849b","surname":"Петров","last_name":"Александрович","first_name":"Петя"
             JSONObject jo = (JSONObject) json.get("params");
             JSONObject enterprise = (JSONObject) jo.get("enterprise");
-            
-
-            
-
-                
                 info.add(enterprise.get("bookk_fio"));
                 info.add(enterprise.get("bookk_first_name"));
                 info.add(enterprise.get("bookk_last_name"));
@@ -160,7 +188,6 @@ public class ParseJson {
                 
             boolean flag = Insert("info", infonamespace, info);
             //--  
-            
         }
         /*  for (Object item : CashierNameList) 
                     {
@@ -169,6 +196,8 @@ public class ParseJson {
         
     }
 //-----
+    
+    
     private void setErrorCode(String ErrorCode) {
         this.ErrorCode = ErrorCode;
     }
