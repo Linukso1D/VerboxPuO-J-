@@ -40,7 +40,7 @@ public class In extends javax.swing.JFrame {
                
                
               try{ 
-                    jTextField19.setText(obj.StorageGetInfo("enterprise_full_name"));
+               jTextField19.setText(obj.StorageGetInfo("enterprise_full_name"));
                jTextField20.setText(obj.StorageGetInfo("enterprise_short_name"));
                //fiz addr
                jTextField21.setText(obj.StorageGetInfo("nat_city_code"));

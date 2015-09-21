@@ -57,7 +57,8 @@ public class Login_Form extends javax.swing.JFrame {
             ParseJson Ob;
             System.out.println("EMPTY");
             Ob = new ParseJson(SendPost(GetPairLogin()));
-
+            // запись касиров в бд
+Ob.Write_LoginToSQLite();
 
 
 
@@ -70,7 +71,7 @@ public class Login_Form extends javax.swing.JFrame {
             ArrayList User = new ArrayList();
             
          
-        //   Ob.Write_LoginToSQLite();
+           
             
                 User = ReadSQLite_loginPair();
                 if (User.isEmpty()) {
@@ -221,6 +222,12 @@ boolean log_in=false;
             Ob.get_info(SendPost(GetInfoJS()));
             StorageMemory SD=getInstance();
             SD.SetInfo();
+            
+            
+            SD.setAction_name("get_currencies");
+            
+            ParseJson pjs=new ParseJson(SendPost(SD.GetSD()));
+            pjs.Write_CurrenciesToSQLite();
            
             
         } catch (IOException ex) {
