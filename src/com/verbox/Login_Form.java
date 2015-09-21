@@ -5,6 +5,7 @@
  */
 package com.verbox;
 
+import static com.verbox.Date.getFullDate;
 import static com.verbox.StorageMemory.getInstance;
 import static com.verbox.json_metod.GetInfoJS;
 import java.io.IOException;

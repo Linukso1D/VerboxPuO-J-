@@ -5,6 +5,7 @@
  */
 package com.verbox;
 
+import static com.verbox.Date.getFullDate;
 import static com.verbox.StorageMemory.GetSD;
 import static com.verbox.StorageMemory.getInstance;
 import static com.verbox.json_metod.SendPost;
@@ -101,7 +102,7 @@ public class sqlite_metod {
     } 
             
             JSONObject temp = new JSONObject();
-                temp.put("patterns", "2015-03-05 13:00:53");
+                temp.put("patterns", getFullDate());
                
                 StorageMemory SD=getInstance();
                
@@ -111,7 +112,7 @@ public class sqlite_metod {
                         resSet.getString("cashier_password"), 
                         "get_info", 
                         temp, 
-                        "2020-03-05 13:54:53"
+                        getFullDate()
                           );      
                try {
                SendPost(GetSD());
