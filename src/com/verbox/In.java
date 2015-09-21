@@ -8,6 +8,8 @@ package com.verbox;
 import static com.verbox.StorageMemory.getInstance;
 import java.awt.Color;
 import java.awt.Insets;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 
@@ -31,13 +33,7 @@ public class In extends javax.swing.JFrame {
                
                
               try{ 
-                    System.out.println("full name"+obj.StorageGetInfo("enterprise_full_name"));
-              }
-              catch(NullPointerException e)
-              {
-                  System.out.println("EXEPTION"+e);
-              }
-               jTextField19.setText(obj.StorageGetInfo("enterprise_full_name"));
+                    jTextField19.setText(obj.StorageGetInfo("enterprise_full_name"));
                jTextField20.setText(obj.StorageGetInfo("enterprise_short_name"));
                //fiz addr
                jTextField21.setText(obj.StorageGetInfo("nat_city_code"));
@@ -64,7 +60,14 @@ public class In extends javax.swing.JFrame {
                jTextField38.setText(obj.StorageGetInfo("bookk_fio"));
                jTextField39.setText(obj.StorageGetInfo("bookk_surname"));
                jTextField40.setText(obj.StorageGetInfo("bookk_first_name"));
-               jTextField41.setText(obj.StorageGetInfo("bookk_last_name"));
+               jTextField41.setText(obj.StorageGetInfo("bookk_last_name")); 
+              }
+              catch(NullPointerException e)
+              {
+                  showMessageDialog(null,"Не удалось загрузить информацию от предприятии!!!");
+                  System.out.println("EXEPTION"+e);
+              }
+              
                
        
     }
