@@ -5,6 +5,7 @@
  */
 package com.verbox;
 
+import static com.verbox.StorageMemory.getInstance;
 import java.awt.Color;
 import java.awt.Insets;
 import javax.swing.UIDefaults;
@@ -21,8 +22,51 @@ public class In extends javax.swing.JFrame {
      */
     public In() {
         initComponents();
+        //ныкать панели
          HideEl();
+       //  размер окна
          setSize(1200,800);
+         //Присвоение гет инфо
+               StorageMemory obj =getInstance();
+               
+               
+              try{ 
+                    System.out.println("full name"+obj.StorageGetInfo("enterprise_full_name"));
+              }
+              catch(NullPointerException e)
+              {
+                  System.out.println("EXEPTION"+e);
+              }
+               jTextField19.setText(obj.StorageGetInfo("enterprise_full_name"));
+               jTextField20.setText(obj.StorageGetInfo("enterprise_short_name"));
+               //fiz addr
+               jTextField21.setText(obj.StorageGetInfo("nat_city_code"));
+               jTextField22.setText(obj.StorageGetInfo("nat_city"));
+               jTextField23.setText(obj.StorageGetInfo("nat_street"));
+               jTextField24.setText(obj.StorageGetInfo("nat_house"));
+               jTextField25.setText(obj.StorageGetInfo("nat_office"));
+               //ur addr
+               jTextField26.setText(obj.StorageGetInfo("ur_city_code"));
+               jTextField27.setText(obj.StorageGetInfo("ur_city"));
+               jTextField28.setText(obj.StorageGetInfo("ur_street"));
+               jTextField29.setText(obj.StorageGetInfo("ur_house"));
+               jTextField30.setText(obj.StorageGetInfo("ur_office"));
+               // mfo okpo Rs
+               jTextField31.setText(obj.StorageGetInfo("enterprise_mfo"));
+               jTextField32.setText(obj.StorageGetInfo("enterprise_okpo"));
+               jTextField33.setText(obj.StorageGetInfo("payment_account"));
+               //Директор данные
+               jTextField37.setText(obj.StorageGetInfo("dir_fio"));
+               jTextField34.setText(obj.StorageGetInfo("dir_surname"));
+               jTextField35.setText(obj.StorageGetInfo("dir_first_name"));
+               jTextField36.setText(obj.StorageGetInfo("dir_last_name"));
+               //Бухгалтер данные
+               jTextField38.setText(obj.StorageGetInfo("bookk_fio"));
+               jTextField39.setText(obj.StorageGetInfo("bookk_surname"));
+               jTextField40.setText(obj.StorageGetInfo("bookk_first_name"));
+               jTextField41.setText(obj.StorageGetInfo("bookk_last_name"));
+               
+       
     }
 
     /**

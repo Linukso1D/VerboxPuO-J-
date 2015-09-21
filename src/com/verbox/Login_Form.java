@@ -5,6 +5,7 @@
  */
 package com.verbox;
 
+import static com.verbox.StorageMemory.getInstance;
 import static com.verbox.json_metod.GetInfoJS;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -217,9 +218,9 @@ boolean log_in=false;
         
           
             Ob.get_info(SendPost(GetInfoJS()));
-            StorageMemory SD = new StorageMemory();
+            StorageMemory SD=getInstance();
             SD.SetInfo();
-            SD.StorageGetInfo("dir_fio");
+           
             
         } catch (IOException ex) {
             Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);

@@ -6,6 +6,7 @@
 package com.verbox;
 
 import static com.verbox.StorageMemory.GetSD;
+import static com.verbox.StorageMemory.getInstance;
 import static com.verbox.json_metod.SendPost;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -51,6 +52,7 @@ public class sqlite_metod {
         statmt = con.createStatement();
 
     }
+    //для записи в бд корректных значений кодирование
     public static final String EscapeHtml(String s){
        StringBuffer sb = new StringBuffer();
        int n = s.length();
@@ -66,6 +68,12 @@ public class sqlite_metod {
        }
        return sb.toString();
     }
+    //декодирование
+    public static final String EscapeUndoHtml(String s)
+    {
+        return s.replace("&quot;", "\"").replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&");
+    }
+    
 //Проверка локального пользователя
     public static boolean LoginSQLite(String login, String password) throws ClassNotFoundException, SQLException, UnsupportedEncodingException, ParseException, InterruptedException {
         resSet = statmt.executeQuery("SELECT * FROM user");
@@ -84,7 +92,7 @@ public class sqlite_metod {
             
             if (us.equals(login) && pas.equals(GetMd5(password))) 
             { 
-                System.out.println("AXAXAXAXAXAXAXAX");
+                
       if(us.equals("rootes rootes rootes"))
     {
 
@@ -94,7 +102,9 @@ public class sqlite_metod {
             
             JSONObject temp = new JSONObject();
                 temp.put("patterns", "2015-03-05 13:00:53");
-                StorageMemory SD = new StorageMemory();
+               
+                StorageMemory SD=getInstance();
+               
                 SD.StorageMemorySet(
                         resSet.getString("cash_id"),
                         resSet.getString("cashier_id"),
@@ -359,10 +369,10 @@ public class sqlite_metod {
         while (resSet.next()) {
             
             
-            for(int i=1;i<fieldsCount;i++)
+            for(int i=1;i<fieldsCount+1;i++)
             {
           
-            tm.add(resSet.getString(i));
+            tm.add(EscapeUndoHtml(resSet.getString(i)));
             }
         }
           

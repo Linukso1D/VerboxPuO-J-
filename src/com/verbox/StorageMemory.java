@@ -20,30 +20,41 @@ import org.json.simple.JSONObject;
  */
 public class StorageMemory {
 
-    
-    private static volatile StorageMemory instance;
-    public static StorageMemory getInstance()
-    {
-        if(instance==null)
-            synchronized(StorageMemory.class){
-            if(instance==null)
-                instance= new StorageMemory();
-                    }
-        return instance;
-    }
-    
-    
     //generate cashier_id and cashier_password for sign in
     private static JSONObject obj = new JSONObject();
     private String cash_id, cash_password, cashier_id, cashier_password, action_name, lastmes;
     JSONObject params;
-    ArrayList get_info;
+    private ArrayList get_info;
 
+    
+
+    StorageMemory() {
+    }
+
+    private static volatile StorageMemory instance;
+
+    public static  StorageMemory getInstance() {
+        if (instance == null) {
+            synchronized (StorageMemory.class) {
+                if (instance == null) {
+                    instance = new StorageMemory();
+                }
+                System.out.println("Create new Instanse Singlton");
+            }
+        }
+        System.out.println("Return Instanse Singlton");
+
+        return instance;
+    }
+
+    
+    
+    
     public static JSONObject GetSD() throws UnsupportedEncodingException {
         return obj;
     }
-
     //эти аргументы мы инициализируем из функции логинизации sqlite metod login они хранятся в памяти постоянно
+
     public void StorageMemorySet(String t1, String t3, String t4, String t5, JSONObject t6, String t7) throws UnsupportedEncodingException {
         Serial_XDDGet();
         String tmp = Serial_XDDGetHash();
@@ -65,53 +76,50 @@ public class StorageMemory {
         obj.put("lastmes", getLastmes());
 
     }
-    public void SetInfo() throws SQLException, ClassNotFoundException
-    {
-     get_info = new ArrayList();
-     ArrayList tmp = new ArrayList();
-                tmp.add("bookk_fio");               //ФИО бухгалтера
-                tmp.add("bookk_first_name");        //Имя бухгалтера
-                tmp.add("bookk_last_name");         //отчество
-                tmp.add("bookk_surname");           //фамилия бухг
-                tmp.add("dir_fio");                 //ФИО директора
-                tmp.add("dir_first_name");          //Имя директора
-                tmp.add("dir_last_name");           //Отчество Директора 
-                tmp.add("dir_surname");             //Фамилия директора
-                tmp.add("enterprise_full_name");    //полное имя предприятия
-                tmp.add("enterprise_mfo");          //МФО 
-                tmp.add("enterprise_name");         // я без понятия что это
-                tmp.add("enterprise_okpo");         //ОКПО предприятия
-                tmp.add("enterprise_short_name");   //короткое имя предприятия
-                tmp.add("logo_full_image");         //имя лого
-                tmp.add("logo_short_image");        //Имя еще одной картинки тоже хз
-                tmp.add("nat_city");                //Физ адр города
-                tmp.add("nat_city_code");           //физ индекс города
-                tmp.add("nat_house");               //физ номер дома
-                tmp.add("nat_office");              //физ офис
-                tmp.add("nat_street");              //физ улица
-                tmp.add("payment_account");         //расчетный счет
-                tmp.add("stamp_image");             // наверное печать предприятия
-                tmp.add("ur_city");                 //юр адрес город
-                tmp.add("ur_city_code");            //юр код города
-                tmp.add("ur_house");                //юр дом
-                tmp.add("ur_office");               //юр дом
-                tmp.add("ur_street");               // юр улица
-        
-       get_info= ReadSQLite(tmp, "info");        
-       
-                
+
+    public void SetInfo() throws SQLException, ClassNotFoundException {
+        get_info = new ArrayList();
+        ArrayList tmp = new ArrayList();
+        tmp.add("bookk_fio");               //ФИО бухгалтера
+        tmp.add("bookk_first_name");        //Имя бухгалтера
+        tmp.add("bookk_last_name");         //отчество
+        tmp.add("bookk_surname");           //фамилия бухг
+        tmp.add("dir_fio");                 //ФИО директора
+        tmp.add("dir_first_name");          //Имя директора
+        tmp.add("dir_last_name");           //Отчество Директора 
+        tmp.add("dir_surname");             //Фамилия директора
+        tmp.add("enterprise_full_name");    //полное имя предприятия
+        tmp.add("enterprise_mfo");          //МФО 
+        tmp.add("enterprise_name");         // я без понятия что это
+        tmp.add("enterprise_okpo");         //ОКПО предприятия
+        tmp.add("enterprise_short_name");   //короткое имя предприятия
+        tmp.add("logo_full_image");         //имя лого
+        tmp.add("logo_short_image");        //Имя еще одной картинки тоже хз
+        tmp.add("nat_city");                //Физ адр города
+        tmp.add("nat_city_code");           //физ индекс города
+        tmp.add("nat_house");               //физ номер дома
+        tmp.add("nat_office");              //физ офис
+        tmp.add("nat_street");              //физ улица
+        tmp.add("payment_account");         //расчетный счет
+        tmp.add("stamp_image");             // наверное печать предприятия
+        tmp.add("ur_city");                 //юр адрес город
+        tmp.add("ur_city_code");            //юр код города
+        tmp.add("ur_house");                //юр дом
+        tmp.add("ur_office");               //юр дом
+        tmp.add("ur_street");               // юр улица
+
+        get_info = ReadSQLite(tmp, "info");
+
     }
     //---Методы получения гет инфо структуры
-    
+
     //ФИО бухг
-    public  String StorageGetInfo(String who)
-    {
-        
-        int index=235;
-        
+    public String StorageGetInfo(String who) {
+
+        int index = 0;
+              
     switch (who) {
-    case "lol":  index = 0;
-             break;
+                
                 case "bookk_fio": index=0; break;               //ФИО бухгалтера
                 case "bookk_first_name": index=1; break;        //Имя бухгалтера
                 case "bookk_last_name": index=2; break;         //отчество
@@ -139,20 +147,16 @@ public class StorageMemory {
                 case "ur_house": index=24; break;                //юр дом
                 case "ur_office": index=25; break;               //юр дом
                 case "ur_street": index=26; break;               // юр улица  
-}
-        if(get_info.get(index)==null){return "NULL SD getinfo memory";}
-        else {
-        return (String) get_info.get(index);
+    }
+    
+        if (get_info.get(index) == null) {
+            return "NULL SD getinfo memory";
+        } else {
+            return (String) get_info.get(index);
         }
     }
-     
-    
-    
-    
-    //---Методы получения гет инфо структуры конец
-    
-    
 
+    //---Методы получения гет инфо структуры конец
     public String getCash_id() {
         return cash_id;
     }
