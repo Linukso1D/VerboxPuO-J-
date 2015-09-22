@@ -27,7 +27,7 @@ public class ParseJson {
 
     //курсы валют
     ArrayList Currencies;
-    String TimetoFinish;
+    String TimetoFinish,TimetoStart;
     
     // для левой логинизации касиры
     ArrayList CashierNameList;
@@ -89,6 +89,7 @@ public class ParseJson {
                                    {
                                     JSONObject tmp = (JSONObject) json.get("params");
                                     TimetoFinish =  (String) tmp.get("date_expiration");
+                                    TimetoStart =  (String) tmp.get("date_create");
                                     JSONArray msg = (JSONArray) tmp.get("currencies"); 
                                     Currencies = new ArrayList();
                                     for (int i = 0; i < msg.size(); i++) 
@@ -273,7 +274,7 @@ public class ParseJson {
                 key.add("quantity");
                 key.add("quantity_text");
                 key.add("TimetoFinish");                   
-                
+                key.add("TimetoStart"); 
                 
                 ArrayList value = new ArrayList();
                 value.add(Currencies.get(i).toString());
@@ -286,6 +287,7 @@ public class ParseJson {
                 value.add(Currencies.get(i+7).toString());
                 value.add(Currencies.get(i+8).toString());
                 value.add(TimetoFinish);
+                value.add(TimetoStart);
                 flag = Insert("currencies", key, value);
 
                 i += 9;

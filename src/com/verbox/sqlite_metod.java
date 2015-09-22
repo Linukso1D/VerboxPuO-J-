@@ -227,26 +227,27 @@ public class sqlite_metod {
             {
                
                 if(
-                    value.get(i-1).equals(resSet.getString(i))
+                    value.get(i-1).toString().equals(EscapeUndoHtml(resSet.getString(i)))
                 
                         
                     )
                             {
                            toReturn++;
+                           System.out.println("fieldsCount " + fieldsCount + "toReturn " +toReturn + " ACTION "+  to + " FIELD      "+ EscapeUndoHtml(resSet.getString(i)) );
                             }
-                System.out.println("Fields count"+fieldsCount );
-            if(fieldsCount==toReturn){return true;}
+        //    System.out.println("DB: "+EscapeUndoHtml(resSet.getString(i)) + " |IN| "+ value.get(i-1));
+        
+            if(fieldsCount==toReturn||toReturn==25&&to.equals("info"))
+            { 
+                return true;
+            }
             }
                     
         }
         
         
-        //удаление если гетинфо
-        if(to.equals("info"))
-        {
-        String sql = "DELETE FROM "+to+" WHERE enterprise_id=1;";
-        statmt.executeUpdate(sql);
-        }
+      
+        
         
         String sql = "INSERT INTO "+to+" "+ ItemKey +" VALUES "+ ItemVal +";"; 
         System.out.println(sql);

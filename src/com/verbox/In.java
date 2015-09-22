@@ -427,6 +427,11 @@ public class In extends javax.swing.JFrame {
         jButton5.setBackground(new java.awt.Color(255, 225, 225));
         jButton5.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jButton5.setText("Закрыть день");
+        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton5MouseClicked(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout jPanel11Layout = new org.jdesktop.layout.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -1633,6 +1638,24 @@ StorageMemory SD =getInstance();
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton4MouseClicked
+
+    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
+StorageMemory SD =getInstance();
+        try {
+            SD.setAction_name("closeday");
+            
+         ParseJson pjs=new ParseJson(SendPost(SD.GetSD()));
+              } catch (IOException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5MouseClicked
 
     /**
      * @param args the command line arguments
