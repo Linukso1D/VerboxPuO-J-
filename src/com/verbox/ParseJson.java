@@ -66,22 +66,33 @@ public class ParseJson {
        {showMessageDialog(null, DesctiptError(getErrorMessage()));}
         }      
         else{
-                                   /* if(json.get("params")!=null)
-                                    {
-                                    JSONArray msg = (JSONArray) json.get("params");
-                                    if(msg.size()==1)
-                                    {
-                                        showMessageDialog(null,msg.toJSONString()+"Выполнено ");
-                                    }
-                                    }      */
-                        //Забираем курсы с сервака            
                                     if(json.get("params")!=null)
                                     {
+                                        try{
+                                    JSONArray msg = (JSONArray) json.get("params");
+                                        if(msg.size()==1)
+                                        {
+                                            showMessageDialog(null,msg.toJSONString()+"Выполнено ");
+                                        }
+                                        msg.clear();
+                                        }
+                                        catch(ClassCastException Ex)
+                                        {
+                                            System.out.println("Ловим екзепшин при удачсных операциях");
+                                        }
+                                    }      
+                       //Забираем курсы с сервака   
+                       if(json.get("action_name").equals("get_currencies"))
+                       {
+                           showMessageDialog(null,json.get("action_name"));
+                                    if(json.get("params")!=null)
+                                   {
                                     JSONObject tmp = (JSONObject) json.get("params");
-                                    TimetoFinish =  (String) json.get("date_expiration");
+                                    TimetoFinish =  (String) tmp.get("date_expiration");
                                     JSONArray msg = (JSONArray) tmp.get("currencies"); 
                                     Currencies = new ArrayList();
-                                    for (int i = 0; i < msg.size(); i++) {
+                                    for (int i = 0; i < msg.size(); i++) 
+                                    {
                                     JSONObject mas2 = (JSONObject) msg.get(i);
                                     Currencies.add(mas2.get("course_buy"));
                                     Currencies.add(mas2.get("course_nbu"));
@@ -92,11 +103,12 @@ public class ParseJson {
                                     Currencies.add(mas2.get("order_id"));
                                     Currencies.add(mas2.get("quantity"));
                                     Currencies.add(mas2.get("quantity_text"));
-                                        System.out.println("Currencies" + mas2.get("course_buy") );
+                                     
                                     }
-                                    } 
-              
-                                    
+                                   } 
+                                
+                       }
+                                  
                                     
                                     
             }
@@ -112,7 +124,7 @@ public class ParseJson {
         
 //"super":false,"cashier_id":4,"cash_id":1,"cashier_password":"c4ca4238a0b923820dcc509a6f75849b","surname":"Петров","last_name":"Александрович","first_name":"Петя"
                                     //Касиры список      
-                                    if(json.get("cashiers")!=null)
+                               if(json.get("cashiers")!=null)
                                     {
                                     CashierNameList = new ArrayList();
                                     if (getErrorCode().equals("08")) {
@@ -130,7 +142,7 @@ public class ParseJson {
                                     }
                                     }
                                     }
-                                    
+                                   
                                     
                                    
                                     
@@ -141,7 +153,7 @@ public class ParseJson {
     }
     
     //---- записывает инфу в бд
-    public static void  get_info(JSONObject json) throws SQLException, UnsupportedEncodingException
+    public static void  get_info(JSONObject json) throws SQLException, UnsupportedEncodingException, ClassNotFoundException
     {
          //getinfo 
     ArrayList info,infonamespace;
@@ -243,7 +255,7 @@ public class ParseJson {
     }
     
     //запись курсов валют в бд 
-    public boolean Write_CurrenciesToSQLite() throws SQLException {
+    public boolean Write_CurrenciesToSQLite() throws SQLException, ClassNotFoundException {
         boolean flag = false;
         if (!Currencies.isEmpty()) {
 
@@ -276,12 +288,12 @@ public class ParseJson {
                 value.add(TimetoFinish);
                 flag = Insert("currencies", key, value);
 
-                i += 10;
+                i += 9;
             }
             
 for (Object item : Currencies) {
 	
-        System.out.println("SIZE "+item.toString());
+        System.out.println("Currencies "+item.toString());
 }
             
             return flag;
@@ -290,13 +302,12 @@ for (Object item : Currencies) {
 
     }
     //запись касиров касы и паролей в бд
-        public boolean Write_LoginToSQLite() throws SQLException {
+        public boolean Write_LoginToSQLite() throws SQLException, ClassNotFoundException {
         boolean flag = false;
         if (!CashierNameList.isEmpty()) {
 
             int i = 4;
             while (i < CashierNameList.size()) {
-
                 ArrayList key = new ArrayList();
                 key.add("cashier_id");
                 key.add("cashier_password");
@@ -316,7 +327,6 @@ for (Object item : Currencies) {
                 value.add(CashierNameList.get(i + 2).toString());
                 value.add("true");
                 flag = Insert("user", key, value);
-
                 i += 7;
             }
 

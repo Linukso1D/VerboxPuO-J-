@@ -36,6 +36,7 @@ public class sqlite_metod {
     public static ResultSet resSet;
     private static Connection con = null;
 
+
     public static void Conn() throws ClassNotFoundException, SQLException {
         con = null;
         Class.forName("org.sqlite.JDBC");
@@ -178,9 +179,14 @@ public class sqlite_metod {
         }
         return null;
     }
-    public static boolean Insert(String to, ArrayList key, ArrayList value) throws SQLException
+    public static boolean Insert(String to, ArrayList key, ArrayList value) throws SQLException, ClassNotFoundException
     {   
+      
+            
+      //  CloseDB();
+      // Conn();
         
+     
         //Ключ
         String ItemKey = "(";
          for(Object item : key) 
@@ -203,27 +209,38 @@ public class sqlite_metod {
         
         
         //Проверка на дубликаты
-        String Sel_feedback="SELECT "+ItemKey.replace(")" , "").replace("(" , "")+" FROM "+to+";";
+    
         
+        
+        
+        String Sel_feedback="SELECT "+ItemKey.replace(")" , "").replace("(" , "")+" FROM "+to+";";
         resSet = statmt.executeQuery(Sel_feedback);
-       
+        
+        ResultSetMetaData rsmd = resSet.getMetaData();
+        int fieldsCount = rsmd.getColumnCount();
+        
+        
+        
         while (resSet.next()) {
-                            
-            
-            if(
-                    value.get(0).equals(resSet.getString(1)) &&
-                    value.get(1).equals(resSet.getString(2)) &&
-                    value.get(2).equals(resSet.getString(3)) &&
-                    value.get(3).equals(resSet.getString(4)) &&
-                    value.get(4).equals(resSet.getString(5)) &&
-                    value.get(5).equals(resSet.getString(6)) &&
-                    value.get(6).equals(resSet.getString(7)) 
-              )
+            int toReturn=0;
+            for(int i=1;i<fieldsCount+1;i++)
             {
-            return true;
+               
+                if(
+                    value.get(i-1).equals(resSet.getString(i))
+                
+                        
+                    )
+                            {
+                           toReturn++;
+                            }
+                System.out.println("Fields count"+fieldsCount );
+            if(fieldsCount==toReturn){return true;}
             }
-            
+                    
         }
+        
+        
         //удаление если гетинфо
         if(to.equals("info"))
         {
@@ -233,7 +250,8 @@ public class sqlite_metod {
         
         String sql = "INSERT INTO "+to+" "+ ItemKey +" VALUES "+ ItemVal +";"; 
         System.out.println(sql);
-        try{
+        try
+        {
         statmt.executeUpdate(sql);
         return true;
         }
@@ -241,6 +259,7 @@ public class sqlite_metod {
         {
         System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
+      
     return false;
     }
     

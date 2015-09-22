@@ -224,7 +224,7 @@ boolean log_in=false;
             SD.SetInfo();
             
             
-            SD.setAction_name("get_currencies");
+           SD.setAction_name("get_currencies");
             
             ParseJson pjs=new ParseJson(SendPost(SD.GetSD()));
             pjs.Write_CurrenciesToSQLite();
