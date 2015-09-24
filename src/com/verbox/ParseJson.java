@@ -80,7 +80,10 @@ public class ParseJson {
                                         {
                                             System.out.println("Ловим екзепшин при удачсных операциях");
                                         }
-                                    }      
+                                    }     
+                                    
+                                    
+                                    
                        //Забираем курсы с сервака   
                        if(json.get("action_name").equals("get_currencies"))
                        {
@@ -107,8 +110,7 @@ public class ParseJson {
                                      
                                     }
                                    } 
-                                
-                       }
+                        }
                                   
                                     
                                     
