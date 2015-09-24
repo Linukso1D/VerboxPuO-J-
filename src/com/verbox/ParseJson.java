@@ -7,6 +7,8 @@ package com.verbox;
 
 import static com.verbox.DecodeUTF.DecodeUTF;
 import static com.verbox.ErrorList.DesctiptError;
+import static com.verbox.StorageMemory.getInstance;
+import static com.verbox.sqlite_metod.DELETE_ALL;
 import static com.verbox.sqlite_metod.Insert;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
@@ -261,7 +263,7 @@ public class ParseJson {
     public boolean Write_CurrenciesToSQLite() throws SQLException, ClassNotFoundException {
         boolean flag = false;
         if (!Currencies.isEmpty()) {
-
+                    DELETE_ALL("currencies");
             int i = 0;
             while (i < Currencies.size()) {
 
@@ -299,7 +301,12 @@ for (Object item : Currencies) {
 	
         System.out.println("Currencies "+item.toString());
 }
-            
+
+StorageMemory sd =getInstance();
+           sd.initCourse() ; 
+           
+           
+           
             return flag;
         }
         return flag;

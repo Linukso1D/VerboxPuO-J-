@@ -12,6 +12,8 @@ import static com.verbox.sqlite_metod.ReadSQLite;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.showMessageDialog;
 import org.json.simple.JSONObject;
 
 /**
@@ -22,12 +24,54 @@ public class StorageMemory {
 
     //generate cashier_id and cashier_password for sign in
     private static JSONObject obj = new JSONObject();
-    private String cash_id, cash_password, cashier_id, cashier_password, action_name, lastmes;
+    private String cash_id, cash_password, cashier_id, cashier_password, action_name, lastmess,patterns;
     JSONObject params;
     private ArrayList get_info;
-
+//поля покупателя валюты для отправки запроса
+    private String 
+            buyer_first_name,
+            buyer_last_name,
+            buyer_surname,buyer_resident,
+            passport_number,
+            passport_serial,
+            phone_number,
+            currency_code,
+            currency_course,
+            currency_sum,
+            grn_sum,
+            receipt_currency,
+            taxpf,
+            receipt_number;
+//поля покупателя валюты
     
-
+    //хранение курсов в обьекте
+    private int 
+            id_operation, //receipt_currency
+            idqwi,  // квитанция
+            idqwiadmin, //для инкасаторов
+            Pfsell,
+            Pfbuy;     //пенсионный фонд на продажу
+      private   double   
+            balanceUKR, 
+            balanceUSD,
+            balanceEURO,
+            balanceRU,
+            
+            buyUSD,
+            sellUSD,
+            buyEURO,
+            sellEURO,
+            buyRU,
+            sellRU,
+            
+            nbuUSD,
+            nbuEURO,
+            nbuRU
+                    
+            ;
+    //хранение курсов в обьекте
+    
+    
     StorageMemory() {
     }
 
@@ -58,7 +102,7 @@ public class StorageMemory {
         obj.put("cashier_password", getCashier_password());
         obj.put("action_name", getAction_name());
         obj.put("params", getParams());
-        obj.put("lastmes", getLastmes());
+        obj.put("lastmes", getLastmess());
         return obj;
     }
     public void ClearObj()
@@ -77,7 +121,7 @@ public class StorageMemory {
         setCashier_password(t4);
         setAction_name(t5);
         setParams(t6);
-        setLastmes(t7);
+        setLastmess(t7);
 
 
 
@@ -114,7 +158,7 @@ public class StorageMemory {
         tmp.add("ur_office");               //юр дом
         tmp.add("ur_street");               // юр улица
 
-        get_info = ReadSQLite(tmp, "info");
+        get_info = ReadSQLite(tmp, "info","","");
 
     }
     //---Методы получения гет инфо структуры
@@ -211,12 +255,405 @@ public class StorageMemory {
         this.params = params;
     }
 
-    public String getLastmes() {
-        return lastmes;
+    public String getLastmess() {
+        return lastmess;
     }
 
-    public void setLastmes(String lastmes) {
-        this.lastmes = lastmes;
+    public void setLastmess(String lastmes) {
+        this.lastmess = lastmes;
     }
 
+
+
+//методы покупателя
+    
+    public String getBuyer_first_name() {
+        return buyer_first_name;
+    }
+
+    public void setBuyer_first_name(String buyer_first_name) {
+        this.buyer_first_name = buyer_first_name;
+    }
+
+    public String getBuyer_last_name() {
+        return buyer_last_name;
+    }
+
+    public void setBuyer_last_name(String buyer_last_name) {
+        this.buyer_last_name = buyer_last_name;
+    }
+
+    public String getBuyer_surname() {
+        return buyer_surname;
+    }
+
+    public void setBuyer_surname(String buyer_surname) {
+        this.buyer_surname = buyer_surname;
+    }
+
+    public String getBuyer_resident() {
+        return buyer_resident;
+    }
+
+    public void setBuyer_resident(String buyer_resident) {
+        this.buyer_resident = buyer_resident;
+    }
+
+    public String getPassport_number() {
+        return passport_number;
+    }
+
+    public void setPassport_number(String passport_number) {
+        this.passport_number = passport_number;
+    }
+
+    public String getPassport_serial() {
+        return passport_serial;
+    }
+
+    public void setPassport_serial(String passport_serial) {
+        this.passport_serial = passport_serial;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+    }
+
+    public String getCurrency_code() {
+        return currency_code;
+    }
+
+    public void setCurrency_code(String currency_code) {
+        this.currency_code = currency_code;
+    }
+
+    public String getCurrency_course() {
+        return currency_course;
+    }
+
+    public void setCurrency_course(String currency_course) {
+        this.currency_course = currency_course;
+    }
+
+    public String getCurrency_sum() {
+        return currency_sum;
+    }
+
+    public void setCurrency_sum(String currency_sum) {
+        this.currency_sum = currency_sum;
+    }
+
+    public String getGrn_sum() {
+        return grn_sum;
+    }
+
+    public void setGrn_sum(String grn_sum) {
+        this.grn_sum = grn_sum;
+    }
+
+    public String getReceipt_currency() {
+        return receipt_currency;
+    }
+
+    public void setReceipt_currency(String receipt_currency) {
+        this.receipt_currency = receipt_currency;
+    }
+
+    public String getTaxpf() {
+        return taxpf;
+    }
+
+    public void setTaxpf(String taxpf) {
+        this.taxpf = taxpf;
+    }
+
+    public String getReceipt_number() {
+        return receipt_number;
+    }
+
+    public void setReceipt_number(String receipt_number) {
+        this.receipt_number = receipt_number;
+    }
+
+    public int getId_operation() {
+        return id_operation;
+    }
+
+    public void setId_operation(int id_operation) {
+        this.id_operation = id_operation;
+    }
+
+    public int getIdqwi() {
+        return idqwi;
+    }
+
+    public void setIdqwi(int idqwi) {
+        this.idqwi = idqwi;
+    }
+
+    public int getIdqwiadmin() {
+        return idqwiadmin;
+    }
+
+    public void setIdqwiadmin(int idqwiadmin) {
+        this.idqwiadmin = idqwiadmin;
+    }
+
+    public int getPfsell() {
+        return Pfsell;
+    }
+
+    public void setPfsell(int Pfsell) {
+        this.Pfsell = Pfsell;
+    }
+
+    public double getBalanceUKR() {
+        return balanceUKR;
+    }
+
+    public void setBalanceUKR(double balanceUKR) {
+        this.balanceUKR = balanceUKR;
+    }
+
+    public double getBalanceUSD() {
+        return balanceUSD;
+    }
+
+    public void setBalanceUSD(double balanceUSD) {
+        this.balanceUSD = balanceUSD;
+    }
+
+    public double getBalanceEURO() {
+        return balanceEURO;
+    }
+
+    public void setBalanceEURO(double balanceEURO) {
+        this.balanceEURO = balanceEURO;
+    }
+
+    public double getBalanceRU() {
+        return balanceRU;
+    }
+
+    public void setBalanceRU(double balanceRU) {
+        this.balanceRU = balanceRU;
+    }
+
+    public double getBuyUSD() {
+        return buyUSD;
+    }
+
+    public void setBuyUSD(double buyUSD) {
+        this.buyUSD = buyUSD;
+    }
+
+    public double getSellUSD() {
+        return sellUSD;
+    }
+
+    public void setSellUSD(double sellUSD) {
+        this.sellUSD = sellUSD;
+    }
+
+    public double getBuyEURO() {
+        return buyEURO;
+    }
+
+    public void setBuyEURO(double buyEURO) {
+        this.buyEURO = buyEURO;
+    }
+
+    public double getSellEURO() {
+        return sellEURO;
+    }
+
+    public void setSellEURO(double sellEURO) {
+        this.sellEURO = sellEURO;
+    }
+
+    public double getBuyRU() {
+        return buyRU;
+    }
+
+    public void setBuyRU(double buyRU) {
+        this.buyRU = buyRU;
+    }
+
+    public double getSellRU() {
+        return sellRU;
+    }
+
+    public void setSellRU(double sellRU) {
+        this.sellRU = sellRU;
+    }
+
+    public double getNbuUSD() {
+        return nbuUSD;
+    }
+
+    public void setNbuUSD(double nbuUSD) {
+        this.nbuUSD = nbuUSD;
+    }
+
+    public double getNbuEURO() {
+        return nbuEURO;
+    }
+
+    public void setNbuEURO(double nbuEURO) {
+        this.nbuEURO = nbuEURO;
+    }
+
+    public double getNbuRU() {
+        return nbuRU;
+    }
+
+    public void setNbuRU(double nbuRU) {
+        this.nbuRU = nbuRU;
+    }
+
+    public String getPatterns() {
+        return patterns;
+    }
+
+    public void setPatterns(String patterns) {
+        this.patterns = patterns;
+    }
+
+ 
+
+    //инициализация основных компонентов курсов для подсчета
+    public void initCourse() throws ClassNotFoundException, SQLException
+    {
+    
+       
+        
+        ArrayList tmp=new ArrayList();
+        ArrayList res=new ArrayList();
+        tmp.add("course_buy");
+        tmp.add("course_nbu");
+        tmp.add("course_sale");   
+        tmp.add("quantity"); 
+                // переделать на взятие последних елементов
+        res= ReadSQLite(tmp, "currencies","currency_code","840"); 
+        this.buyUSD=Double.parseDouble((String) res.get(0))/Double.parseDouble((String) res.get(3)); 
+        this.sellUSD=Double.parseDouble((String) res.get(2))/Double.parseDouble((String) res.get(3));
+        this.nbuUSD=Double.parseDouble((String) res.get(1))/Double.parseDouble((String) res.get(3));
+        res.clear();
+        
+        res= ReadSQLite(tmp, "currencies","currency_code","978"); 
+        this.buyEURO=Double.parseDouble((String) res.get(0))/Double.parseDouble((String) res.get(3)); 
+        this.sellEURO=Double.parseDouble((String) res.get(2))/Double.parseDouble((String) res.get(3));
+        this.nbuEURO=Double.parseDouble((String) res.get(1))/Double.parseDouble((String) res.get(3));
+        res.clear();
+        
+        res= ReadSQLite(tmp, "currencies","currency_code","643"); 
+        this.buyRU=Double.parseDouble((String) res.get(0))/Double.parseDouble((String) res.get(3)); 
+        this.sellRU=Double.parseDouble((String) res.get(2))/Double.parseDouble((String) res.get(3));
+        this.nbuRU=Double.parseDouble((String) res.get(1))/Double.parseDouble((String) res.get(3));
+        res.clear();
+        
+        res.clear();
+        tmp.clear();
+        tmp.add("id_operation");
+        res= ReadSQLite(tmp, "SDobj","",""); 
+        this.id_operation=Integer.parseInt((String)res.get(0));
+         
+        res.clear();
+        tmp.clear();
+        tmp.add("idqwi");
+        res= ReadSQLite(tmp, "SDobj","",""); 
+        this.idqwi=Integer.parseInt((String) res.get(0));
+        
+        res.clear();
+        tmp.clear();
+        tmp.add("idqwiadmin");
+        res= ReadSQLite(tmp, "SDobj","",""); 
+        this.idqwiadmin=Integer.parseInt((String) res.get(0));
+        
+        res.clear();
+        tmp.clear();
+        tmp.add("Pfsell");
+        res= ReadSQLite(tmp, "SDobj","",""); 
+        this.Pfsell=Integer.parseInt((String) res.get(0));
+        
+        res.clear();
+        tmp.clear();
+        tmp.add("Pfbuy");
+        res= ReadSQLite(tmp, "SDobj","",""); 
+        this.Pfbuy=Integer.parseInt((String) res.get(0));
+        
+        res.clear();
+        tmp.clear();
+        tmp.add("balanceUKR");
+        res= ReadSQLite(tmp, "SDobj","",""); 
+        this.balanceUKR=Double.parseDouble((String) res.get(0));
+                
+        res.clear();
+        tmp.clear();
+        tmp.add("balanceUSD");
+        res= ReadSQLite(tmp, "SDobj","",""); 
+        this.balanceUSD=Double.parseDouble((String) res.get(0));
+        
+        res.clear();
+        tmp.clear();
+        tmp.add("balanceEURO");
+        res= ReadSQLite(tmp, "SDobj","",""); 
+        this.balanceEURO=Double.parseDouble((String) res.get(0));
+        
+        res.clear();
+        tmp.clear();
+        tmp.add("balanceRU");
+        res= ReadSQLite(tmp, "SDobj","",""); 
+        this.balanceRU=Double.parseDouble((String) res.get(0));
+        
+                res.clear();
+        tmp.clear();
+        tmp.add("lastmess");
+        res= ReadSQLite(tmp, "SDobj","",""); 
+        this.lastmess= (String) res.get(0);
+        
+        res.clear();
+        tmp.clear();
+        tmp.add("patterns");
+        res= ReadSQLite(tmp, "SDobj","",""); 
+        this.patterns= (String) res.get(0);
+
+        showMessageDialog(null, 
+                " Lastmess "+ lastmess+
+                "\n Patterns "+ patterns+
+                "\n Lastmess "+ id_operation+
+                "\n Idqwi " + idqwi +
+                "\n idqwiadmin "+idqwiadmin+
+                "\n Pfsell " + Pfsell+
+                "\n balanceUKR "+ balanceUKR +
+                "\n Pfbuy "+Pfbuy+
+                "\n balanceUSD " +balanceUSD +
+                "\n balanceEURO "+balanceEURO+
+                "\n balanceRU "+balanceRU+
+                "\n buyUSD " + buyUSD+
+                "\n sellUSD " + sellUSD+ 
+                "\n buyEURO " + buyEURO+ 
+                "\n sellEURO " + sellEURO+ 
+                "\n buyRU " + buyRU+ 
+                "\n sellRU " + sellRU+ 
+                "\n nbuUSD " + nbuUSD+ 
+                "\n nbuEURO " + nbuEURO+ 
+                "\n nbuRU " + nbuRU 
+        
+        
+        
+
+            
+
+            
+
+            
+                
+                );
+    }
+    
 }

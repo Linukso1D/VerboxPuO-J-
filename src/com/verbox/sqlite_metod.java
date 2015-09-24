@@ -365,9 +365,17 @@ public class sqlite_metod {
                         }
                         
     //читает то что принимает в параметрах и возвращает данные однострочное читение                  
-       public static ArrayList ReadSQLite(ArrayList what, String From) throws ClassNotFoundException, SQLException {
+       public static ArrayList ReadSQLite(ArrayList what, String From ,String id, String Value) throws ClassNotFoundException, SQLException {
         
-           
+         String Where  ;
+         if(!id.equals("")&&!Value.equals(""))
+         {
+         Where="WHERE "+id+" = "+"\""+Value+"\"";
+         }
+         else
+         {
+         Where="";
+         }
            
          String ItemKey = " ";
          for(Object item : what) 
@@ -380,7 +388,7 @@ public class sqlite_metod {
         
            
            
-           resSet = statmt.executeQuery("SELECT "+ItemKey+" FROM "+From+" ;");
+           resSet = statmt.executeQuery("SELECT "+ItemKey+" FROM "+From+" "+Where+" ;");
            
         ArrayList tm = new ArrayList();
         //колово колонок 
@@ -398,6 +406,10 @@ public class sqlite_metod {
           
         return tm;
     }
+       public static void DELETE_ALL(String Where) throws SQLException
+       {
+       statmt.execute("DELETE FROM "+Where+" ;");
+       }
                           
     
 }
