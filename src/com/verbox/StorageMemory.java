@@ -5,6 +5,7 @@
  */
 package com.verbox;
 
+import static com.verbox.MyMath.round;
 import static com.verbox.Serial_XDD.Serial_XDDGet;
 import static com.verbox.Serial_XDD.Serial_XDDGetHash;
 import static com.verbox.sqlite_metod.GetMd5;
@@ -62,7 +63,7 @@ public class StorageMemory {
       
     //хранение курсов в обьекте
     //массив валюты тест
-      Map curse;
+      Map curse,balance;
     
     StorageMemory() {
     }
@@ -413,16 +414,99 @@ public class StorageMemory {
         this.patterns = patterns;
     }
 
- 
+    //===========================================================================================================
+    //===========================================================================================================
+    //===========================================================================================================
+    //функция подсчета принимает код валюты / резидент ли /  фио покупателя / сумму денег / название операции/ паспортные данные
+//! должна вернуть готовый обьект JSON!
+    public void OperationX(
+            String code,        //код валюты
+            String resident,    //резидент не резидент
+            String Fn,          //Имя
+            String Ln,          //Отчество
+            String Sn,          //Фамилия
+            double sum,          //бабло   
+            String typeOx,       //Тип операции
+            String convertedTo,  //конвертируется в какую валюту
+            String pspS,         //Серия пасспорта
+            int pspCode,         //код паспорта
+            String Phone
+    )
+            {
+            buyer_first_name=Fn;
+            buyer_last_name=Ln;
+            buyer_surname=Sn;
+            buyer_resident=resident;
+            passport_number=Integer.toString(pspCode);
+            passport_serial=pspS;
+            phone_number=Phone;
+            //ПФ
+                        if (typeOx.equals("sale")&&Pfsell!=0)
+                        {
+                                taxpf=Integer.toString(Pfsell);
+                        }
+                        else
+                        {
+                                taxpf="0";
+                        }
+                        if (typeOx.equals("buy")&&Pfbuy!=0)
+                        {
+                                taxpf=Integer.toString(Pfsell);
+                        }
+                        else
+                        {
+                                taxpf="0";
+                        }
+            //Код валюты
+            currency_code=code;
+            //получить курс по данной валюте
+                                            if(typeOx.equals("buy"))
+                                            {  //купить 
+                                                    ArrayList tmpz = new ArrayList();
+                                                    tmpz=(ArrayList) curse.get(code);
+                                                    currency_course=Double.toString(Double.parseDouble((String)tmpz.get(0))*Double.parseDouble((String)tmpz.get(3)));
+                                                    
+                                                    
+                                                    grn_sum=Double.toString(sum*Double.parseDouble((String)tmpz.get(0)));
+                                            }
+                                            else if(typeOx.equals("sale"))
+                                            {
+                                                // продать  
+                                                    ArrayList tmpz = new ArrayList();
+                                                    tmpz=(ArrayList) curse.get(code);
+                                                    currency_course=Double.toString(Double.parseDouble((String)tmpz.get(1))*Double.parseDouble((String)tmpz.get(3)));
+                                                
+                                                grn_sum=Double.toString(round(sum*Double.parseDouble((String)tmpz.get(1)),2));
+                                            }
+                                          
+            currency_sum=Double.toString(sum);
+            
+            receipt_currency=Integer.toString(idqwi);
+            
+                
+                
+                
+                
 
+
+
+
+            }
+    //===========================================================================================================
+    //===========================================================================================================
+    //===========================================================================================================
+    //===========================================================================================================
     //инициализация основных компонентов курсов для подсчета
     public void initCourse() throws ClassNotFoundException, SQLException
     {
     
-        
+        //получаем курсы с локал бд в ключе номер валюты в массиве посчитанный курс за единицу валюты
         curse=new HashMap<String,ArrayList<String>>();
-        curse=ReadSQLiteMulti("SELECT currency_code,course_buy/quantity,course_sale/quantity,course_nbu/quantity,currency_name FROM `currencies` ORDER BY `currencies_id` DESC LIMIT 22");
+        curse=ReadSQLiteMulti("SELECT currency_code,course_buy/CAST(quantity AS DOUBLE),course_sale/CAST(quantity AS DOUBLE),course_nbu/CAST(quantity AS DOUBLE),quantity,currency_name FROM `currencies` ORDER BY `currencies_id` DESC LIMIT 22");
         
+        //получаем баланс в ключе ид валюты в массиве баланс
+        balance=new HashMap<String,Integer>();
+        balance=ReadSQLiteMulti("SELECT currency_code,balance FROM `SDbalance` ORDER BY `id_SDbalance` DESC LIMIT 23");
         
         
         
@@ -445,14 +529,20 @@ public class StorageMemory {
 
 
         }
-ArrayList tmpz = new ArrayList();
-tmpz=
-        
-        (ArrayList) curse.get("978");
-        System.out.println("GET OBJ "+Double.parseDouble((String)tmpz.get(1))+5); 
+                ArrayList tmpz = new ArrayList();
+                tmpz=(ArrayList) curse.get("978");
+                System.out.println("GET OBJ "+Double.parseDouble((String)tmpz.get(1))+5); 
         
         
-        
+        //map balance
+        Set<String> keys = balance.keySet();
+
+	// Loop over String keys.
+	for (String key : keys) {
+	    System.out.println("key of balance "+key+ " balance "+ balance.get(key));
+	}
+
+
        
         
         ArrayList tmp=new ArrayList();

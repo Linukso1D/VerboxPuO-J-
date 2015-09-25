@@ -301,11 +301,21 @@ public class sqlite_metod {
                           public static boolean cureList_SetCash(String set, String log, String pas) throws SQLException
                         {
                             try{
+                            if(!set.equals("")) {   
                             String query=" UPDATE firstlist_seeting SET cash_id= \""+set+"\", httplogin= \""+log+"\", httppass= \""+pas+"\" WHERE id_list=\"1\";  ";
                             
                             statmt.executeUpdate(query);
                                 
                             return true;
+                            }
+                            else
+                            {
+                             String query=" UPDATE firstlist_seeting SET httplogin= \""+log+"\", httppass= \""+pas+"\" WHERE id_list=\"1\";  ";
+                            
+                            statmt.executeUpdate(query);
+                                
+                            return true;
+                            }
                             }
                             catch(Exception e)
                             {
