@@ -69,8 +69,9 @@ public class StorageMemory {
             nbuRU
                     
             ;
+      
     //хранение курсов в обьекте
-    
+    //массив валюты тест
     
     StorageMemory() {
     }

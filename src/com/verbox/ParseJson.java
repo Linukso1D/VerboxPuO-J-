@@ -263,7 +263,7 @@ public class ParseJson {
     public boolean Write_CurrenciesToSQLite() throws SQLException, ClassNotFoundException {
         boolean flag = false;
         if (!Currencies.isEmpty()) {
-                    DELETE_ALL("currencies");
+                   
             int i = 0;
             while (i < Currencies.size()) {
 
