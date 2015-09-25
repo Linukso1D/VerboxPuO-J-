@@ -9,11 +9,18 @@ import static com.verbox.Serial_XDD.Serial_XDDGet;
 import static com.verbox.Serial_XDD.Serial_XDDGetHash;
 import static com.verbox.sqlite_metod.GetMd5;
 import static com.verbox.sqlite_metod.ReadSQLite;
+import static com.verbox.sqlite_metod.ReadSQLiteMulti;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
+import javax.swing.RowFilter.Entry;
 import org.json.simple.JSONObject;
 
 /**
@@ -51,27 +58,11 @@ public class StorageMemory {
             idqwiadmin, //для инкасаторов
             Pfsell,
             Pfbuy;     //пенсионный фонд на продажу
-      private   double   
-            balanceUKR, 
-            balanceUSD,
-            balanceEURO,
-            balanceRU,
-            
-            buyUSD,
-            sellUSD,
-            buyEURO,
-            sellEURO,
-            buyRU,
-            sellRU,
-            
-            nbuUSD,
-            nbuEURO,
-            nbuRU
-                    
-            ;
+
       
     //хранение курсов в обьекте
     //массив валюты тест
+      Map curse;
     
     StorageMemory() {
     }
@@ -159,7 +150,7 @@ public class StorageMemory {
         tmp.add("ur_office");               //юр дом
         tmp.add("ur_street");               // юр улица
 
-        get_info = ReadSQLite(tmp, "info","","");
+        get_info = ReadSQLite(tmp, "info","ORDER BY `enterprise_id` DESC LIMIT 1");
 
     }
     //---Методы получения гет инфо структуры
@@ -412,109 +403,7 @@ public class StorageMemory {
         this.Pfsell = Pfsell;
     }
 
-    public double getBalanceUKR() {
-        return balanceUKR;
-    }
-
-    public void setBalanceUKR(double balanceUKR) {
-        this.balanceUKR = balanceUKR;
-    }
-
-    public double getBalanceUSD() {
-        return balanceUSD;
-    }
-
-    public void setBalanceUSD(double balanceUSD) {
-        this.balanceUSD = balanceUSD;
-    }
-
-    public double getBalanceEURO() {
-        return balanceEURO;
-    }
-
-    public void setBalanceEURO(double balanceEURO) {
-        this.balanceEURO = balanceEURO;
-    }
-
-    public double getBalanceRU() {
-        return balanceRU;
-    }
-
-    public void setBalanceRU(double balanceRU) {
-        this.balanceRU = balanceRU;
-    }
-
-    public double getBuyUSD() {
-        return buyUSD;
-    }
-
-    public void setBuyUSD(double buyUSD) {
-        this.buyUSD = buyUSD;
-    }
-
-    public double getSellUSD() {
-        return sellUSD;
-    }
-
-    public void setSellUSD(double sellUSD) {
-        this.sellUSD = sellUSD;
-    }
-
-    public double getBuyEURO() {
-        return buyEURO;
-    }
-
-    public void setBuyEURO(double buyEURO) {
-        this.buyEURO = buyEURO;
-    }
-
-    public double getSellEURO() {
-        return sellEURO;
-    }
-
-    public void setSellEURO(double sellEURO) {
-        this.sellEURO = sellEURO;
-    }
-
-    public double getBuyRU() {
-        return buyRU;
-    }
-
-    public void setBuyRU(double buyRU) {
-        this.buyRU = buyRU;
-    }
-
-    public double getSellRU() {
-        return sellRU;
-    }
-
-    public void setSellRU(double sellRU) {
-        this.sellRU = sellRU;
-    }
-
-    public double getNbuUSD() {
-        return nbuUSD;
-    }
-
-    public void setNbuUSD(double nbuUSD) {
-        this.nbuUSD = nbuUSD;
-    }
-
-    public double getNbuEURO() {
-        return nbuEURO;
-    }
-
-    public void setNbuEURO(double nbuEURO) {
-        this.nbuEURO = nbuEURO;
-    }
-
-    public double getNbuRU() {
-        return nbuRU;
-    }
-
-    public void setNbuRU(double nbuRU) {
-        this.nbuRU = nbuRU;
-    }
+ 
 
     public String getPatterns() {
         return patterns;
@@ -530,6 +419,40 @@ public class StorageMemory {
     public void initCourse() throws ClassNotFoundException, SQLException
     {
     
+        
+        curse=new HashMap<String,ArrayList<String>>();
+        curse=ReadSQLiteMulti("SELECT currency_code,course_buy/quantity,course_sale/quantity,course_nbu/quantity,currency_name FROM `currencies` ORDER BY `currencies_id` DESC LIMIT 22");
+        
+        
+        
+        
+        
+        
+
+        if(curse!=null||!curse.isEmpty())
+        {   
+    Set<Entry<String, ArrayList<String>>> setMap = curse.entrySet(); 
+   Iterator<Entry<String,  ArrayList<String>>> iteratorMap = setMap.iterator(); 
+        System.out.println("\nHashMap with Multiple Values"); 
+        
+        while(iteratorMap.hasNext()) { 
+            Map.Entry<String, ArrayList<String>> entry =  
+            (Map.Entry<String, ArrayList<String>>) iteratorMap.next();
+            String key = entry.getKey(); 
+            List<String> values = entry.getValue(); 
+            System.out.println("Key = '" + key + "' has values: " + values); 
+      } 
+
+
+        }
+ArrayList tmpz = new ArrayList();
+tmpz=
+        
+        (ArrayList) curse.get("978");
+        System.out.println("GET OBJ "+Double.parseDouble((String)tmpz.get(1))+5); 
+        
+        
+        
        
         
         ArrayList tmp=new ArrayList();
@@ -539,88 +462,49 @@ public class StorageMemory {
         tmp.add("course_sale");   
         tmp.add("quantity"); 
                 // переделать на взятие последних елементов
-        res= ReadSQLite(tmp, "currencies","currency_code","840"); 
-        this.buyUSD=Double.parseDouble((String) res.get(0))/Double.parseDouble((String) res.get(3)); 
-        this.sellUSD=Double.parseDouble((String) res.get(2))/Double.parseDouble((String) res.get(3));
-        this.nbuUSD=Double.parseDouble((String) res.get(1))/Double.parseDouble((String) res.get(3));
-        res.clear();
-        
-        res= ReadSQLite(tmp, "currencies","currency_code","978"); 
-        this.buyEURO=Double.parseDouble((String) res.get(0))/Double.parseDouble((String) res.get(3)); 
-        this.sellEURO=Double.parseDouble((String) res.get(2))/Double.parseDouble((String) res.get(3));
-        this.nbuEURO=Double.parseDouble((String) res.get(1))/Double.parseDouble((String) res.get(3));
-        res.clear();
-        
-        res= ReadSQLite(tmp, "currencies","currency_code","643"); 
-        this.buyRU=Double.parseDouble((String) res.get(0))/Double.parseDouble((String) res.get(3)); 
-        this.sellRU=Double.parseDouble((String) res.get(2))/Double.parseDouble((String) res.get(3));
-        this.nbuRU=Double.parseDouble((String) res.get(1))/Double.parseDouble((String) res.get(3));
-        res.clear();
+
         
         res.clear();
         tmp.clear();
         tmp.add("id_operation");
-        res= ReadSQLite(tmp, "SDobj","",""); 
+        res= ReadSQLite(tmp, "SDobj",""); 
         this.id_operation=Integer.parseInt((String)res.get(0));
          
         res.clear();
         tmp.clear();
         tmp.add("idqwi");
-        res= ReadSQLite(tmp, "SDobj","",""); 
+        res= ReadSQLite(tmp, "SDobj",""); 
         this.idqwi=Integer.parseInt((String) res.get(0));
         
         res.clear();
         tmp.clear();
         tmp.add("idqwiadmin");
-        res= ReadSQLite(tmp, "SDobj","",""); 
+        res= ReadSQLite(tmp, "SDobj",""); 
         this.idqwiadmin=Integer.parseInt((String) res.get(0));
         
         res.clear();
         tmp.clear();
         tmp.add("Pfsell");
-        res= ReadSQLite(tmp, "SDobj","",""); 
+        res= ReadSQLite(tmp, "SDobj",""); 
         this.Pfsell=Integer.parseInt((String) res.get(0));
         
         res.clear();
         tmp.clear();
         tmp.add("Pfbuy");
-        res= ReadSQLite(tmp, "SDobj","",""); 
+        res= ReadSQLite(tmp, "SDobj",""); 
         this.Pfbuy=Integer.parseInt((String) res.get(0));
         
-        res.clear();
-        tmp.clear();
-        tmp.add("balanceUKR");
-        res= ReadSQLite(tmp, "SDobj","",""); 
-        this.balanceUKR=Double.parseDouble((String) res.get(0));
-                
-        res.clear();
-        tmp.clear();
-        tmp.add("balanceUSD");
-        res= ReadSQLite(tmp, "SDobj","",""); 
-        this.balanceUSD=Double.parseDouble((String) res.get(0));
         
         res.clear();
-        tmp.clear();
-        tmp.add("balanceEURO");
-        res= ReadSQLite(tmp, "SDobj","",""); 
-        this.balanceEURO=Double.parseDouble((String) res.get(0));
-        
-        res.clear();
-        tmp.clear();
-        tmp.add("balanceRU");
-        res= ReadSQLite(tmp, "SDobj","",""); 
-        this.balanceRU=Double.parseDouble((String) res.get(0));
-        
-                res.clear();
         tmp.clear();
         tmp.add("lastmess");
-        res= ReadSQLite(tmp, "SDobj","",""); 
+        res= ReadSQLite(tmp, "SDobj",""); 
         this.lastmess= (String) res.get(0);
         
         res.clear();
         tmp.clear();
         tmp.add("patterns");
-        res= ReadSQLite(tmp, "SDobj","",""); 
+        res= ReadSQLite(tmp, "SDobj",""); 
         this.patterns= (String) res.get(0);
 
         showMessageDialog(null, 
@@ -630,20 +514,8 @@ public class StorageMemory {
                 "\n Idqwi " + idqwi +
                 "\n idqwiadmin "+idqwiadmin+
                 "\n Pfsell " + Pfsell+
-                "\n balanceUKR "+ balanceUKR +
-                "\n Pfbuy "+Pfbuy+
-                "\n balanceUSD " +balanceUSD +
-                "\n balanceEURO "+balanceEURO+
-                "\n balanceRU "+balanceRU+
-                "\n buyUSD " + buyUSD+
-                "\n sellUSD " + sellUSD+ 
-                "\n buyEURO " + buyEURO+ 
-                "\n sellEURO " + sellEURO+ 
-                "\n buyRU " + buyRU+ 
-                "\n sellRU " + sellRU+ 
-                "\n nbuUSD " + nbuUSD+ 
-                "\n nbuEURO " + nbuEURO+ 
-                "\n nbuRU " + nbuRU 
+                "\n Pfbuy "+Pfbuy
+
         
         
         

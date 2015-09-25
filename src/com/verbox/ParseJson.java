@@ -296,12 +296,12 @@ public class ParseJson {
 
                 i += 9;
             }
-            
+ /*           
 for (Object item : Currencies) {
 	
         System.out.println("Currencies "+item.toString());
 }
-
+*/
 StorageMemory sd =getInstance();
            sd.initCourse() ; 
            

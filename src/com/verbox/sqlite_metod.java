@@ -20,6 +20,8 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -365,12 +367,12 @@ public class sqlite_metod {
                         }
                         
     //читает то что принимает в параметрах и возвращает данные однострочное читение                  
-       public static ArrayList ReadSQLite(ArrayList what, String From ,String id, String Value) throws ClassNotFoundException, SQLException {
+       public static ArrayList ReadSQLite(ArrayList what, String From ,String Value) throws ClassNotFoundException, SQLException {
         
          String Where  ;
-         if(!id.equals("")&&!Value.equals(""))
+         if(!Value.equals(""))
          {
-         Where="WHERE "+id+" = "+"\""+Value+"\"";
+         Where=Value;
          }
          else
          {
@@ -406,10 +408,55 @@ public class sqlite_metod {
           
         return tm;
     }
+      
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
        public static void DELETE_ALL(String Where) throws SQLException
        {
        statmt.execute("DELETE FROM "+Where+" ;");
        }
-                          
+               
+       
+       
+       
+       
+       //--test multivalue read
+       
+           //читает то что принимает в параметрах и возвращает данные однострочное читение                  
+       public static Map ReadSQLiteMulti(String query) throws ClassNotFoundException, SQLException {
+        
+           Map z = new HashMap <String,ArrayList<String>>();
+         
+           
+           
+           resSet = statmt.executeQuery(query);
+           
+       
+        //колово колонок 
+        ResultSetMetaData rsmd = resSet.getMetaData();
+        int fieldsCount = rsmd.getColumnCount();
+        while (resSet.next()) {
+            ArrayList tm = new ArrayList(); 
+       
+            for(int i=2;i<fieldsCount+1;i++)
+            {
+          
+            tm.add(EscapeUndoHtml(resSet.getString(i)));
+            }
+            z.put(resSet.getString(1), tm);
+           
+        }
+          
+        return z;
+    }
     
 }
