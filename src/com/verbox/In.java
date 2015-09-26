@@ -7,10 +7,15 @@ package com.verbox;
 
 import static com.verbox.StorageMemory.getInstance;
 import static com.verbox.json_metod.SendPost;
+import static com.verbox.sqlite_metod.ReadSQLiteMulti;
 import java.awt.Color;
 import java.awt.Insets;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -28,7 +33,7 @@ public class In extends javax.swing.JFrame {
     /**
      * Creates new form In
      */
-    public In() {
+    public In() throws ClassNotFoundException {
         initComponents();
         //ныкать панели
          HideEl();
@@ -74,6 +79,41 @@ public class In extends javax.swing.JFrame {
                   showMessageDialog(null,"Не удалось загрузить информацию от предприятии!!!");
                   System.out.println("EXEPTION"+e);
               }
+              
+              
+              //заполнения дропдауна активными валютами
+                            try{
+                                ArrayList tm = new ArrayList();
+                                Map ListActiveCourse = new HashMap <String,String>();
+                                ListActiveCourse=ReadSQLiteMulti(
+                                          "SELECT sd.currency_code,c.currency_name FROM\n" +
+                                          "SDbalance AS sd\n" +
+                                          "INNER JOIN \n" +
+                                          "currencies AS c ON c.currency_code=sd.currency_code\n" +
+                                          "WHERE sd.active=\"true\" ORDER BY `id_SDbalance` ");
+
+                        Set<String> keys = ListActiveCourse.keySet();
+                        for (String key : keys) {
+                           jComboBox2.addItem(ListActiveCourse.get(key));
+                           tm.add(key);
+                           
+                        }
+                        StorageMemory SD=getInstance();
+                        SD.setTempForSelectDropdown(tm);
+                        
+                  
+                  
+                  
+                     
+
+              }
+                catch(NullPointerException e)
+              {
+                  showMessageDialog(null,"Не удалось получить список валют проверьте активность валют в настройках.");
+                  System.out.println("EXEPTION"+e);
+              } catch (SQLException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        }
               
                
        
@@ -772,6 +812,11 @@ public class In extends javax.swing.JFrame {
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Операции", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11), new java.awt.Color(51, 51, 51))); // NOI18N
 
         jButton1.setText("Купить");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jButton2.setText("Продать");
 
@@ -780,8 +825,6 @@ public class In extends javax.swing.JFrame {
         jTextField3.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
 
         jTextField6.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel1.setText("UKR");
 
@@ -807,7 +850,7 @@ public class In extends javax.swing.JFrame {
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel6Layout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(203, Short.MAX_VALUE)
                 .add(jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(jComboBox2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
                     .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -820,7 +863,7 @@ public class In extends javax.swing.JFrame {
                     .add(jButton1)
                     .add(jButton2)
                     .add(jButton3))
-                .add(20, 20, 20))
+                .addContainerGap())
         );
 
         jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Кассиры", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
@@ -1374,7 +1417,7 @@ public class In extends javax.swing.JFrame {
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(jPanel7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jPanel6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(jPanel6, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(jPanel8, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1651,6 +1694,44 @@ Setting setup;
 // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+
+       StorageMemory SD = getInstance();
+        
+        SD.OperationX(                  
+                                jComboBox2.getSelectedIndex(),
+                                "1",
+                                jTextField7.getText(),
+                                jTextField8.getText(),
+                                jTextField9.getText(),
+                                Double.parseDouble(jTextField3.getText()),
+                                Double.parseDouble(jTextField6.getText()),
+                                        "buy",
+                                        jTextField10.getText(),
+                                        Integer.parseInt(jTextField11.getText()),
+                                        jTextField12.getText()
+                
+                
+                );     
+        
+       
+        
+        
+       try {
+           System.out.println("JSS"+SendPost(SD.GetSD()).toJSONString());      
+        } catch (IOException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        
+    }//GEN-LAST:event_jButton1MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1707,7 +1788,11 @@ Setting setup;
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new In().setVisible(true);
+                try {
+                    new In().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 
                 
             }

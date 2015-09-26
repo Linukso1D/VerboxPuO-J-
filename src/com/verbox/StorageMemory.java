@@ -64,8 +64,13 @@ public class StorageMemory {
     //хранение курсов в обьекте
     //массив валюты тест
       Map curse,balance;
+      ArrayList TempForSelectDropdown;
     
     StorageMemory() {
+    }
+
+    public void setTempForSelectDropdown(ArrayList TempForSelectDropdown) {
+        this.TempForSelectDropdown = TempForSelectDropdown;
     }
 
     private static volatile StorageMemory instance;
@@ -420,14 +425,15 @@ public class StorageMemory {
     //функция подсчета принимает код валюты / резидент ли /  фио покупателя / сумму денег / название операции/ паспортные данные
 //! должна вернуть готовый обьект JSON!
     public void OperationX(
-            String code,        //код валюты
+            int code,        //код валюты
             String resident,    //резидент не резидент
             String Fn,          //Имя
             String Ln,          //Отчество
             String Sn,          //Фамилия
-            double sum,          //бабло   
+            double sum,          //бабло в грн
+            double csum,            // в валюте
             String typeOx,       //Тип операции
-            String convertedTo,  //конвертируется в какую валюту
+           
             String pspS,         //Серия пасспорта
             int pspCode,         //код паспорта
             String Phone
@@ -445,20 +451,14 @@ public class StorageMemory {
                         {
                                 taxpf=Integer.toString(Pfsell);
                         }
-                        else
-                        {
-                                taxpf="0";
-                        }
+                       
                         if (typeOx.equals("buy")&&Pfbuy!=0)
                         {
                                 taxpf=Integer.toString(Pfsell);
                         }
-                        else
-                        {
-                                taxpf="0";
-                        }
-            //Код валюты
-            currency_code=code;
+                   
+            //Код валюты передает кнопка купить /../ и получаем из дропдауна индекс выбраного и подтягиваем из массива.
+            currency_code=TempForSelectDropdown.get(code).toString();
             //получить курс по данной валюте
                                             if(typeOx.equals("buy"))
                                             {  //купить 
@@ -467,7 +467,7 @@ public class StorageMemory {
                                                     currency_course=Double.toString(Double.parseDouble((String)tmpz.get(0))*Double.parseDouble((String)tmpz.get(3)));
                                                     
                                                     
-                                                    grn_sum=Double.toString(sum*Double.parseDouble((String)tmpz.get(0)));
+                                               //     grn_sum=Double.toString(sum*Double.parseDouble((String)tmpz.get(0)));
                                             }
                                             else if(typeOx.equals("sale"))
                                             {
@@ -476,22 +476,37 @@ public class StorageMemory {
                                                     tmpz=(ArrayList) curse.get(code);
                                                     currency_course=Double.toString(Double.parseDouble((String)tmpz.get(1))*Double.parseDouble((String)tmpz.get(3)));
                                                 
-                                                grn_sum=Double.toString(round(sum*Double.parseDouble((String)tmpz.get(1)),2));
+                                              // grn_sum=Double.toString(round(sum*Double.parseDouble((String)tmpz.get(1)),2));
                                             }
                                           
-            currency_sum=Double.toString(sum);
+            currency_sum=Double.toString(csum);
+           
+            grn_sum=Double.toString(sum);
             
             receipt_currency=Integer.toString(idqwi);
             
+            JSONObject forparam = new JSONObject();
+            forparam.put("buyer_first_name", buyer_first_name);
+            forparam.put("buyer_last_name", buyer_last_name);
+            forparam.put("buyer_surname", buyer_surname);
+            forparam.put("buyer_resident", buyer_resident);
+            forparam.put("passport_number", passport_number);
+            forparam.put("passport_serial", passport_serial);
+            forparam.put("phone_number", phone_number);
+            forparam.put("currency_code", currency_code);
+            forparam.put("currency_course", currency_course);
+            forparam.put("currency_sum", currency_sum);
+            forparam.put("grn_sum", grn_sum);
+            forparam.put("receipt_currency", receipt_currency);
+            forparam.put("buyer_first_name", buyer_first_name);
+            forparam.put("taxpf", taxpf);
+      
                 
-                
-                
-                
-
-
-
-
-            }
+                    
+                    
+                    
+                    setParams(forparam);
+           }
     //===========================================================================================================
     //===========================================================================================================
     //===========================================================================================================

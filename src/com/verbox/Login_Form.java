@@ -224,7 +224,7 @@ boolean log_in=false;
             SD.SetInfo();
             
             
-           SD.setAction_name("get_currencies");
+            SD.setAction_name("get_currencies");
             
             ParseJson pjs=new ParseJson(SendPost(SD.GetSD()));
             pjs.Write_CurrenciesToSQLite();
@@ -245,9 +245,13 @@ boolean log_in=false;
         
         if (log_in)
         {
+    try {
         In frm = new In();
         frm.setVisible(true);
         Login_Form.this.setVisible(false);
+    } catch (ClassNotFoundException ex) {
+        Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
+    }
         }
         else
         {
