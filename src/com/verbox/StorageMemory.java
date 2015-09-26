@@ -505,7 +505,7 @@ public class StorageMemory {
         curse=ReadSQLiteMulti("SELECT currency_code,course_buy/CAST(quantity AS DOUBLE),course_sale/CAST(quantity AS DOUBLE),course_nbu/CAST(quantity AS DOUBLE),quantity,currency_name FROM `currencies` ORDER BY `currencies_id` DESC LIMIT 22");
         
         //получаем баланс в ключе ид валюты в массиве баланс
-        balance=new HashMap<String,Integer>();
+        balance=new HashMap<String,Double>();
         balance=ReadSQLiteMulti("SELECT currency_code,balance FROM `SDbalance` ORDER BY `id_SDbalance` DESC LIMIT 23");
         
         

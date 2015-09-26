@@ -298,7 +298,7 @@ public class sqlite_metod {
                         }
                          
                          
-                          public static boolean cureList_SetCash(String set, String log, String pas) throws SQLException
+                        public static boolean cureList_SetCash(String set, String log, String pas) throws SQLException
                         {
                             try{
                             if(!set.equals("")) {   
@@ -469,4 +469,32 @@ public class sqlite_metod {
         return z;
     }
     
+       
+       
+       
+       // обновление чекитов
+                        public static boolean UPDATE_cheked(String where, boolean Check) throws SQLException
+                        {
+                            try{
+                            String local;
+                            if(!where.equals("")) {
+                                
+                                    if(Check){local="true";}
+                                    else {local="false";}
+                            String query=" UPDATE SDbalance SET active= \""+local+"\" WHERE currency_code=\""+where+"\";  ";
+                                System.out.println("QUERY upd"+query);
+                            statmt.executeUpdate(query);
+                                
+                            return true;
+                            }
+                            
+                            }
+                            catch(Exception e)
+                            {
+                            System.err.println( e.getClass().getName() + ": " + e.getMessage() +"Cheked");
+                            }
+                          return false;
+                        }
+       
+       
 }

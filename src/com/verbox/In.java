@@ -1400,6 +1400,8 @@ public class In extends javax.swing.JFrame {
         jMenu3.add(jMenuItem1);
 
         jMenuItem8.setText("Настройки");
+        jMenuItem8.setMargin(new java.awt.Insets(0, -10, 0, 30));
+        jMenuItem8.setPreferredSize(new java.awt.Dimension(99, 22));
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem8ActionPerformed(evt);
@@ -1637,8 +1639,16 @@ StorageMemory SD =getInstance();
     }//GEN-LAST:event_jButton5MouseClicked
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-Setting setup = new Setting();
-setup.setVisible(true);// TODO add your handling code here:
+Setting setup;
+        try {
+            setup = new Setting();
+            setup.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        }
+// TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     /**
