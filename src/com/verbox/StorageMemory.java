@@ -617,7 +617,7 @@ public int Pfsell,
         showMessageDialog(null, 
                 " Lastmess "+ lastmess+
                 "\n Patterns "+ patterns+
-                "\n Lastmess "+ id_operation+
+                "\n Id operation "+ id_operation+
                 "\n Idqwi " + idqwi +
                 "\n idqwiadmin "+idqwiadmin+
                 "\n Pfsell " + Pfsell+

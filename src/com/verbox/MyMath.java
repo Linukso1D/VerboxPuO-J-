@@ -5,6 +5,9 @@
  */
 package com.verbox;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /**
  *
  * @author maxxl
@@ -13,10 +16,7 @@ public class MyMath {
     
     
 public static double round(double number, int scale) {
-int pow = 10;
-for (int i = 1; i < scale; i++)
-pow *= 10;
-double tmp = number * pow;
-return (double) (int) ((tmp - (int) tmp) >= 0.5 ? tmp + 1 : tmp) / pow;
+double newDouble = new BigDecimal(number).setScale(scale, RoundingMode.DOWN).doubleValue();
+return newDouble;
 }
 }

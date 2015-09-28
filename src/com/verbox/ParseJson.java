@@ -10,6 +10,7 @@ import static com.verbox.ErrorList.DesctiptError;
 import static com.verbox.StorageMemory.getInstance;
 import static com.verbox.sqlite_metod.DELETE_ALL;
 import static com.verbox.sqlite_metod.Insert;
+import static com.verbox.sqlite_metod.UPDATE;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class ParseJson {
     //курсы валют
     ArrayList Currencies;
     String TimetoFinish,TimetoStart;
-    
+    String date_create,time_create,cartulary_id;
     // для левой логинизации касиры
     ArrayList CashierNameList;
     
@@ -47,7 +48,7 @@ public class ParseJson {
     JSONObject PJjson;
 
     //конструктор
-    public ParseJson(JSONObject json) {
+    public ParseJson(JSONObject json) throws ClassNotFoundException, SQLException {
         //Ошибки
         if(json.isEmpty())
         {
@@ -75,6 +76,30 @@ public class ParseJson {
                                         if(msg.size()==1)
                                         {
                                             showMessageDialog(null,msg.toJSONString()+"Выполнено ");
+                                            if(msg.toJSONString().equals("[openday]"))
+                                            {
+                                                        boolean ido=UPDATE("UPDATE SDobj SET id_operation= 1 ;");
+                                                        boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= 1 ;");
+                                                        showMessageDialog(null, "[] need to openday");
+                                            }
+                                            if(msg.toJSONString().equals("openday"))
+                                            {
+                                                        boolean ido=UPDATE("UPDATE SDobj SET id_operation= 1 ;");
+                                                        boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= 1 ;");
+                                                        showMessageDialog(null, "only openday");
+                                            }
+                                            if(msg.toJSONString().equals("open_day"))
+                                            {
+                                                        boolean ido=UPDATE("UPDATE SDobj SET id_operation= 1 ;");
+                                                        boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= 1 ;");
+                                                        showMessageDialog(null, "open_day");
+                                            }
+                                            if(msg.toJSONString().equals("[open_day]"))
+                                            {
+                                                        boolean ido=UPDATE("UPDATE SDobj SET id_operation= 1 ;");
+                                                        boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= 1 ;");
+                                                        showMessageDialog(null, "[open_day]");
+                                            }
                                         }
                                         msg.clear();
                                         }
@@ -113,6 +138,143 @@ public class ParseJson {
                                     }
                                    } 
                         }
+                       //Принимаем платежи в приходящем JSON
+                       //-----------------------------------
+                       //Покупка buy
+                       if(json.get("action_name").equals("buy"))
+                       {
+                                   if(json.get("params")!=null)
+                                   {
+                                    JSONObject tmp = (JSONObject) json.get("params");
+                                    
+                                            if(tmp.get("type").equals("buy"))
+                                            {
+                                                showMessageDialog(null, "Схавал покупку");
+                                                StorageMemory sd =getInstance();
+                                                         date_create =  (String) tmp.get("date_create");
+                                                         time_create =  (String) tmp.get("time_create");
+                                                         cartulary_id =  tmp.get("cartulary_id").toString();
+
+                                                         ArrayList key = new ArrayList();
+                                                         key.add("buyer_first_name");
+                                                         key.add("buyer_last_name");
+                                                         key.add("buyer_surname");
+                                                         key.add("buyer_resident");
+                                                         key.add("currency_code");
+                                                         key.add("currency_course");
+                                                         key.add("currency_sum");
+                                                         key.add("grn_sum");
+                                                         key.add("passport_number");
+                                                         key.add("passport_serial");
+                                                         key.add("phone_number");
+                                                         key.add("receipt_currency");
+                                                         key.add("taxpf");
+                                                         key.add("date_create");
+                                                         key.add("time_create");
+                                                         key.add("type");
+                                                         key.add("cartulary_id");
+
+
+                                                         ArrayList value = new ArrayList();
+                                                         value.add(sd.getBuyer_first_name());
+                                                         value.add(sd.getBuyer_last_name());
+                                                         value.add(sd.getBuyer_surname());
+                                                         value.add(sd.getBuyer_resident());
+                                                         value.add(sd.getCurrency_code());
+                                                         value.add(sd.getCurrency_course());
+                                                         value.add(sd.getCurrency_sum());
+                                                         value.add(sd.getGrn_sum());
+                                                         value.add(sd.getPassport_number());
+                                                         value.add(sd.getPassport_serial());
+                                                         value.add(sd.getPhone_number());
+                                                         value.add(sd.getReceipt_currency());
+                                                         value.add(sd.getTaxpf());
+                                                         value.add(date_create);
+                                                         value.add(time_create);
+                                                         value.add(tmp.get("type"));
+                                                         value.add(cartulary_id);
+                                                         
+
+                                                         boolean ido=UPDATE("UPDATE SDobj SET id_operation= \""+(sd.getId_operation()+1)+"\" ;" );
+                                                         boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= \""+(sd.getIdqwi()+1)+"\" ;" );
+                                                         
+                                                         boolean ins =Insert("journal",key,value);
+                                                        showMessageDialog(null,"ID operation " + ido + "ID qwi updated "+ idqwi+"Insert "+ins);
+                                                         sd.initCourse() ; 
+                                            }       
+                                   } 
+                        }
+                       
+                       //Продажа sale
+                       if(json.get("action_name").equals("sale"))
+                       {
+                                   if(json.get("params")!=null)
+                                   {
+                                    JSONObject tmp = (JSONObject) json.get("params");
+                                    
+                                            if(tmp.get("type").equals("sale"))
+                                            {
+                                                showMessageDialog(null, "Схавал продажу");
+                                                StorageMemory sd =getInstance();
+                                                         date_create =  (String) tmp.get("date_create");
+                                                         time_create =  (String) tmp.get("time_create");
+                                                         cartulary_id =  tmp.get("cartulary_id").toString();
+
+                                                         ArrayList key = new ArrayList();
+                                                         key.add("buyer_first_name");
+                                                         key.add("buyer_last_name");
+                                                         key.add("buyer_surname");
+                                                         key.add("buyer_resident");
+                                                         key.add("currency_code");
+                                                         key.add("currency_course");
+                                                         key.add("currency_sum");
+                                                         key.add("grn_sum");
+                                                         key.add("passport_number");
+                                                         key.add("passport_serial");
+                                                         key.add("phone_number");
+                                                         key.add("receipt_currency");
+                                                         key.add("taxpf");
+                                                         key.add("date_create");
+                                                         key.add("time_create");
+                                                         key.add("type");
+                                                         key.add("cartulary_id");
+
+
+                                                         ArrayList value = new ArrayList();
+                                                         value.add(sd.getBuyer_first_name());
+                                                         value.add(sd.getBuyer_last_name());
+                                                         value.add(sd.getBuyer_surname());
+                                                         value.add(sd.getBuyer_resident());
+                                                         value.add(sd.getCurrency_code());
+                                                         value.add(sd.getCurrency_course());
+                                                         value.add(sd.getCurrency_sum());
+                                                         value.add(sd.getGrn_sum());
+                                                         value.add(sd.getPassport_number());
+                                                         value.add(sd.getPassport_serial());
+                                                         value.add(sd.getPhone_number());
+                                                         value.add(sd.getReceipt_currency());
+                                                         value.add(sd.getTaxpf());
+                                                         value.add(date_create);
+                                                         value.add(time_create);
+                                                         value.add(tmp.get("type"));
+                                                         value.add(cartulary_id);
+                                                         
+
+                                                         boolean ido=UPDATE("UPDATE SDobj SET id_operation= \""+(sd.getId_operation()+1)+"\" ;" );
+                                                         boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= \""+(sd.getIdqwi()+1)+"\" ;" );
+                                                         
+                                                         boolean ins =Insert("journal",key,value);
+                                                        showMessageDialog(null,"ID operation " + ido + "ID qwi updated "+ idqwi+"Insert "+ins);
+                                                         sd.initCourse() ; 
+                                            }       
+                                   } 
+                        }
+                       
+                       //Пополнение - "replenish"
+                       
+                       
+                       
+                       //Инкасация  collection
                                   
                                     
                                     

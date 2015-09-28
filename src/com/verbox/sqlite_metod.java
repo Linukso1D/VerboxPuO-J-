@@ -495,6 +495,27 @@ public class sqlite_metod {
                             }
                           return false;
                         }
-       
+                        
+         // обновление счетчиков через инсерт
+                         public static boolean UPDATE(String query) throws SQLException
+                        {
+                            try{
+                     
+                       
+                            
+                                System.out.println("QUERY upd obj lite "+query);
+                            statmt.executeUpdate(query);
+                                
+                            return true;
+                            
+                            
+                            }
+                            catch(Exception e)
+                            {
+                            System.err.println( e.getClass().getName() + ": " + e.getMessage() +"Cheked");
+                            }
+                          return false;
+                        }
+      
        
 }

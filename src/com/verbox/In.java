@@ -1692,7 +1692,9 @@ StorageMemory SD =getInstance();
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (ClassNotFoundException ex) {
+        Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }//GEN-LAST:event_jButton4MouseClicked
 
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
@@ -1709,7 +1711,9 @@ StorageMemory SD =getInstance();
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (ClassNotFoundException ex) {
+        Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+    }
        // TODO add your handling code here:
     }//GEN-LAST:event_jButton5MouseClicked
 
@@ -1759,7 +1763,7 @@ Setting setup;
         
         
        try {
-           System.out.println("JSS"+SendPost(SD.GetSD()).toJSONString());      
+           ParseJson pjs=new ParseJson(SendPost(SD.GetSD()));      
         } catch (IOException ex) {
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
@@ -1768,7 +1772,9 @@ Setting setup;
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (ClassNotFoundException ex) {
+        Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+    }
 
         
     }//GEN-LAST:event_jButton1MouseClicked
@@ -1798,7 +1804,7 @@ Setting setup;
        }
        else
        {
-       jTextField3.setText((Double.toString(Double.parseDouble((String)tmpz.get(0))*Double.parseDouble((String)jTextField6.getText()))));
+       jTextField3.setText((Double.toString(round(Double.parseDouble((String)tmpz.get(0))*Double.parseDouble((String)jTextField6.getText()),2))));
        }
 double tmp=Double.parseDouble((String)jTextField3.getText());
 double tmp2=Double.parseDouble((String)jTextField6.getText());
@@ -1817,7 +1823,7 @@ jTextField6.setText(Double.toString(round(tmp2*(-1),2)));
     }//GEN-LAST:event_jButton1MouseEntered
 
     private void jButton2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseEntered
-  pf=0;
+ pf=0;
  inpf=false;
         if(!jTextField6.getText().equals("")){
   
@@ -1842,7 +1848,7 @@ jTextField6.setText(Double.toString(round(tmp2*(-1),2)));
           }
        else
        {
-       jTextField3.setText((Double.toString(Double.parseDouble((String)tmpz.get(1))*Double.parseDouble((String)jTextField6.getText()))));
+       jTextField3.setText((Double.toString(round(Double.parseDouble((String)tmpz.get(1))*Double.parseDouble((String)jTextField6.getText()),2))));
        }
        
 double tmp=Double.parseDouble((String)jTextField6.getText());
@@ -1863,7 +1869,8 @@ jTextField3.setText(Double.toString(round(tmp2*(-1),2)));
     }//GEN-LAST:event_jButton2MouseEntered
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-   StorageMemory SD = getInstance();
+     StorageMemory SD = getInstance();
+   
        double sum;
        if (inpf)
        {
@@ -1873,7 +1880,16 @@ jTextField3.setText(Double.toString(round(tmp2*(-1),2)));
        {
        sum=0;
        }
-       sum+=Double.parseDouble(jTextField3.getText());
+       if(pf!=0)
+       {
+       sum=Double.parseDouble(jTextField3.getText())-pf;
+       }
+       else {
+       sum=Double.parseDouble(jTextField3.getText());
+               
+               }
+       sum=round(sum,2);
+       
         SD.OperationX(                  
                                 jComboBox2.getSelectedIndex(),
                                 "1",
@@ -1894,7 +1910,7 @@ jTextField3.setText(Double.toString(round(tmp2*(-1),2)));
         
         
        try {
-           System.out.println("JSS"+SendPost(SD.GetSD()).toJSONString());      
+           ParseJson pjs=new ParseJson(SendPost(SD.GetSD()));       
         } catch (IOException ex) {
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
@@ -1903,7 +1919,9 @@ jTextField3.setText(Double.toString(round(tmp2*(-1),2)));
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (ClassNotFoundException ex) {
+        Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+    }
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2MouseClicked
 
