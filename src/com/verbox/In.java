@@ -30,7 +30,15 @@ import org.json.simple.parser.ParseException;
  * @author maxxl
  */
 public class In extends javax.swing.JFrame {
-
+    
+public static boolean isNumeric(String str)
+{
+    for (char c : str.toCharArray())
+    {
+        if (!Character.isDigit(c)) return false;
+    }
+    return true;
+}
     /**
      * Creates new form In
      */
@@ -837,8 +845,18 @@ public class In extends javax.swing.JFrame {
         jButton3.setText("Сторно");
 
         jTextField3.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField3KeyPressed(evt);
+            }
+        });
 
         jTextField6.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+        jTextField6.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField6KeyPressed(evt);
+            }
+        });
 
         jLabel1.setText("UKR");
 
@@ -1888,6 +1906,29 @@ jTextField3.setText(Double.toString(round(tmp2*(-1),2)));
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jTextField6KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyPressed
+
+
+        
+        if(!isNumeric(jTextField6.getText())) 
+        {
+            showMessageDialog(null, "Воодить можно только числа.");
+            jTextField6.setText("");
+        }
+
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_jTextField6KeyPressed
+
+    private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyPressed
+if(!isNumeric(jTextField3.getText())) 
+{showMessageDialog(null, "Воодить можно только числа.");
+jTextField3.setText("");
+
+
+}// TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3KeyPressed
 
     /**
      * @param args the command line arguments
