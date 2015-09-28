@@ -5,6 +5,7 @@
  */
 package com.verbox;
 
+import static com.verbox.MyMath.round;
 import static com.verbox.StorageMemory.getInstance;
 import static com.verbox.json_metod.SendPost;
 import static com.verbox.sqlite_metod.ReadSQLiteMulti;
@@ -33,6 +34,8 @@ public class In extends javax.swing.JFrame {
     /**
      * Creates new form In
      */
+    double pf;
+    boolean inpf;
     public In() throws ClassNotFoundException {
         initComponents();
         //ныкать панели
@@ -816,9 +819,20 @@ public class In extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton1MouseEntered(evt);
+            }
         });
 
         jButton2.setText("Продать");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton2MouseEntered(evt);
+            }
+        });
 
         jButton3.setText("Сторно");
 
@@ -1697,14 +1711,23 @@ Setting setup;
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
 
        StorageMemory SD = getInstance();
-        
+       double sum;
+       if (inpf)
+       {
+       sum=pf;
+       }
+       else
+       {
+       sum=0;
+       }
+       sum+=Double.parseDouble(jTextField3.getText());
         SD.OperationX(                  
                                 jComboBox2.getSelectedIndex(),
                                 "1",
                                 jTextField7.getText(),
                                 jTextField8.getText(),
                                 jTextField9.getText(),
-                                Double.parseDouble(jTextField3.getText()),
+                                sum,
                                 Double.parseDouble(jTextField6.getText()),
                                         "buy",
                                         jTextField10.getText(),
@@ -1731,6 +1754,140 @@ Setting setup;
 
         
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseEntered
+ pf=0;
+ inpf=false;
+        if(!jTextField6.getText().equals("")){
+
+  
+  
+       
+           
+           
+           
+       StorageMemory SD = getInstance();
+        
+       String code= (String) SD.TempForSelectDropdown.get( jComboBox2.getSelectedIndex());
+       
+       ArrayList tmpz = new ArrayList();
+       tmpz=(ArrayList) SD.curse.get(code);
+       if(SD.Pfbuy!=0)
+       {
+        inpf=true;
+        pf=round((Double.parseDouble((String)tmpz.get(0)))*Double.parseDouble((String)jTextField6.getText())/100*SD.Pfbuy,2);
+        jTextField3.setText((Double.toString(round((Double.parseDouble((String)tmpz.get(0)))*Double.parseDouble((String)jTextField6.getText())/100*SD.Pfbuy+((Double.parseDouble((String)tmpz.get(0)))*Double.parseDouble((String)jTextField6.getText())),2))));
+       }
+       else
+       {
+       jTextField3.setText((Double.toString(Double.parseDouble((String)tmpz.get(0))*Double.parseDouble((String)jTextField6.getText()))));
+       }
+double tmp=Double.parseDouble((String)jTextField3.getText());
+double tmp2=Double.parseDouble((String)jTextField6.getText());
+if(tmp>0)
+{
+jTextField3.setText(Double.toString(round(tmp*(-1),2)));
+}
+if(tmp2<0)
+{
+jTextField6.setText(Double.toString(round(tmp2*(-1),2)));
+} 
+    
+
+       }
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButton1MouseEntered
+
+    private void jButton2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseEntered
+  pf=0;
+ inpf=false;
+        if(!jTextField6.getText().equals("")){
+  
+
+  
+  
+
+
+ 
+      inpf=false;
+       StorageMemory SD = getInstance();
+        
+       String code= (String) SD.TempForSelectDropdown.get( jComboBox2.getSelectedIndex());
+       
+       ArrayList tmpz = new ArrayList();
+       tmpz=(ArrayList) SD.curse.get(code);
+       if(SD.Pfsell!=0)
+       {
+        inpf=true;
+        pf=round((Double.parseDouble((String)tmpz.get(1)))*Double.parseDouble((String)jTextField6.getText())/100*SD.Pfsell,2);
+        jTextField3.setText((Double.toString(round((Double.parseDouble((String)tmpz.get(1)))*Double.parseDouble((String)jTextField6.getText())/100*SD.Pfsell+((Double.parseDouble((String)tmpz.get(1)))*Double.parseDouble((String)jTextField6.getText())),2))));
+          }
+       else
+       {
+       jTextField3.setText((Double.toString(Double.parseDouble((String)tmpz.get(1))*Double.parseDouble((String)jTextField6.getText()))));
+       }
+       
+double tmp=Double.parseDouble((String)jTextField6.getText());
+if(tmp>0)
+{
+jTextField6.setText(Double.toString(round(tmp*(-1),2)));
+}
+double tmp2=Double.parseDouble((String)jTextField3.getText());
+if(tmp2<0)
+{
+jTextField3.setText(Double.toString(round(tmp2*(-1),2)));
+}
+       }
+
+
+
+
+    }//GEN-LAST:event_jButton2MouseEntered
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+   StorageMemory SD = getInstance();
+       double sum;
+       if (inpf)
+       {
+       sum=pf;
+       }
+       else
+       {
+       sum=0;
+       }
+       sum+=Double.parseDouble(jTextField3.getText());
+        SD.OperationX(                  
+                                jComboBox2.getSelectedIndex(),
+                                "1",
+                                jTextField7.getText(),
+                                jTextField8.getText(),
+                                jTextField9.getText(),
+                                sum,
+                                Double.parseDouble(jTextField6.getText()),
+                                        "sale",
+                                        jTextField10.getText(),
+                                        Integer.parseInt(jTextField11.getText()),
+                                        jTextField12.getText()
+                
+                
+                );     
+        
+       
+        
+        
+       try {
+           System.out.println("JSS"+SendPost(SD.GetSD()).toJSONString());      
+        } catch (IOException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2MouseClicked
 
     /**
      * @param args the command line arguments

@@ -56,15 +56,15 @@ public class StorageMemory {
     private int 
             id_operation, //receipt_currency
             idqwi,  // квитанция
-            idqwiadmin, //для инкасаторов
-            Pfsell,
+            idqwiadmin; //для инкасаторов
+public int Pfsell,
             Pfbuy;     //пенсионный фонд на продажу
 
       
     //хранение курсов в обьекте
     //массив валюты тест
-      Map curse,balance;
-      ArrayList TempForSelectDropdown;
+    public  Map curse,balance;
+    public  ArrayList TempForSelectDropdown;
     
     StorageMemory() {
     }
@@ -447,25 +447,25 @@ public class StorageMemory {
             passport_serial=pspS;
             phone_number=Phone;
             //ПФ
-                        if (typeOx.equals("sale")&&Pfsell!=0)
+                        if (typeOx.equals("sale"))
                         {
                                 taxpf=Integer.toString(Pfsell);
                         }
                        
-                        if (typeOx.equals("buy")&&Pfbuy!=0)
+                        if (typeOx.equals("buy"))
                         {
-                                taxpf=Integer.toString(Pfsell);
+                                taxpf=Integer.toString(Pfbuy);
                         }
                    
             //Код валюты передает кнопка купить /../ и получаем из дропдауна индекс выбраного и подтягиваем из массива.
-            currency_code=TempForSelectDropdown.get(code).toString();
+            currency_code=(String) TempForSelectDropdown.get(code);
             //получить курс по данной валюте
                                             if(typeOx.equals("buy"))
                                             {  //купить 
                                                     ArrayList tmpz = new ArrayList();
-                                                    tmpz=(ArrayList) curse.get(code);
+                                                    tmpz=(ArrayList) curse.get(currency_code);
                                                     currency_course=Double.toString(Double.parseDouble((String)tmpz.get(0))*Double.parseDouble((String)tmpz.get(3)));
-                                                    
+                                                    action_name="buy";
                                                     
                                                //     grn_sum=Double.toString(sum*Double.parseDouble((String)tmpz.get(0)));
                                             }
@@ -473,9 +473,9 @@ public class StorageMemory {
                                             {
                                                 // продать  
                                                     ArrayList tmpz = new ArrayList();
-                                                    tmpz=(ArrayList) curse.get(code);
+                                                    tmpz=(ArrayList) curse.get(currency_code);
                                                     currency_course=Double.toString(Double.parseDouble((String)tmpz.get(1))*Double.parseDouble((String)tmpz.get(3)));
-                                                
+                                                    action_name="sale";
                                               // grn_sum=Double.toString(round(sum*Double.parseDouble((String)tmpz.get(1)),2));
                                             }
                                           
@@ -484,6 +484,8 @@ public class StorageMemory {
             grn_sum=Double.toString(sum);
             
             receipt_currency=Integer.toString(idqwi);
+            
+            
             
             JSONObject forparam = new JSONObject();
             forparam.put("buyer_first_name", buyer_first_name);
