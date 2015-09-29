@@ -285,6 +285,8 @@ public class ParseJson {
                                                          key.add("receipt_number");
                                                          key.add("currency_code");
                                                          key.add("currency_sum");
+                                                         key.add("cartulary_id");
+                                                         
                                                          key.add("FIO");
                                                          ArrayList value = new ArrayList();
                                                         
@@ -294,6 +296,7 @@ public class ParseJson {
                                                          value.add(sd.getReceipt_number());
                                                          value.add(sd.getCurrency_code());
                                                          value.add(sd.getCurrency_sum());
+                                                         value.add(cartulary_id);
                                                          value.add(sd.getFIO());
                                                          boolean ido=UPDATE("UPDATE SDobj SET id_operation= \""+(sd.getId_operation()+1)+"\" ;" );
                                                          boolean idqwi=UPDATE("UPDATE SDobj SET idqwiadmin= \""+(sd.getIdqwiadmin()+1)+"\" ;" );

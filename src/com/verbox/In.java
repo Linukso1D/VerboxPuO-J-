@@ -6,6 +6,7 @@
 package com.verbox;
 
 import static com.verbox.MyMath.round;
+import static com.verbox.Setting.GetDoubleStr;
 import static com.verbox.StorageMemory.getInstance;
 import static com.verbox.json_metod.SendPost;
 import static com.verbox.sqlite_metod.ReadSQLiteMulti;
@@ -32,104 +33,92 @@ import org.json.simple.parser.ParseException;
  * @author maxxl
  */
 public class In extends javax.swing.JFrame {
-    
-public static boolean isNumeric(String str)
-{
-    for (char c : str.toCharArray())
-    {
-        if (!Character.isDigit(c)) return false;
+
+    public static boolean isNumeric(String str) {
+        for (char c : str.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
+        return true;
     }
-    return true;
-}
     /**
      * Creates new form In
      */
     double pf;
     boolean inpf;
+
     public In() throws ClassNotFoundException {
         initComponents();
         //ныкать панели
-         HideEl();
-       //  размер окна
-         setSize(1200,800);
-         jPanel11.setVisible(true);  
-         //Присвоение гет инфо
-               StorageMemory obj =getInstance();
-               
-               
-              try{ 
-               jTextField19.setText(obj.StorageGetInfo("enterprise_full_name"));
-               jTextField20.setText(obj.StorageGetInfo("enterprise_short_name"));
-               //fiz addr
-               jTextField21.setText(obj.StorageGetInfo("nat_city_code"));
-               jTextField22.setText(obj.StorageGetInfo("nat_city"));
-               jTextField23.setText(obj.StorageGetInfo("nat_street"));
-               jTextField24.setText(obj.StorageGetInfo("nat_house"));
-               jTextField25.setText(obj.StorageGetInfo("nat_office"));
-               //ur addr
-               jTextField26.setText(obj.StorageGetInfo("ur_city_code"));
-               jTextField27.setText(obj.StorageGetInfo("ur_city"));
-               jTextField28.setText(obj.StorageGetInfo("ur_street"));
-               jTextField29.setText(obj.StorageGetInfo("ur_house"));
-               jTextField30.setText(obj.StorageGetInfo("ur_office"));
-               // mfo okpo Rs
-               jTextField31.setText(obj.StorageGetInfo("enterprise_mfo"));
-               jTextField32.setText(obj.StorageGetInfo("enterprise_okpo"));
-               jTextField33.setText(obj.StorageGetInfo("payment_account"));
-               //Директор данные
-               jTextField37.setText(obj.StorageGetInfo("dir_fio"));
-               jTextField34.setText(obj.StorageGetInfo("dir_surname"));
-               jTextField35.setText(obj.StorageGetInfo("dir_first_name"));
-               jTextField36.setText(obj.StorageGetInfo("dir_last_name"));
-               //Бухгалтер данные
-               jTextField38.setText(obj.StorageGetInfo("bookk_fio"));
-               jTextField39.setText(obj.StorageGetInfo("bookk_surname"));
-               jTextField40.setText(obj.StorageGetInfo("bookk_first_name"));
-               jTextField41.setText(obj.StorageGetInfo("bookk_last_name")); 
-              }
-              catch(NullPointerException e)
-              {
-                  showMessageDialog(null,"Не удалось загрузить информацию от предприятии!!!");
-                  System.out.println("EXEPTION"+e);
-              }
-              
-              
-              //заполнения дропдауна активными валютами
-                            try{
-                                ArrayList tm = new ArrayList();
-                                Map ListActiveCourse = new HashMap <String,String>();
-                                ListActiveCourse=ReadSQLiteMulti(
-                                          "SELECT sd.currency_code,c.currency_name FROM\n" +
-                                          "SDbalance AS sd\n" +
-                                          "INNER JOIN \n" +
-                                          "currencies AS c ON c.currency_code=sd.currency_code\n" +
-                                          "WHERE sd.active=\"true\" ORDER BY `id_SDbalance` ");
+        HideEl();
+        //  размер окна
+        setSize(1200, 800);
+        jPanel11.setVisible(true);
+        //Присвоение гет инфо
+        StorageMemory obj = getInstance();
 
-                        Set<String> keys = ListActiveCourse.keySet();
-                        for (String key : keys) {
-                           jComboBox2.addItem(ListActiveCourse.get(key));
-                           tm.add(key);
-                           
-                        }
-                        StorageMemory SD=getInstance();
-                        SD.setTempForSelectDropdown(tm);
-                        
-                  
-                  
-                  
-                     
+        try {
+            jTextField19.setText(obj.StorageGetInfo("enterprise_full_name"));
+            jTextField20.setText(obj.StorageGetInfo("enterprise_short_name"));
+            //fiz addr
+            jTextField21.setText(obj.StorageGetInfo("nat_city_code"));
+            jTextField22.setText(obj.StorageGetInfo("nat_city"));
+            jTextField23.setText(obj.StorageGetInfo("nat_street"));
+            jTextField24.setText(obj.StorageGetInfo("nat_house"));
+            jTextField25.setText(obj.StorageGetInfo("nat_office"));
+            //ur addr
+            jTextField26.setText(obj.StorageGetInfo("ur_city_code"));
+            jTextField27.setText(obj.StorageGetInfo("ur_city"));
+            jTextField28.setText(obj.StorageGetInfo("ur_street"));
+            jTextField29.setText(obj.StorageGetInfo("ur_house"));
+            jTextField30.setText(obj.StorageGetInfo("ur_office"));
+            // mfo okpo Rs
+            jTextField31.setText(obj.StorageGetInfo("enterprise_mfo"));
+            jTextField32.setText(obj.StorageGetInfo("enterprise_okpo"));
+            jTextField33.setText(obj.StorageGetInfo("payment_account"));
+            //Директор данные
+            jTextField37.setText(obj.StorageGetInfo("dir_fio"));
+            jTextField34.setText(obj.StorageGetInfo("dir_surname"));
+            jTextField35.setText(obj.StorageGetInfo("dir_first_name"));
+            jTextField36.setText(obj.StorageGetInfo("dir_last_name"));
+            //Бухгалтер данные
+            jTextField38.setText(obj.StorageGetInfo("bookk_fio"));
+            jTextField39.setText(obj.StorageGetInfo("bookk_surname"));
+            jTextField40.setText(obj.StorageGetInfo("bookk_first_name"));
+            jTextField41.setText(obj.StorageGetInfo("bookk_last_name"));
+        } catch (NullPointerException e) {
+            showMessageDialog(null, "Не удалось загрузить информацию от предприятии!!!");
+            System.out.println("EXEPTION" + e);
+        }
 
-              }
-                catch(NullPointerException e)
-              {
-                  showMessageDialog(null,"Не удалось получить список валют проверьте активность валют в настройках.");
-                  System.out.println("EXEPTION"+e);
-              } catch (SQLException ex) {
+        //заполнения дропдауна активными валютами
+        try {
+            ArrayList tm = new ArrayList();
+            Map ListActiveCourse = new HashMap<String, String>();
+            ListActiveCourse = ReadSQLiteMulti(
+                    "SELECT sd.currency_code,c.currency_name FROM\n"
+                    + "SDbalance AS sd\n"
+                    + "INNER JOIN \n"
+                    + "currencies AS c ON c.currency_code=sd.currency_code\n"
+                    + "WHERE sd.active=\"true\" ORDER BY `id_SDbalance` ");
+
+            Set<String> keys = ListActiveCourse.keySet();
+            for (String key : keys) {
+                jComboBox2.addItem(ListActiveCourse.get(key));
+                tm.add(key);
+
+            }
+            StorageMemory SD = getInstance();
+            SD.setTempForSelectDropdown(tm);
+
+        } catch (NullPointerException e) {
+            showMessageDialog(null, "Не удалось получить список валют проверьте активность валют в настройках.");
+            System.out.println("EXEPTION" + e);
+        } catch (SQLException ex) {
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
         }
-              
-               
-       
+
     }
 
     /**
@@ -869,12 +858,18 @@ public static boolean isNumeric(String str)
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton6MouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton6MouseEntered(evt);
+            }
         });
 
         jButton7.setText("Инкасация");
         jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton7MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton7MouseEntered(evt);
             }
         });
 
@@ -1638,43 +1633,43 @@ public static boolean isNumeric(String str)
     }//GEN-LAST:event_jTextField12ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-                HideEl();
-                jPanel11.setVisible(true); 
+        HideEl();
+        jPanel11.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-                HideEl();
-            jPanel9.setVisible(true);  
-                
+        HideEl();
+        jPanel9.setVisible(true);
+
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-                HideEl(); 
-                jPanel10.setVisible(true); 
-                
+        HideEl();
+        jPanel10.setVisible(true);
+
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
-            HideEl();
-            jPanel6.setVisible(true);
-            jPanel7.setVisible(true);
-            jPanel8.setVisible(true);
+        HideEl();
+        jPanel6.setVisible(true);
+        jPanel7.setVisible(true);
+        jPanel8.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenu2MouseClicked
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-          HideEl();  
+        HideEl();
         jPanel12.setVisible(true);
-        
+
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-       HideEl();  
+        HideEl();
         jPanel13.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        HideEl();  
+        HideEl();
         jPanel15.setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
@@ -1683,12 +1678,12 @@ public static boolean isNumeric(String str)
     }//GEN-LAST:event_jMenu5MenuSelected
 
     private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
-       HideEl();  
+        HideEl();
         jPanel14.setVisible(true);
     }//GEN-LAST:event_jMenu5MouseClicked
 
     private void jMenu6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu6MouseClicked
-       HideEl();  
+        HideEl();
         jPanel16.setVisible(true);
         jPanel17.setVisible(true);
     }//GEN-LAST:event_jMenu6MouseClicked
@@ -1699,14 +1694,12 @@ public static boolean isNumeric(String str)
 
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
 //openday
-StorageMemory SD =getInstance();
+        StorageMemory SD = getInstance();
         try {
             SD.setAction_name("openday");
-            
-         ParseJson pjs=new ParseJson(SendPost(SD.GetSD()));
-                 
-                 
-            
+
+            ParseJson pjs = new ParseJson(SendPost(SD.GetSD()));
+
 // TODO add your handling code here:
         } catch (IOException ex) {
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
@@ -1717,17 +1710,17 @@ StorageMemory SD =getInstance();
         } catch (SQLException ex) {
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-        Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-    }
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton4MouseClicked
 
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
-StorageMemory SD =getInstance();
+        StorageMemory SD = getInstance();
         try {
             SD.setAction_name("closeday");
-            
-         ParseJson pjs=new ParseJson(SendPost(SD.GetSD()));
-              } catch (IOException ex) {
+
+            ParseJson pjs = new ParseJson(SendPost(SD.GetSD()));
+        } catch (IOException ex) {
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
@@ -1736,13 +1729,13 @@ StorageMemory SD =getInstance();
         } catch (SQLException ex) {
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-        Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-    }
-       // TODO add your handling code here:
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // TODO add your handling code here:
     }//GEN-LAST:event_jButton5MouseClicked
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-Setting setup;
+        Setting setup;
         try {
             setup = new Setting();
             setup.setVisible(true);
@@ -1751,333 +1744,325 @@ Setting setup;
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
 // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
 
-       StorageMemory SD = getInstance();
-       double sum;
-       if (inpf)
-       {
-       sum=pf;
-       }
-       else
-       {
-       sum=0;
-       }
-       sum+=Double.parseDouble(jTextField3.getText());
-        SD.OperationX(                  
-                                jComboBox2.getSelectedIndex(),
-                                "1",
-                                jTextField7.getText(),
-                                jTextField8.getText(),
-                                jTextField9.getText(),
-                                sum,
-                                Double.parseDouble(jTextField6.getText()),
-                                        "buy",
-                                        jTextField10.getText(),
-                                        Integer.parseInt(jTextField11.getText()),
-                                        jTextField12.getText()
-                
-                
-                );     
-        
-       
-        
-        
-       try {
-           ParseJson pjs=new ParseJson(SendPost(SD.GetSD()));      
-        } catch (IOException ex) {
-            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-        Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-    }
+        StorageMemory SD = getInstance();
+       try{
+            double bal = Double.parseDouble(GetDoubleStr((ArrayList) SD.balance.get("980")));
+            if ((Double.parseDouble(jTextField3.getText()) + bal) > 0) 
+            {  //проверка на отрицательный баланс
 
-        
+                double sum;
+                if (inpf) {
+                    sum = pf;
+                } else {
+                    sum = 0;
+                }
+                sum += Double.parseDouble(jTextField3.getText());
+                SD.OperationX(
+                        jComboBox2.getSelectedIndex(),
+                        "1",
+                        jTextField7.getText(),
+                        jTextField8.getText(),
+                        jTextField9.getText(),
+                        sum,
+                        Double.parseDouble(jTextField6.getText()),
+                        "buy",
+                        jTextField10.getText(),
+                        Integer.parseInt(jTextField11.getText()),
+                        jTextField12.getText()
+                );
+
+                try {
+                    ParseJson pjs = new ParseJson(SendPost(SD.GetSD()));
+                } catch (IOException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } else {
+                showMessageDialog(null, "Недостаточно средств в кассе");
+            }
+         }
+        catch(NumberFormatException e)
+                {
+                showMessageDialog(null, "Проверьте введены ли все поля корректно.");
+                jTextField6.setText("");
+                jTextField3.setText("");
+                }
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseEntered
- pf=0;
- inpf=false;
-        if(!jTextField6.getText().equals("")){
+        pf = 0;
+        inpf = false;
+        if (!jTextField6.getText().equals("")) {
 
-  
-  
-       
-           
-           
-           
-       StorageMemory SD = getInstance();
-        
-       String code= (String) SD.TempForSelectDropdown.get( jComboBox2.getSelectedIndex());
-       
-       ArrayList tmpz = new ArrayList();
-       tmpz=(ArrayList) SD.curse.get(code);
-       if(SD.Pfbuy!=0)
-       {
-        inpf=true;
-        pf=round((Double.parseDouble((String)tmpz.get(0)))*Double.parseDouble((String)jTextField6.getText())/100*SD.Pfbuy,2);
-        jTextField3.setText((Double.toString(round((Double.parseDouble((String)tmpz.get(0)))*Double.parseDouble((String)jTextField6.getText())/100*SD.Pfbuy+((Double.parseDouble((String)tmpz.get(0)))*Double.parseDouble((String)jTextField6.getText())),2))));
-       }
-       else
-       {
-       jTextField3.setText((Double.toString(round(Double.parseDouble((String)tmpz.get(0))*Double.parseDouble((String)jTextField6.getText()),2))));
-       }
-double tmp=Double.parseDouble((String)jTextField3.getText());
-double tmp2=Double.parseDouble((String)jTextField6.getText());
-if(tmp>0)
-{
-jTextField3.setText(Double.toString(round(tmp*(-1),2)));
-}
-if(tmp2<0)
-{
-jTextField6.setText(Double.toString(round(tmp2*(-1),2)));
-} 
-    
+            StorageMemory SD = getInstance();
 
-       }
+            String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
+
+            ArrayList tmpz = new ArrayList();
+            tmpz = (ArrayList) SD.curse.get(code);
+            if (SD.Pfbuy != 0) {
+                inpf = true;
+                pf = round((Double.parseDouble((String) tmpz.get(0))) * Double.parseDouble((String) jTextField6.getText()) / 100 * SD.Pfbuy, 2);
+                jTextField3.setText((Double.toString(round((Double.parseDouble((String) tmpz.get(0))) * Double.parseDouble((String) jTextField6.getText()) / 100 * SD.Pfbuy + ((Double.parseDouble((String) tmpz.get(0))) * Double.parseDouble((String) jTextField6.getText())), 2))));
+            } else {
+                jTextField3.setText((Double.toString(round(Double.parseDouble((String) tmpz.get(0)) * Double.parseDouble((String) jTextField6.getText()), 2))));
+            }
+            double tmp = Double.parseDouble((String) jTextField3.getText());
+            double tmp2 = Double.parseDouble((String) jTextField6.getText());
+            if (tmp > 0) {
+                jTextField3.setText(Double.toString(round(tmp * (-1), 2)));
+            }
+            if (tmp2 < 0) {
+                jTextField6.setText(Double.toString(round(tmp2 * (-1), 2)));
+            }
+
+        }
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton1MouseEntered
 
     private void jButton2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseEntered
- pf=0;
- inpf=false;
-        if(!jTextField6.getText().equals("")){
-  
+        pf = 0;
+        inpf = false;
+        if (!jTextField6.getText().equals("")) {
 
-  
-  
+            inpf = false;
+            StorageMemory SD = getInstance();
 
+            String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
 
- 
-       inpf=false;
-       StorageMemory SD = getInstance();
-        
-       String code= (String) SD.TempForSelectDropdown.get( jComboBox2.getSelectedIndex());
-       
-       ArrayList tmpz = new ArrayList();
-       tmpz=(ArrayList) SD.curse.get(code);
-       if(SD.Pfsell!=0)
-       {
-        inpf=true;
-        pf=round((Double.parseDouble((String)tmpz.get(1)))*Double.parseDouble((String)jTextField6.getText())/100*SD.Pfsell,2);
-        jTextField3.setText((Double.toString(round((Double.parseDouble((String)tmpz.get(1)))*Double.parseDouble((String)jTextField6.getText())/100*SD.Pfsell+((Double.parseDouble((String)tmpz.get(1)))*Double.parseDouble((String)jTextField6.getText())),2))));
-          }
-       else
-       {
-       jTextField3.setText((Double.toString(round(Double.parseDouble((String)tmpz.get(1))*Double.parseDouble((String)jTextField6.getText()),2))));
-       }
-       
-double tmp=Double.parseDouble((String)jTextField6.getText());
-if(tmp>0)
-{
-jTextField6.setText(Double.toString(round(tmp*(-1),2)));
-}
-double tmp2=Double.parseDouble((String)jTextField3.getText());
-if(tmp2<0)
-{
-jTextField3.setText(Double.toString(round(tmp2*(-1),2)));
-}
-       }
+            ArrayList tmpz = new ArrayList();
+            tmpz = (ArrayList) SD.curse.get(code);
+            if (SD.Pfsell != 0) {
+                inpf = true;
+                pf = round((Double.parseDouble((String) tmpz.get(1))) * Double.parseDouble((String) jTextField6.getText()) / 100 * SD.Pfsell, 2);
+                jTextField3.setText((Double.toString(round((Double.parseDouble((String) tmpz.get(1))) * Double.parseDouble((String) jTextField6.getText()) / 100 * SD.Pfsell + ((Double.parseDouble((String) tmpz.get(1))) * Double.parseDouble((String) jTextField6.getText())), 2))));
+            } else {
+                jTextField3.setText((Double.toString(round(Double.parseDouble((String) tmpz.get(1)) * Double.parseDouble((String) jTextField6.getText()), 2))));
+            }
 
-
+            double tmp = Double.parseDouble((String) jTextField6.getText());
+            if (tmp > 0) {
+                jTextField6.setText(Double.toString(round(tmp * (-1), 2)));
+            }
+            double tmp2 = Double.parseDouble((String) jTextField3.getText());
+            if (tmp2 < 0) {
+                jTextField3.setText(Double.toString(round(tmp2 * (-1), 2)));
+            }
+        }
 
 
     }//GEN-LAST:event_jButton2MouseEntered
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-     StorageMemory SD = getInstance();
-   
-       double sum;
-       if (inpf)
-       {
-       sum=pf;
-       }
-       else
-       {
-       sum=0;
-       }
-       if(pf!=0)
-       {
-       sum=Double.parseDouble(jTextField3.getText())-pf;
-       }
-       else {
-       sum=Double.parseDouble(jTextField3.getText());
-               
-               }
-       sum=round(sum,2);
-       
-        SD.OperationX(                  
-                                jComboBox2.getSelectedIndex(),
-                                "1",
-                                jTextField7.getText(),
-                                jTextField8.getText(),
-                                jTextField9.getText(),
-                                sum,
-                                Double.parseDouble(jTextField6.getText()),
-                                        "sale",
-                                        jTextField10.getText(),
-                                        Integer.parseInt(jTextField11.getText()),
-                                        jTextField12.getText()
-                
-                
-                );     
-        
-       
-        
-        
-       try {
-           ParseJson pjs=new ParseJson(SendPost(SD.GetSD()));       
-        } catch (IOException ex) {
-            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-        Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-    }
+        StorageMemory SD = getInstance();
+
+      try{
+            String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
+            double bal = Double.parseDouble(GetDoubleStr((ArrayList) SD.balance.get(code)));
+            if ((Double.parseDouble(jTextField6.getText()) + bal) > 0) {
+showMessageDialog(null, (Double.parseDouble(jTextField6.getText()) + bal));
+                double sum;
+                if (inpf) {
+                    sum = pf;
+                } else {
+                    sum = 0;
+                }
+                if (pf != 0) {
+                    sum = Double.parseDouble(jTextField3.getText()) - pf;
+                } else {
+                    sum = Double.parseDouble(jTextField3.getText());
+
+                }
+                sum = round(sum, 2);
+
+                SD.OperationX(
+                        jComboBox2.getSelectedIndex(),
+                        "1",
+                        jTextField7.getText(),
+                        jTextField8.getText(),
+                        jTextField9.getText(),
+                        sum,
+                        Double.parseDouble(jTextField6.getText()),
+                        "sale",
+                        jTextField10.getText(),
+                        Integer.parseInt(jTextField11.getText()),
+                        jTextField12.getText()
+                );
+
+                try {
+                    ParseJson pjs = new ParseJson(SendPost(SD.GetSD()));
+                } catch (IOException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                    } else {
+                        showMessageDialog(null, "Недостаточно денег в кассе");
+                    }
+      }
+        catch(NumberFormatException e)
+                {
+                showMessageDialog(null, "Проверьте введены ли все поля корректно.");
+                jTextField6.setText("");
+                jTextField3.setText("");
+                }
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jTextField6KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyPressed
 
-
-        
-     /*   if(!isNumeric(jTextField6.getText())) 
-        {
-            showMessageDialog(null, "Воодить можно только числа.");
-            jTextField6.setText("");
-        }
-*/
-
+        /*   
+         */
 // TODO add your handling code here:
     }//GEN-LAST:event_jTextField6KeyPressed
 
     private void jTextField3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyPressed
-if(!isNumeric(jTextField3.getText())) 
-{showMessageDialog(null, "Воодить можно только числа.");
-jTextField3.setText("");
+        if (!isNumeric(jTextField3.getText())) {
+            showMessageDialog(null, "Воодить можно только числа.");
+            jTextField3.setText("");
 
-
-}// TODO add your handling code here:
+        }// TODO add your handling code here:
     }//GEN-LAST:event_jTextField3KeyPressed
 
     private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
 //replanish -popolnenie
-StorageMemory SD = getInstance();
+        StorageMemory SD = getInstance();
 //валюты
-if(!jTextField6.equals(""))
-{
-    
-    SD.OperationX(                  
-                                jComboBox2.getSelectedIndex(),
-                                "1",
-                                jTextField7.getText(),
-                                jTextField8.getText(),
-                                jTextField9.getText(),
-                                0,
-                                Double.parseDouble(jTextField6.getText()),
-                                        "replenish",
-                                        jTextField10.getText(),
-                                        Integer.parseInt(jTextField11.getText()),
-                                        jTextField12.getText()
-                
-                
+        String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
+        double bal = Double.parseDouble(GetDoubleStr((ArrayList)SD.balance.get(code)));
+        if (bal-(Double.parseDouble(jTextField6.getText()) ) > 0) {
+            System.out.println("Пополнение");
+           
+
+                SD.OperationX(
+                        jComboBox2.getSelectedIndex(),
+                        "1",
+                        jTextField7.getText(),
+                        jTextField8.getText(),
+                        jTextField9.getText(),
+                        0,
+                        Double.parseDouble(jTextField6.getText()),
+                        "replenish",
+                        jTextField10.getText(),
+                        Integer.parseInt(jTextField11.getText()),
+                        jTextField12.getText()
                 );
-    
-    
-    
-try {
-           ParseJson pjs=new ParseJson(SendPost(SD.GetSD()));       
-        } catch (IOException ex) {
-            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-        Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-    }
 
-}
-        
+                try {
+                    ParseJson pjs = new ParseJson(SendPost(SD.GetSD()));
+                } catch (IOException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
+            
 
+        }
 
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton6MouseClicked
 
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
-StorageMemory SD = getInstance();
+        StorageMemory SD = getInstance();
 //валюты
-if(!jTextField6.equals(""))
-{
-    
-    SD.OperationX(                  
-                                jComboBox2.getSelectedIndex(),
-                                "1",
-                                jTextField7.getText(),
-                                jTextField8.getText(),
-                                jTextField9.getText(),
-                                0,
-                                Double.parseDouble(jTextField6.getText()),
-                                        "collection",
-                                        jTextField10.getText(),
-                                        Integer.parseInt(jTextField11.getText()),
-                                        jTextField12.getText()
-                
-                
+        String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
+        double bal = Double.parseDouble(GetDoubleStr((ArrayList)SD.balance.get(code)));
+        if (bal-(Double.parseDouble(jTextField6.getText()) ) > 0) {
+         System.out.println("инкасация");
+                SD.OperationX(
+                        jComboBox2.getSelectedIndex(),
+                        "1",
+                        jTextField7.getText(),
+                        jTextField8.getText(),
+                        jTextField9.getText(),
+                        0,
+                        Double.parseDouble(jTextField6.getText()),
+                        "collection",
+                        jTextField10.getText(),
+                        Integer.parseInt(jTextField11.getText()),
+                        jTextField12.getText()
                 );
-    
-    
-    
-try {
-           ParseJson pjs=new ParseJson(SendPost(SD.GetSD()));       
-        } catch (IOException ex) {
-            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-        Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-    }
 
-}        // TODO add your handling code here:
+                try {
+                    ParseJson pjs = new ParseJson(SendPost(SD.GetSD()));
+                } catch (IOException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                
+            }
+        }        // TODO add your handling code here:
     }//GEN-LAST:event_jButton7MouseClicked
+
+    private void jButton6MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseEntered
+//наведение на пополнение
+      double tmp = Double.parseDouble((String) jTextField6.getText());
+            if (tmp < 0) {
+                jTextField6.setText(Double.toString(round(tmp * (-1), 2)));
+            }  
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButton6MouseEntered
+
+    private void jButton7MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseEntered
+double tmp = Double.parseDouble((String) jTextField6.getText());
+            if (tmp > 0) {
+                jTextField6.setText(Double.toString(round(tmp * (-1), 2)));
+            }        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7MouseEntered
 
     /**
      * @param args the command line arguments
      */
-    public  void HideEl()
-    {
-                jPanel6.setVisible(false);
-                jPanel7.setVisible(false);  
-                jPanel8.setVisible(false); 
-                jPanel9.setVisible(false);
-                jPanel10.setVisible(false);  
-                jPanel11.setVisible(false); 
-                jPanel12.setVisible(false);
-                jPanel13.setVisible(false);  
-                jPanel14.setVisible(false); 
-                jPanel15.setVisible(false);
-                jPanel16.setVisible(false);
-                jPanel17.setVisible(false);
+    public void HideEl() {
+        jPanel6.setVisible(false);
+        jPanel7.setVisible(false);
+        jPanel8.setVisible(false);
+        jPanel9.setVisible(false);
+        jPanel10.setVisible(false);
+        jPanel11.setVisible(false);
+        jPanel12.setVisible(false);
+        jPanel13.setVisible(false);
+        jPanel14.setVisible(false);
+        jPanel15.setVisible(false);
+        jPanel16.setVisible(false);
+        jPanel17.setVisible(false);
     }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -2101,18 +2086,13 @@ try {
             java.util.logging.Logger.getLogger(In.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-  UIDefaults def = UIManager.getLookAndFeelDefaults();
-        def.put( "TabbedPane.foreground", Color.RED );
-        def.put( "TabbedPane.textIconGap", new Integer(16) );
-        def.put( "TabbedPane.background", Color.BLUE );
-        def.put( "TabbedPane.tabInsets", new Insets(10,10,10,10) );
-        def.put( "TabbedPane.selectedTabPadInsets", new Insets(10,20,10,20) );
-        
-        
-             
-        
-        
-        
+        UIDefaults def = UIManager.getLookAndFeelDefaults();
+        def.put("TabbedPane.foreground", Color.RED);
+        def.put("TabbedPane.textIconGap", new Integer(16));
+        def.put("TabbedPane.background", Color.BLUE);
+        def.put("TabbedPane.tabInsets", new Insets(10, 10, 10, 10));
+        def.put("TabbedPane.selectedTabPadInsets", new Insets(10, 20, 10, 20));
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -2121,13 +2101,10 @@ try {
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
-                
+
             }
         });
-       
-               
-               
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
