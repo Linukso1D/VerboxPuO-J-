@@ -10,10 +10,13 @@ import static com.verbox.ErrorList.DesctiptError;
 import static com.verbox.StorageMemory.getInstance;
 import static com.verbox.sqlite_metod.DELETE_ALL;
 import static com.verbox.sqlite_metod.Insert;
+import static com.verbox.sqlite_metod.SELECT;
 import static com.verbox.sqlite_metod.UPDATE;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 import org.json.simple.JSONArray;
@@ -76,30 +79,20 @@ public class ParseJson {
                                         if(msg.size()==1)
                                         {
                                             showMessageDialog(null,msg.toJSONString()+"Выполнено ");
-                                            if(msg.toJSONString().equals("[openday]"))
+                                            if(msg.toJSONString().equals("[openday_success]"))
                                             {
                                                         boolean ido=UPDATE("UPDATE SDobj SET id_operation= 1 ;");
                                                         boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= 1 ;");
-                                                        showMessageDialog(null, "[] need to openday");
+                                                        boolean idqwiadmin=UPDATE("UPDATE SDobj SET idqwiadmin= 1 ;");
+                                                        showMessageDialog(null, "[openday_success]");
                                             }
-                                            if(msg.toJSONString().equals("openday"))
+                                            if(msg.toJSONString().equals("openday_success"))
                                             {
                                                         boolean ido=UPDATE("UPDATE SDobj SET id_operation= 1 ;");
                                                         boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= 1 ;");
-                                                        showMessageDialog(null, "only openday");
+                                                        showMessageDialog(null, "openday_success");
                                             }
-                                            if(msg.toJSONString().equals("open_day"))
-                                            {
-                                                        boolean ido=UPDATE("UPDATE SDobj SET id_operation= 1 ;");
-                                                        boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= 1 ;");
-                                                        showMessageDialog(null, "open_day");
-                                            }
-                                            if(msg.toJSONString().equals("[open_day]"))
-                                            {
-                                                        boolean ido=UPDATE("UPDATE SDobj SET id_operation= 1 ;");
-                                                        boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= 1 ;");
-                                                        showMessageDialog(null, "[open_day]");
-                                            }
+                                            
                                         }
                                         msg.clear();
                                         }
@@ -271,7 +264,65 @@ public class ParseJson {
                         }
                        
                        //Пополнение - "replenish"
-                       
+                       if(json.get("action_name").equals("replenish")||json.get("action_name").equals("collection"))
+                       {
+                                   if(json.get("params")!=null)
+                                   {
+                                    JSONObject tmp = (JSONObject) json.get("params");
+                                    
+                                           
+                                                showMessageDialog(null, "Схавал пополнение / инкасацию");
+                                                StorageMemory sd =getInstance();
+                                                         date_create =  (String) tmp.get("date_create");
+                                                         time_create =  (String) tmp.get("time_create");
+                                                         cartulary_id =  tmp.get("cartulary_id").toString();
+                                                         
+                                                         ArrayList key = new ArrayList();
+                                                      
+                                                         key.add("date_create");
+                                                         key.add("time_create");
+                                                         key.add("type");
+                                                         key.add("receipt_number");
+                                                         key.add("currency_code");
+                                                         key.add("currency_sum");
+                                                         key.add("FIO");
+                                                         ArrayList value = new ArrayList();
+                                                        
+                                                         value.add(date_create);
+                                                         value.add(time_create);
+                                                         value.add(tmp.get("type"));
+                                                         value.add(sd.getReceipt_number());
+                                                         value.add(sd.getCurrency_code());
+                                                         value.add(sd.getCurrency_sum());
+                                                         value.add(sd.getFIO());
+                                                         boolean ido=UPDATE("UPDATE SDobj SET id_operation= \""+(sd.getId_operation()+1)+"\" ;" );
+                                                         boolean idqwi=UPDATE("UPDATE SDobj SET idqwiadmin= \""+(sd.getIdqwiadmin()+1)+"\" ;" );
+                                                         
+                                                         boolean ins =Insert("journal",key,value);
+try {
+        
+      
+      String balancedb; 
+    //запись в бд
+      balancedb=  SELECT("SELECT balance From SDbalance Where currency_code=\""+sd.getCurrency_code()+"\";");
+      double bal=Double.parseDouble(balancedb);
+      bal+=Double.parseDouble(sd.getCurrency_sum());
+      
+      boolean updb=UPDATE("UPDATE SDbalance SET balance= \""+bal+"\" WHERE currency_code=\""+sd.getCurrency_code()+"\"");
+           if(updb)
+           {
+               showMessageDialog(null, "Обновление баланса");
+           }
+    } catch (SQLException ex) {
+        Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+    }
+                                                        
+                                                       
+                                                       
+                                                       sd.initCourse() ; 
+                                                   
+                                   } 
+                        }
                        
                        
                        //Инкасация  collection
@@ -454,7 +505,7 @@ public class ParseJson {
                 value.add(Currencies.get(i+8).toString());
                 value.add(TimetoFinish);
                 value.add(TimetoStart);
-                flag = Insert("currencies", key, value);
+                //flag = Insert("currencies", key, value);
 
                 i += 9;
             }

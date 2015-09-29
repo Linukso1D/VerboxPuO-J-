@@ -114,7 +114,7 @@ public class sqlite_metod {
                         resSet.getString("cashier_password"), 
                         "get_info", 
                         temp, 
-                        "2020-03-05 13:54:53"
+                        "2020-03-05 13:54:53",us
                           );      
                try {
                SendPost(SD.GetSD());
@@ -419,8 +419,25 @@ public class sqlite_metod {
         return tm;
     }
       
-       
-       
+       public static String SELECT(String str) throws SQLException
+       {
+       resSet = statmt.executeQuery(str);
+           String l = "";
+        ArrayList tm = new ArrayList();
+        //колово колонок 
+        ResultSetMetaData rsmd = resSet.getMetaData();
+        int fieldsCount = rsmd.getColumnCount();
+        while (resSet.next()) {
+            
+            
+            for(int i=1;i<fieldsCount+1;i++)
+            {
+          
+            l+=(EscapeUndoHtml(resSet.getString(i)));
+            }
+       }
+        return l;
+       }
        
        
        

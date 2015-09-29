@@ -9,6 +9,8 @@ import static com.verbox.MyMath.round;
 import static com.verbox.StorageMemory.getInstance;
 import static com.verbox.json_metod.SendPost;
 import static com.verbox.sqlite_metod.ReadSQLiteMulti;
+import static com.verbox.sqlite_metod.SELECT;
+import static com.verbox.sqlite_metod.UPDATE;
 import java.awt.Color;
 import java.awt.Insets;
 import java.io.IOException;
@@ -198,6 +200,8 @@ public static boolean isNumeric(String str)
         jTextField6 = new javax.swing.JTextField();
         jComboBox2 = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
@@ -860,6 +864,20 @@ public static boolean isNumeric(String str)
 
         jLabel1.setText("UKR");
 
+        jButton6.setText("Пополнение");
+        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton6MouseClicked(evt);
+            }
+        });
+
+        jButton7.setText("Инкасация");
+        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton7MouseClicked(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout jPanel6Layout = new org.jdesktop.layout.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -875,7 +893,11 @@ public static boolean isNumeric(String str)
                     .add(jButton2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                     .add(jComboBox2, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(jTextField6))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 313, Short.MAX_VALUE)
+                .add(18, 18, 18)
+                .add(jButton6)
+                .add(18, 18, 18)
+                .add(jButton7)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(jButton3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 83, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -894,7 +916,9 @@ public static boolean isNumeric(String str)
                 .add(jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jButton1)
                     .add(jButton2)
-                    .add(jButton3))
+                    .add(jButton3)
+                    .add(jButton6)
+                    .add(jButton7))
                 .addContainerGap())
         );
 
@@ -1833,7 +1857,7 @@ jTextField6.setText(Double.toString(round(tmp2*(-1),2)));
 
 
  
-      inpf=false;
+       inpf=false;
        StorageMemory SD = getInstance();
         
        String code= (String) SD.TempForSelectDropdown.get( jComboBox2.getSelectedIndex());
@@ -1929,12 +1953,12 @@ jTextField3.setText(Double.toString(round(tmp2*(-1),2)));
 
 
         
-        if(!isNumeric(jTextField6.getText())) 
+     /*   if(!isNumeric(jTextField6.getText())) 
         {
             showMessageDialog(null, "Воодить можно только числа.");
             jTextField6.setText("");
         }
-
+*/
 
 // TODO add your handling code here:
     }//GEN-LAST:event_jTextField6KeyPressed
@@ -1947,6 +1971,94 @@ jTextField3.setText("");
 
 }// TODO add your handling code here:
     }//GEN-LAST:event_jTextField3KeyPressed
+
+    private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
+//replanish -popolnenie
+StorageMemory SD = getInstance();
+//валюты
+if(!jTextField6.equals(""))
+{
+    
+    SD.OperationX(                  
+                                jComboBox2.getSelectedIndex(),
+                                "1",
+                                jTextField7.getText(),
+                                jTextField8.getText(),
+                                jTextField9.getText(),
+                                0,
+                                Double.parseDouble(jTextField6.getText()),
+                                        "replenish",
+                                        jTextField10.getText(),
+                                        Integer.parseInt(jTextField11.getText()),
+                                        jTextField12.getText()
+                
+                
+                );
+    
+    
+    
+try {
+           ParseJson pjs=new ParseJson(SendPost(SD.GetSD()));       
+        } catch (IOException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+        Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+}
+        
+
+
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButton6MouseClicked
+
+    private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
+StorageMemory SD = getInstance();
+//валюты
+if(!jTextField6.equals(""))
+{
+    
+    SD.OperationX(                  
+                                jComboBox2.getSelectedIndex(),
+                                "1",
+                                jTextField7.getText(),
+                                jTextField8.getText(),
+                                jTextField9.getText(),
+                                0,
+                                Double.parseDouble(jTextField6.getText()),
+                                        "collection",
+                                        jTextField10.getText(),
+                                        Integer.parseInt(jTextField11.getText()),
+                                        jTextField12.getText()
+                
+                
+                );
+    
+    
+    
+try {
+           ParseJson pjs=new ParseJson(SendPost(SD.GetSD()));       
+        } catch (IOException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+        Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+}        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7MouseClicked
 
     /**
      * @param args the command line arguments
@@ -2024,6 +2136,8 @@ jTextField3.setText("");
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;

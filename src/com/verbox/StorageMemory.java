@@ -32,7 +32,7 @@ public class StorageMemory {
 
     //generate cashier_id and cashier_password for sign in
     private static JSONObject obj = new JSONObject();
-    private String cash_id, cash_password, cashier_id, cashier_password, action_name, lastmess,patterns;
+    private String cash_id, cash_password, cashier_id, cashier_password, action_name, lastmess,patterns,FIO;
     JSONObject params;
     private ArrayList get_info;
 //поля покупателя валюты для отправки запроса
@@ -109,7 +109,7 @@ public int Pfsell,
     }
     //эти аргументы мы инициализируем из функции логинизации sqlite metod login они хранятся в памяти постоянно
 
-    public void StorageMemorySet(String t1, String t3, String t4, String t5, JSONObject t6, String t7) throws UnsupportedEncodingException {
+    public void StorageMemorySet(String t1, String t3, String t4, String t5, JSONObject t6, String t7, String t8) throws UnsupportedEncodingException {
         Serial_XDDGet();
         String tmp = Serial_XDDGetHash();
 
@@ -120,7 +120,7 @@ public int Pfsell,
         setAction_name(t5);
         setParams(t6);
         setLastmess(t7);
-
+        setFIO(t8);
 
 
     }
@@ -419,6 +419,14 @@ public int Pfsell,
         this.patterns = patterns;
     }
 
+    public String getFIO() {
+        return FIO;
+    }
+
+    public void setFIO(String FIO) {
+        this.FIO = FIO;
+    }
+
     //===========================================================================================================
     //===========================================================================================================
     //===========================================================================================================
@@ -488,6 +496,10 @@ public int Pfsell,
             
             
             JSONObject forparam = new JSONObject();
+            //если купить/продать
+            if(typeOx.equals("sale")||typeOx.equals("buy")){
+            
+            
             forparam.put("buyer_first_name", buyer_first_name);
             forparam.put("buyer_last_name", buyer_last_name);
             forparam.put("buyer_surname", buyer_surname);
@@ -502,12 +514,28 @@ public int Pfsell,
             forparam.put("receipt_currency", receipt_currency);
             forparam.put("buyer_first_name", buyer_first_name);
             forparam.put("taxpf", taxpf);
-      
+            setParams(forparam);
+            }
+            //есди подкрепление или инкасация
+            if(typeOx.equals("replenish")||typeOx.equals("collection")){
+              action_name=typeOx;
+               forparam.put("currency_code", currency_code);
+               forparam.put("currency_sum", currency_sum);
+               forparam.put("patterns", patterns);
+               
+                setReceipt_number(Integer.toString(idqwiadmin));
+                forparam.put("receipt_number", getReceipt_number());
+               setParams(forparam);
+                
+               
+                
+                
+            }
                 
                     
                     
                     
-                    setParams(forparam);
+                    
            }
     //===========================================================================================================
     //===========================================================================================================
@@ -613,6 +641,8 @@ public int Pfsell,
         tmp.add("patterns");
         res= ReadSQLite(tmp, "SDobj",""); 
         this.patterns= (String) res.get(0);
+        
+        
 
         showMessageDialog(null, 
                 " Lastmess "+ lastmess+
