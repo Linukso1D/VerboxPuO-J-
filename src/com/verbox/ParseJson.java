@@ -388,7 +388,8 @@ try {
         {
    //"super":false,"cashier_id":4,"cash_id":1,"cashier_password":"c4ca4238a0b923820dcc509a6f75849b","surname":"Петров","last_name":"Александрович","first_name":"Петя"
             JSONObject jo = (JSONObject) json.get("params");
-            JSONObject enterprise = (JSONObject) jo.get("enterprise");
+            JSONObject enterprise = (JSONObject) jo.get("enterprise"); //инфо
+            JSONArray patterns = (JSONArray) jo.get("patterns");
                 info.add(enterprise.get("bookk_fio"));
                 info.add(enterprise.get("bookk_first_name"));
                 info.add(enterprise.get("bookk_last_name"));
@@ -444,10 +445,34 @@ try {
                 infonamespace.add("ur_house");
                 infonamespace.add("ur_office");
                 infonamespace.add("ur_street");
+             boolean flag = Insert("info", infonamespace, info);
+            
+            // теперь получаем шаблоны печати  
+            for(int i=0;i<patterns.size();i++)
+            {
+             if(patterns.get(i)!=null)
+             {
+                 // заполняем шаблоны на печать
+                JSONObject obj2 = (JSONObject)patterns.get(i);
+                ArrayList ListKey,ListValue;
+                ListKey=new ArrayList();
+                ListValue=new ArrayList();
+                        
+                        ListValue.add(obj2.get("pattern_id"));
+                        ListValue.add(obj2.get("name")); 
+                        ListValue.add(obj2.get("description")); 
+                        ListValue.add(obj2.get("date_create")); 
+                                          
+                        ListKey.add("pattern_id");
+                        ListKey.add("name");
+                        ListKey.add("html");
+                        ListKey.add("date_create");
+                Insert("print", ListKey, ListValue);
                 
                 
-                
-            boolean flag = Insert("info", infonamespace, info);
+             }
+            }   
+           
             //--  
         }
         /*  for (Object item : CashierNameList) 
@@ -518,8 +543,8 @@ for (Object item : Currencies) {
         System.out.println("Currencies "+item.toString());
 }
 */
-StorageMemory sd =getInstance();
-           sd.initCourse() ; 
+            StorageMemory sd =getInstance();
+            sd.initCourse() ; 
            
            
            

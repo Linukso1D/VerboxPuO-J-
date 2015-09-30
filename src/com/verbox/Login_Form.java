@@ -216,18 +216,20 @@ boolean log_in=false;
          */
         try {
          ParseJson Ob = null;
-
-        
-          
-            Ob.get_info(SendPost(GetInfoJS()));
-            StorageMemory SD=getInstance();
-            SD.SetInfo();
-            
-            
+         StorageMemory SD=getInstance();
+        //get_currencies
             SD.setAction_name("get_currencies");
             
             ParseJson pjs=new ParseJson(SendPost(SD.GetSD()));
             pjs.Write_CurrenciesToSQLite();
+            
+            
+          //get_info
+            Ob.get_info(SendPost(GetInfoJS()));
+            
+            SD.SetInfo();
+            
+            
            
             
         } catch (IOException ex) {
