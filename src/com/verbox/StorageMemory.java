@@ -66,6 +66,9 @@ public int Pfsell,
     public  Map curse,balance;
     public  ArrayList TempForSelectDropdown;
     
+    //Массив шаблонов на печать 
+    public Map PrintTpl;
+    
     StorageMemory() {
     }
 

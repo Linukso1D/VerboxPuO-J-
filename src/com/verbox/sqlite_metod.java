@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -461,7 +462,7 @@ public class sqlite_metod {
            //читает то что принимает в параметрах и возвращает данные однострочное читение                  
        public static Map ReadSQLiteMulti(String query) throws ClassNotFoundException, SQLException {
         
-           Map z = new HashMap <String,ArrayList<String>>();
+           Map z = new LinkedHashMap <String,ArrayList<String>>();
          
            
            

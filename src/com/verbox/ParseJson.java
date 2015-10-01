@@ -79,7 +79,7 @@ public class ParseJson {
                                         if(msg.size()==1)
                                         {
                                             showMessageDialog(null,msg.toJSONString()+"Выполнено ");
-                                            if(msg.toJSONString().equals("[openday_success]"))
+                                            if(msg.toJSONString().equals("[\"openday_success\"]"))
                                             {
                                                         boolean ido=UPDATE("UPDATE SDobj SET id_operation= 1 ;");
                                                         boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= 1 ;");
@@ -533,7 +533,7 @@ try {
                 value.add(Currencies.get(i+8).toString());
                 value.add(TimetoFinish);
                 value.add(TimetoStart);
-                //flag = Insert("currencies", key, value);
+                flag = Insert("currencies", key, value);
 
                 i += 9;
             }

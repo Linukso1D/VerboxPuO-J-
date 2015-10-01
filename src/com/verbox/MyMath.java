@@ -7,6 +7,8 @@ package com.verbox;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -19,4 +21,9 @@ public static double round(double number, int scale) {
 double newDouble = new BigDecimal(number).setScale(scale, RoundingMode.DOWN).doubleValue();
 return newDouble;
 }
+
+//ищет дату из листа в скобок
+
+
+
 }

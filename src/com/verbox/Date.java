@@ -25,5 +25,14 @@ public class Date {
          return dateToday;
          //2015-03-05 13:00:53
      }
+     public static String getShortDate()
+     {
+         
+            Calendar calendar = new GregorianCalendar();
+            SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
+            String dateToday = formattedDate.format(calendar.getTime());
+         return dateToday;
+         //2015-03-05
+     }
 
 }

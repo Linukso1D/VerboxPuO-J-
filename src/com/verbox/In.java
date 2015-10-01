@@ -5,23 +5,36 @@
  */
 package com.verbox;
 
+import static com.verbox.Date.getShortDate;
 import static com.verbox.MyMath.round;
 import static com.verbox.Setting.GetDoubleStr;
 import static com.verbox.StorageMemory.getInstance;
 import static com.verbox.json_metod.SendPost;
+import static com.verbox.sqlite_metod.ReadSQLite;
 import static com.verbox.sqlite_metod.ReadSQLiteMulti;
 import static com.verbox.sqlite_metod.SELECT;
 import static com.verbox.sqlite_metod.UPDATE;
 import java.awt.Color;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.UIDefaults;
@@ -57,7 +70,8 @@ public class In extends javax.swing.JFrame {
         jPanel11.setVisible(true);
         //Присвоение гет инфо
         StorageMemory obj = getInstance();
-
+jFormattedTextField1.setText(getShortDate());
+jFormattedTextField2.setText(getShortDate());
         try {
             jTextField19.setText(obj.StorageGetInfo("enterprise_full_name"));
             jTextField20.setText(obj.StorageGetInfo("enterprise_short_name"));
@@ -119,6 +133,89 @@ public class In extends javax.swing.JFrame {
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+       // listener click on list 
+      MouseListener mouseListener = new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent mouseEvent) {
+        JList theList = (JList) mouseEvent.getSource();
+        if (mouseEvent.getClickCount() == 1) {
+          int index = theList.locationToIndex(mouseEvent.getPoint());
+          if (index >= 0) {
+            Object o = theList.getModel().getElementAt(index);
+            
+            //событие щелчка на лист в отчетах
+            String dateoflist;
+            
+              try {
+                  dateoflist=ParseDateList(o.toString());
+                  showMessageDialog(null, dateoflist);
+                  
+              
+              
+              
+              } catch (java.text.ParseException ex) {
+                  Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+              }
+               
+            System.out.println("Double-clicked on: " + o.toString());
+          }
+        }
+      }
+
+            private String ParseDateList(String s) throws java.text.ParseException {
+               // оно ищет в листе дату что бы потом выбрать из бд все по этой дате НАВЕРНОЕ 
+                Calendar calendar = new GregorianCalendar();
+                SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
+                String s2 = s.substring(s.indexOf("(")+1 , s.indexOf(")") ) ;
+                SimpleDateFormat format = new SimpleDateFormat();
+                format.applyPattern("yyyy-MM-dd");
+                java.util.Date docDate= format.parse(s2);
+                System.out.println("DATE =" + docDate);
+                String dateToday = formattedDate.format(docDate);
+                return dateToday;
+            }
+    };
+    jList1.addMouseListener(mouseListener);
+        
+    
+    
+    
+    
+    
+    
+    
+    
+        // combobox 1 listener
+        jComboBox1.addActionListener ((ActionEvent e) -> {
+            try {
+                //при нажатии
+                int select = jComboBox1.getSelectedIndex()+1;
+                showMessageDialog(null, "ПИК "+select);
+                
+                switch(select){
+                    //отчет по курсам
+                    case 1:
+                
+                                    DefaultListModel listModel = new DefaultListModel();
+                                    ArrayList order = new ArrayList();
+                                    ArrayList tmp = new ArrayList();
+                                    tmp.add("order_id||\"-й Приказ (\"||TimetoStart||\")\"");
+                                    String date1 = jFormattedTextField1.getText();
+                                    String date2 = jFormattedTextField2.getText();
+                                    order = ReadSQLite(tmp,"currencies","Where DATE(TimetoStart) BETWEEN DATE(\""+date1+"\") AND DATE(\""+date2+"\") GROUP BY order_id ORDER BY `currencies_id`  DESC LIMIT 23   ;");
+                                    for(int i=0;i<order.size();i++)
+                                    {
+                                        listModel.addElement(order.get(i));
+                                    }
+                                    jList1.setModel(listModel);
+                
+                
+                }
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
     }
 
     /**
@@ -203,6 +300,11 @@ public class In extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox();
         jLabel44 = new javax.swing.JLabel();
         jLabel45 = new javax.swing.JLabel();
+        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        jFormattedTextField2 = new javax.swing.JFormattedTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
@@ -1026,19 +1128,23 @@ public class In extends javax.swing.JFrame {
         jPanel16.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel16.setPreferredSize(new java.awt.Dimension(391, 675));
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+        jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         jScrollPane6.setViewportView(jList1);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel44.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel44.setText("Тип документа:");
 
         jLabel45.setText("Перечень документов:");
+
+        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd"))));
+
+        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd"))));
+
+        jLabel2.setText("Дата от");
+
+        jLabel3.setText("Дата до");
+
+        jLabel4.setText("-");
 
         org.jdesktop.layout.GroupLayout jPanel16Layout = new org.jdesktop.layout.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
@@ -1051,9 +1157,19 @@ public class In extends javax.swing.JFrame {
                     .add(jComboBox1, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(jPanel16Layout.createSequentialGroup()
                         .add(jPanel16Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jLabel45)
-                            .add(jLabel44, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 104, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .add(0, 250, Short.MAX_VALUE)))
+                            .add(jPanel16Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                                .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel44, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 104, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel45, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .add(jFormattedTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 156, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(jLabel4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 12, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(jPanel16Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jPanel16Layout.createSequentialGroup()
+                                .add(0, 62, Short.MAX_VALUE)
+                                .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 117, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(jFormattedTextField2))))
                 .addContainerGap())
         );
         jPanel16Layout.setVerticalGroup(
@@ -1063,10 +1179,19 @@ public class In extends javax.swing.JFrame {
                 .add(jLabel44)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 12, Short.MAX_VALUE)
+                .add(jPanel16Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel2)
+                    .add(jLabel3))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jPanel16Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jFormattedTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jFormattedTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel4))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jLabel45)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(jScrollPane6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
+                .add(18, 18, 18)
+                .add(jScrollPane6, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 519, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -1683,9 +1808,52 @@ public class In extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu5MouseClicked
 
     private void jMenu6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu6MouseClicked
+       //Отчеты 
         HideEl();
         jPanel16.setVisible(true);
         jPanel17.setVisible(true);
+        StorageMemory SD = getInstance();
+        
+        try {
+            ArrayList order = new ArrayList();
+            SD.PrintTpl= new LinkedHashMap <String,String>();
+            SD.PrintTpl=ReadSQLiteMulti("SELECT pattern_id||name,html FROM print group by pattern_id ORDER BY pattern_id LIMIT 18 ;");
+            //WHERE order_id="+order.get(i)+"
+            Set<String> keys = SD.PrintTpl.keySet();
+
+	// Loop over String keys.
+	for (String key : keys) 
+        {
+	 //   System.out.println("key of balance "+key+ " balance "+ balance.get(key));
+            jComboBox1.addItem(key);
+        }
+        
+        
+        
+            // добавление елементов в лист на форме
+       /*     DefaultListModel listModel = new DefaultListModel();
+                
+               ArrayList tmp = new ArrayList();
+               tmp.add("order_id");
+               String date1 = jFormattedTextField1.getText();
+               String date2 = jFormattedTextField1.getText();
+               order= ReadSQLite(tmp,"currencies","Where DATE(TimetoStart) BETWEEN DATE(\""+date1+"\") AND DATE(\""+date2+"\") GROUP BY order_id;");
+               for(int i=0;i<order.size();i++)
+               {
+                   listModel.addElement(order.get(i));
+                   
+               }
+            jList1.setModel(listModel);
+        */
+        
+        
+        
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_jMenu6MouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -2117,6 +2285,8 @@ double tmp = Double.parseDouble((String) jTextField6.getText());
     private javax.swing.JButton jButton7;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JFormattedTextField jFormattedTextField1;
+    private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2128,6 +2298,7 @@ double tmp = Double.parseDouble((String) jTextField6.getText());
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -2138,6 +2309,7 @@ double tmp = Double.parseDouble((String) jTextField6.getText());
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
@@ -2148,6 +2320,7 @@ double tmp = Double.parseDouble((String) jTextField6.getText());
     private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
