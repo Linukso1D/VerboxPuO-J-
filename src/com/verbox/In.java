@@ -5,8 +5,11 @@
  */
 package com.verbox;
 
+import com.itextpdf.text.DocumentException;
 import static com.verbox.Date.getShortDate;
 import static com.verbox.MyMath.round;
+import static com.verbox.PrintHtml.PreImgPrint;
+import static com.verbox.PrintHtml.Print;
 import static com.verbox.Setting.GetDoubleStr;
 import static com.verbox.StorageMemory.getInstance;
 import static com.verbox.json_metod.SendPost;
@@ -21,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.print.PrinterException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -39,7 +43,9 @@ import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
+import javax.xml.parsers.ParserConfigurationException;
 import org.json.simple.parser.ParseException;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -1829,8 +1835,18 @@ jFormattedTextField2.setText(getShortDate());
             SD.PrintTpl=ReadSQLiteMulti("SELECT pattern_id||name,html FROM print group by pattern_id ORDER BY pattern_id LIMIT 18 ;");
             //WHERE order_id="+order.get(i)+"
             Set<String> keys = SD.PrintTpl.keySet();
-
-	// Loop over String keys.
+            
+            try {
+                //   String strtemp=SD.PrintTpl.get("1Наказ на встановлення курсів обміну готівкової іноземної валюти").toString();
+                //    Print(strtemp);
+                PreImgPrint();
+            } catch (IOException ex) {
+                Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+            }
+	
+        
+        
+        
 	for (String key : keys) 
         {
 	 //   System.out.println("key of balance "+key+ " balance "+ balance.get(key));
