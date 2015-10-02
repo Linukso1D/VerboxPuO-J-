@@ -14,9 +14,14 @@ import java.util.GregorianCalendar;
  */
 public class Date {
     
-
-
-     public static String getFullDate()
+    /**
+     * 
+     * @see 
+     * @return 
+     * @
+     * getFullDate возвращает полную дату и время в соответствии с форматом сервера verbox - "2015-03-05 13:00:53"
+     */
+    public static String getFullDate()
      {
          
             Calendar calendar = new GregorianCalendar();
@@ -25,7 +30,12 @@ public class Date {
          return dateToday;
          //2015-03-05 13:00:53
      }
-     public static String getShortDate()
+
+    /**
+     *
+     * возвращает сокращенную дату в формате  "2015-03-05"
+     */
+    public static String getShortDate()
      {
          
             Calendar calendar = new GregorianCalendar();

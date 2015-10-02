@@ -35,11 +35,22 @@ import org.json.simple.parser.ParseException;
  */
 public class sqlite_metod {
 
+    /**
+     *
+     */
     public static Statement statmt; //sql запросы извлекать через это
+
+    /**
+     *
+     */
     public static ResultSet resSet;
     private static Connection con = null;
 
-
+    /**
+     *
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
     public static void Conn() throws ClassNotFoundException, SQLException {
         con = null;
         Class.forName("org.sqlite.JDBC");
@@ -57,6 +68,12 @@ public class sqlite_metod {
 
     }
     //для записи в бд корректных значений кодирование
+
+    /**
+     *
+     * @param s
+     * @return
+     */
     public static final String EscapeHtml(String s){
        StringBuffer sb = new StringBuffer();
        int n = s.length();
@@ -73,12 +90,30 @@ public class sqlite_metod {
        return sb.toString();
     }
     //декодирование
+
+    /**
+     *
+     * @param s
+     * @return
+     */
     public static final String EscapeUndoHtml(String s)
     {
         return s.replace("&quot;", "\"").replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&");
     }
     
 //Проверка локального пользователя
+
+    /**
+     *
+     * @param login
+     * @param password
+     * @return
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws UnsupportedEncodingException
+     * @throws ParseException
+     * @throws InterruptedException
+     */
     public static boolean LoginSQLite(String login, String password) throws ClassNotFoundException, SQLException, UnsupportedEncodingException, ParseException, InterruptedException {
         resSet = statmt.executeQuery("SELECT * FROM user");
         boolean flag=false;
@@ -136,8 +171,12 @@ public class sqlite_metod {
         return flag;
     }
     
-    
-    
+    /**
+     *
+     * @return
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
     public static ArrayList ReadSQLite_loginPair() throws ClassNotFoundException, SQLException {
         resSet = statmt.executeQuery("SELECT * FROM user WHERE visible=\"true\"");
         
@@ -148,8 +187,11 @@ public class sqlite_metod {
         return tm;
     }
     
-    
-
+    /**
+     *
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
     public static void CloseDB() throws ClassNotFoundException, SQLException {
         con.close();
         statmt.close();
@@ -158,6 +200,12 @@ public class sqlite_metod {
     }
 
     //get md5
+
+    /**
+     *
+     * @param test
+     * @return
+     */
     public static String GetMd5(String test)
     {
          try {
@@ -182,6 +230,16 @@ public class sqlite_metod {
         }
         return null;
     }
+
+    /**
+     *
+     * @param to
+     * @param key
+     * @param value
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public static boolean Insert(String to, ArrayList key, ArrayList value) throws SQLException, ClassNotFoundException
     {   
       
@@ -268,6 +326,13 @@ public class sqlite_metod {
     }
     
                         //инвиз
+
+    /**
+     *
+     * @param id
+     * @return
+     * @throws SQLException
+     */
                         public static boolean InviZ(int id) throws SQLException
                         {
                             try{
@@ -284,6 +349,13 @@ public class sqlite_metod {
                           return false;
                         }
                         //виз
+
+    /**
+     *
+     * @param id
+     * @return
+     * @throws SQLException
+     */
                          public static boolean viZ(int id) throws SQLException
                         {
                             try{
@@ -298,8 +370,15 @@ public class sqlite_metod {
                           return false;
                         }
                          
-                         
-                        public static boolean cureList_SetCash(String set, String log, String pas) throws SQLException
+    /**
+     *
+     * @param set
+     * @param log
+     * @param pas
+     * @return
+     * @throws SQLException
+     */
+    public static boolean cureList_SetCash(String set, String log, String pas) throws SQLException
                         {
                             try{
                             if(!set.equals("")) {   
@@ -324,7 +403,13 @@ public class sqlite_metod {
                             }
                           return false;
                         }
-                        public static String cureList_GetCash() throws SQLException
+
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
+    public static String cureList_GetCash() throws SQLException
                         {
                             try{
                             String query=" SELECT cash_id FROM firstlist_seeting ;";
@@ -342,7 +427,12 @@ public class sqlite_metod {
                           return "NULL";
                         }
                         
-                        public static String cureList_GetLog() throws SQLException
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
+    public static String cureList_GetLog() throws SQLException
                         {
                             try{
                             String query=" SELECT httplogin FROM firstlist_seeting ;";
@@ -359,7 +449,13 @@ public class sqlite_metod {
                             }
                           return "NULL";
                         }
-                        public static String cureList_GetPass() throws SQLException
+
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
+    public static String cureList_GetPass() throws SQLException
                         {
                             try{
                             String query=" SELECT httppass FROM firstlist_seeting ;";
@@ -378,6 +474,16 @@ public class sqlite_metod {
                         }
                         
     //читает то что принимает в параметрах и возвращает данные однострочное читение                  
+
+    /**
+     *
+     * @param what
+     * @param From
+     * @param Value
+     * @return
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
        public static ArrayList ReadSQLite(ArrayList what, String From ,String Value) throws ClassNotFoundException, SQLException {
         
          String Where  ;
@@ -420,7 +526,13 @@ public class sqlite_metod {
         return tm;
     }
       
-       public static String SELECT(String str) throws SQLException
+    /**
+     *
+     * @param str
+     * @return
+     * @throws SQLException
+     */
+    public static String SELECT(String str) throws SQLException
        {
        resSet = statmt.executeQuery(str);
            String l = "";
@@ -440,15 +552,12 @@ public class sqlite_metod {
         return l;
        }
        
-       
-       
-       
-       
-       
-       
-       
-       
-       public static void DELETE_ALL(String Where) throws SQLException
+    /**
+     *
+     * @param Where
+     * @throws SQLException
+     */
+    public static void DELETE_ALL(String Where) throws SQLException
        {
        statmt.execute("DELETE FROM "+Where+" ;");
        }
@@ -460,6 +569,14 @@ public class sqlite_metod {
        //--test multivalue read
        
            //читает то что принимает в параметрах и возвращает данные однострочное читение                  
+
+    /**
+     *
+     * @param query
+     * @return
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
        public static Map ReadSQLiteMulti(String query) throws ClassNotFoundException, SQLException {
         
            Map z = new LinkedHashMap <String,ArrayList<String>>();
@@ -491,6 +608,14 @@ public class sqlite_metod {
        
        
        // обновление чекитов
+
+    /**
+     *
+     * @param where
+     * @param Check
+     * @return
+     * @throws SQLException
+     */
                         public static boolean UPDATE_cheked(String where, boolean Check) throws SQLException
                         {
                             try{
@@ -515,6 +640,13 @@ public class sqlite_metod {
                         }
                         
          // обновление счетчиков через инсерт
+
+    /**
+     *
+     * @param query
+     * @return
+     * @throws SQLException
+     */
                          public static boolean UPDATE(String query) throws SQLException
                         {
                             try{

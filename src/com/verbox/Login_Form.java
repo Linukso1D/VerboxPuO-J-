@@ -27,7 +27,14 @@ import org.json.simple.parser.ParseException;
  */
 public class Login_Form extends javax.swing.JFrame {
 
+    /**
+     *
+     */
     public static String login;
+
+    /**
+     *
+     */
     public static String password;
 
     /**
@@ -36,6 +43,7 @@ public class Login_Form extends javax.swing.JFrame {
      * @throws org.json.simple.parser.ParseException
      * @throws java.sql.SQLException
      * @throws java.lang.ClassNotFoundException
+     * @throws java.lang.InterruptedException
      */
     public Login_Form() throws org.json.simple.parser.ParseException, SQLException, ClassNotFoundException, InterruptedException {
 

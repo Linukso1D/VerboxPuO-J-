@@ -16,8 +16,13 @@ import java.text.SimpleDateFormat;
  */
 public class MyMath {
     
-    
-public static double round(double number, int scale) {
+    /**
+     *
+     * @param number
+     * @param scale
+     * @return
+     */
+    public static double round(double number, int scale) {
 double newDouble = new BigDecimal(number).setScale(scale, RoundingMode.DOWN).doubleValue();
 return newDouble;
 }

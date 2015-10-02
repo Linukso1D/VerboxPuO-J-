@@ -26,6 +26,7 @@ import static javax.swing.JOptionPane.showMessageDialog;
 import org.apache.commons.codec.binary.Base64;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 
 
@@ -40,6 +41,12 @@ public class json_metod {
 
 
 //запрос на получение пустого списка пользователей--------
+
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
         public static JSONObject GetPairLogin() throws SQLException   {
         try {
         Serial_XDDGet();
@@ -62,10 +69,12 @@ public class json_metod {
         return null;
     }
         
-        
-        
-        
-        public static JSONObject GetInfoJS() throws SQLException   {
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
+    public static JSONObject GetInfoJS() throws SQLException   {
         try {
         Serial_XDDGet();
         String tmp = Serial_XDDGetHash();
@@ -90,6 +99,16 @@ public class json_metod {
                 
                 
   //Отправка и получение JSON-------- 
+
+    /**
+     *
+     * @param obj
+     * @return
+     * @throws IOException
+     * @throws ParseException
+     * @throws InterruptedException
+     * @throws SQLException
+     */
      public static JSONObject SendPost(JSONObject obj) throws IOException, org.json.simple.parser.ParseException, InterruptedException, SQLException {
          if(!CheckInet())
          {
@@ -154,6 +173,13 @@ public class json_metod {
     
 
      //проверка интернета
+
+    /**
+     *
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
      public static boolean CheckInet() throws IOException, InterruptedException
      {
         Process proc = Runtime.getRuntime().exec("ping -n 1 " + "8.8.8.8");

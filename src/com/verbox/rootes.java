@@ -28,7 +28,8 @@ import static javax.swing.JOptionPane.showMessageDialog;
  */
 public class rootes extends javax.swing.JFrame {
 
-    /** Creates new form rootes */
+    /** Creates new form rootes
+     * @throws java.sql.SQLException */
     public rootes() throws UnsupportedEncodingException, SQLException {
         initComponents();
         jTextField2.setText(Serial_XDDGet());

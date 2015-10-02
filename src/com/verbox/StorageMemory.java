@@ -58,26 +58,51 @@ public class StorageMemory {
             idqwi,  // квитанция
             idqwiadmin; //для инкасаторов
 public int Pfsell,
-            Pfbuy;     //пенсионный фонд на продажу
+
+    /**
+     *
+     */
+    Pfbuy;     //пенсионный фонд на продажу
 
       
     //хранение курсов в обьекте
     //массив валюты тест
-    public  Map curse,balance;
+    public  Map curse,
+
+    /**
+     *
+     */
+    balance;
+
+    /**
+     *
+     */
     public  ArrayList TempForSelectDropdown;
     
     //Массив шаблонов на печать 
+
+    /**
+     *
+     */
     public Map PrintTpl;
     
     StorageMemory() {
     }
 
+    /**
+     *
+     * @param TempForSelectDropdown
+     */
     public void setTempForSelectDropdown(ArrayList TempForSelectDropdown) {
         this.TempForSelectDropdown = TempForSelectDropdown;
     }
 
     private static volatile StorageMemory instance;
 
+    /**
+     *
+     * @return
+     */
     public static  StorageMemory getInstance() {
         if (instance == null) {
             synchronized (StorageMemory.class) {
@@ -95,6 +120,12 @@ public int Pfsell,
     
     
     // добавляет данные в обьект OBJ из класса и ретурн
+
+    /**
+     *
+     * @return
+     * @throws UnsupportedEncodingException
+     */
     public JSONObject GetSD() throws UnsupportedEncodingException {
         obj.clear();
         obj.put("cash_id", getCash_id());
@@ -106,12 +137,27 @@ public int Pfsell,
         obj.put("lastmes", getLastmess());
         return obj;
     }
+
+    /**
+     *
+     */
     public void ClearObj()
     {
         obj.clear();
     }
     //эти аргументы мы инициализируем из функции логинизации sqlite metod login они хранятся в памяти постоянно
 
+    /**
+     *
+     * @param t1
+     * @param t3
+     * @param t4
+     * @param t5
+     * @param t6
+     * @param t7
+     * @param t8
+     * @throws UnsupportedEncodingException
+     */
     public void StorageMemorySet(String t1, String t3, String t4, String t5, JSONObject t6, String t7, String t8) throws UnsupportedEncodingException {
         Serial_XDDGet();
         String tmp = Serial_XDDGetHash();
@@ -128,6 +174,11 @@ public int Pfsell,
 
     }
 
+    /**
+     *
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public void SetInfo() throws SQLException, ClassNotFoundException {
         get_info = new ArrayList();
         ArrayList tmp = new ArrayList();
@@ -165,6 +216,12 @@ public int Pfsell,
     //---Методы получения гет инфо структуры
 
     //ФИО бухг
+
+    /**
+     *
+     * @param who
+     * @return
+     */
     public String StorageGetInfo(String who) {
 
         int index = 0;
@@ -208,58 +265,115 @@ public int Pfsell,
     }
 
     //---Методы получения гет инфо структуры конец
+
+    /**
+     *
+     * @return
+     */
     public String getCash_id() {
         return cash_id;
     }
 
+    /**
+     *
+     * @param cash_id
+     */
     public void setCash_id(String cash_id) {
         this.cash_id = cash_id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCash_password() {
         return cash_password;
     }
 
+    /**
+     *
+     * @param cash_password
+     */
     public void setCash_password(String cash_password) {
         this.cash_password = cash_password;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCashier_id() {
         return cashier_id;
     }
 
+    /**
+     *
+     * @param cashier_id
+     */
     public void setCashier_id(String cashier_id) {
         this.cashier_id = cashier_id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCashier_password() {
         return cashier_password;
     }
 
+    /**
+     *
+     * @param cashier_password
+     */
     public void setCashier_password(String cashier_password) {
         this.cashier_password = cashier_password;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getAction_name() {
         return action_name;
     }
 
+    /**
+     *
+     * @param action_name
+     */
     public void setAction_name(String action_name) {
         this.action_name = action_name;
     }
 
+    /**
+     *
+     * @return
+     */
     public JSONObject getParams() {
         return params;
     }
 
+    /**
+     *
+     * @param params
+     */
     public void setParams(JSONObject params) {
         this.params = params;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getLastmess() {
         return lastmess;
     }
 
+    /**
+     *
+     * @param lastmes
+     */
     public void setLastmess(String lastmes) {
         this.lastmess = lastmes;
     }
@@ -267,165 +381,324 @@ public int Pfsell,
 
 
 //методы покупателя
+
+    /**
+     *
+     * @return
+     */
     
     public String getBuyer_first_name() {
         return buyer_first_name;
     }
 
+    /**
+     *
+     * @param buyer_first_name
+     */
     public void setBuyer_first_name(String buyer_first_name) {
         this.buyer_first_name = buyer_first_name;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getBuyer_last_name() {
         return buyer_last_name;
     }
 
+    /**
+     *
+     * @param buyer_last_name
+     */
     public void setBuyer_last_name(String buyer_last_name) {
         this.buyer_last_name = buyer_last_name;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getBuyer_surname() {
         return buyer_surname;
     }
 
+    /**
+     *
+     * @param buyer_surname
+     */
     public void setBuyer_surname(String buyer_surname) {
         this.buyer_surname = buyer_surname;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getBuyer_resident() {
         return buyer_resident;
     }
 
+    /**
+     *
+     * @param buyer_resident
+     */
     public void setBuyer_resident(String buyer_resident) {
         this.buyer_resident = buyer_resident;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPassport_number() {
         return passport_number;
     }
 
+    /**
+     *
+     * @param passport_number
+     */
     public void setPassport_number(String passport_number) {
         this.passport_number = passport_number;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPassport_serial() {
         return passport_serial;
     }
 
+    /**
+     *
+     * @param passport_serial
+     */
     public void setPassport_serial(String passport_serial) {
         this.passport_serial = passport_serial;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPhone_number() {
         return phone_number;
     }
 
+    /**
+     *
+     * @param phone_number
+     */
     public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCurrency_code() {
         return currency_code;
     }
 
+    /**
+     *
+     * @param currency_code
+     */
     public void setCurrency_code(String currency_code) {
         this.currency_code = currency_code;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCurrency_course() {
         return currency_course;
     }
 
+    /**
+     *
+     * @param currency_course
+     */
     public void setCurrency_course(String currency_course) {
         this.currency_course = currency_course;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCurrency_sum() {
         return currency_sum;
     }
 
+    /**
+     *
+     * @param currency_sum
+     */
     public void setCurrency_sum(String currency_sum) {
         this.currency_sum = currency_sum;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getGrn_sum() {
         return grn_sum;
     }
 
+    /**
+     *
+     * @param grn_sum
+     */
     public void setGrn_sum(String grn_sum) {
         this.grn_sum = grn_sum;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getReceipt_currency() {
         return receipt_currency;
     }
 
+    /**
+     *
+     * @param receipt_currency
+     */
     public void setReceipt_currency(String receipt_currency) {
         this.receipt_currency = receipt_currency;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getTaxpf() {
         return taxpf;
     }
 
+    /**
+     *
+     * @param taxpf
+     */
     public void setTaxpf(String taxpf) {
         this.taxpf = taxpf;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getReceipt_number() {
         return receipt_number;
     }
 
+    /**
+     *
+     * @param receipt_number
+     */
     public void setReceipt_number(String receipt_number) {
         this.receipt_number = receipt_number;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getId_operation() {
         return id_operation;
     }
 
+    /**
+     *
+     * @param id_operation
+     */
     public void setId_operation(int id_operation) {
         this.id_operation = id_operation;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getIdqwi() {
         return idqwi;
     }
 
+    /**
+     *
+     * @param idqwi
+     */
     public void setIdqwi(int idqwi) {
         this.idqwi = idqwi;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getIdqwiadmin() {
         return idqwiadmin;
     }
 
+    /**
+     *
+     * @param idqwiadmin
+     */
     public void setIdqwiadmin(int idqwiadmin) {
         this.idqwiadmin = idqwiadmin;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getPfsell() {
         return Pfsell;
     }
 
+    /**
+     *
+     * @param Pfsell
+     */
     public void setPfsell(int Pfsell) {
         this.Pfsell = Pfsell;
     }
 
- 
-
+    /**
+     *
+     * @return
+     */
     public String getPatterns() {
         return patterns;
     }
 
+    /**
+     *
+     * @param patterns
+     */
     public void setPatterns(String patterns) {
         this.patterns = patterns;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getFIO() {
         return FIO;
     }
 
+    /**
+     *
+     * @param FIO
+     */
     public void setFIO(String FIO) {
         this.FIO = FIO;
     }
@@ -435,6 +708,21 @@ public int Pfsell,
     //===========================================================================================================
     //функция подсчета принимает код валюты / резидент ли /  фио покупателя / сумму денег / название операции/ паспортные данные
 //! должна вернуть готовый обьект JSON!
+
+    /**
+     *
+     * @param code
+     * @param resident
+     * @param Fn
+     * @param Ln
+     * @param Sn
+     * @param sum
+     * @param csum
+     * @param typeOx
+     * @param pspS
+     * @param pspCode
+     * @param Phone
+     */
     public void OperationX(
             int code,        //код валюты
             String resident,    //резидент не резидент
@@ -545,6 +833,12 @@ public int Pfsell,
     //===========================================================================================================
     //===========================================================================================================
     //инициализация основных компонентов курсов для подсчета
+
+    /**
+     *
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
     public void initCourse() throws ClassNotFoundException, SQLException
     {
     

@@ -47,6 +47,11 @@ import org.json.simple.parser.ParseException;
  */
 public class In extends javax.swing.JFrame {
 
+    /**
+     *
+     * @param str
+     * @return
+     */
     public static boolean isNumeric(String str) {
         for (char c : str.toCharArray()) {
             if (!Character.isDigit(c)) {
@@ -61,6 +66,10 @@ public class In extends javax.swing.JFrame {
     double pf;
     boolean inpf;
 
+    /**
+     *
+     * @throws ClassNotFoundException
+     */
     public In() throws ClassNotFoundException {
         initComponents();
         //ныкать панели
@@ -2214,7 +2223,6 @@ double tmp = Double.parseDouble((String) jTextField6.getText());
     }//GEN-LAST:event_jButton7MouseEntered
 
     /**
-     * @param args the command line arguments
      */
     public void HideEl() {
         jPanel6.setVisible(false);
@@ -2231,6 +2239,10 @@ double tmp = Double.parseDouble((String) jTextField6.getText());
         jPanel17.setVisible(false);
     }
 
+    /**
+     *
+     * @param args
+     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

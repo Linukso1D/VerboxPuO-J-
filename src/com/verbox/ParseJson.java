@@ -38,8 +38,10 @@ public class ParseJson {
     // для левой логинизации касиры
     ArrayList CashierNameList;
     
-   
-
+    /**
+     *
+     * @return
+     */
     public ArrayList getCashierNameList() {
         if (!CashierNameList.isEmpty()) {
             return CashierNameList;
@@ -51,6 +53,13 @@ public class ParseJson {
     JSONObject PJjson;
 
     //конструктор
+
+    /**
+     *
+     * @param json
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
     public ParseJson(JSONObject json) throws ClassNotFoundException, SQLException {
         //Ошибки
         if(json.isEmpty())
@@ -374,6 +383,14 @@ try {
     }
     
     //---- записывает инфу в бд
+
+    /**
+     *
+     * @param json
+     * @throws SQLException
+     * @throws UnsupportedEncodingException
+     * @throws ClassNotFoundException
+     */
     public static void  get_info(JSONObject json) throws SQLException, UnsupportedEncodingException, ClassNotFoundException
     {
          //getinfo 
@@ -492,15 +509,30 @@ try {
         this.ErrorMessage = ErrorMessage;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getErrorCode() {
         return ErrorCode;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getErrorMessage() {
         return ErrorMessage;
     }
     
     //запись курсов валют в бд 
+
+    /**
+     *
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public boolean Write_CurrenciesToSQLite() throws SQLException, ClassNotFoundException {
         boolean flag = false;
         if (!Currencies.isEmpty()) {
@@ -554,6 +586,13 @@ for (Object item : Currencies) {
 
     }
     //запись касиров касы и паролей в бд
+
+    /**
+     *
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
         public boolean Write_LoginToSQLite() throws SQLException, ClassNotFoundException {
         boolean flag = false;
         if (!CashierNameList.isEmpty()) {

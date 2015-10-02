@@ -26,7 +26,8 @@ import static javax.swing.JOptionPane.showMessageDialog;
  */
 public class Setting extends javax.swing.JFrame {
 private Map Active,Bablo;
-    /** Creates new form Setting */
+    /** Creates new form Setting
+     * @return  */
 public static String GetDoubleStr(ArrayList tmpz )
 {
   
@@ -34,8 +35,11 @@ public static String GetDoubleStr(ArrayList tmpz )
  return (String)tmpz.get(0);
 }
 
-
-
+    /**
+     *
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     public Setting() throws SQLException, ClassNotFoundException {
         initComponents();
         Active= new HashMap<String,String>();

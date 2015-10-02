@@ -10,6 +10,12 @@ package com.verbox;
  * @author maxxl
  */
 public class ErrorList {
+
+    /**
+     *
+     * @param str
+     * @return
+     */
     public static String DesctiptError(String str)
     {
      switch (str) {

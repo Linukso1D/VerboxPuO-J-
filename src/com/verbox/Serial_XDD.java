@@ -20,6 +20,11 @@ import java.util.logging.Logger;
  */
 public class Serial_XDD {
      private static String mystr;
+
+    /**
+     *
+     * @return
+     */
     public static String Serial_XDDGet()
     {
          mystr ="";
@@ -48,7 +53,13 @@ public class Serial_XDD {
         return mystr;
                         
 }
-   public static String Serial_XDDGetHash() throws UnsupportedEncodingException{  
+  
+    /**
+     *
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    public static String Serial_XDDGetHash() throws UnsupportedEncodingException{  
 try {
     String hashtext="";
             MessageDigest m = MessageDigest.getInstance("MD5");
