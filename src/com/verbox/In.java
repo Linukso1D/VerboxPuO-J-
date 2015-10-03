@@ -9,7 +9,7 @@ import com.itextpdf.text.DocumentException;
 import static com.verbox.Date.getShortDate;
 import static com.verbox.MyMath.round;
 import static com.verbox.PrintHtml.PreImgPrint;
-import static com.verbox.PrintHtml.Print;
+import static com.verbox.PrintHtml.ScaleImage;
 import static com.verbox.Setting.GetDoubleStr;
 import static com.verbox.StorageMemory.getInstance;
 import static com.verbox.json_metod.SendPost;
@@ -24,7 +24,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.awt.print.PrinterException;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -37,7 +39,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -46,6 +51,10 @@ import javax.swing.UIManager;
 import javax.xml.parsers.ParserConfigurationException;
 import org.json.simple.parser.ParseException;
 import org.xml.sax.SAXException;
+import static com.verbox.PrintHtml.RenderPDF_img_too;
+import java.awt.Component;
+import static javax.swing.JOptionPane.showMessageDialog;
+import sun.awt.image.OffScreenImage;
 
 /**
  *
@@ -148,37 +157,59 @@ jFormattedTextField2.setText(getShortDate());
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-       // listener click on list 
-      MouseListener mouseListener = new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent mouseEvent) {
-        JList theList = (JList) mouseEvent.getSource();
-        if (mouseEvent.getClickCount() == 1) {
-          int index = theList.locationToIndex(mouseEvent.getPoint());
-          if (index >= 0) {
-            Object o = theList.getModel().getElementAt(index);
+      MouseListener mouseListener;
+        mouseListener = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
+                JList theList = (JList) mouseEvent.getSource();
+                if (mouseEvent.getClickCount() == 1) {
+                    int index = theList.locationToIndex(mouseEvent.getPoint());
+                    if (index >= 0) {
+                        Object o = theList.getModel().getElementAt(index);
+                        
+                        //событие щелчка на лист в отчетах
+                        String dateoflist;
+                        
+                        try {
+                            StorageMemory SD =getInstance();
+                            dateoflist=ParseDateList(o.toString());
+                            // showMessageDialog(null, dateoflist);
+                            
+                       
+                            
+                            String pre = SD.PrintTpl.get(String.valueOf(jComboBox1.getSelectedItem())).toString();
+                            RenderPDF_img_too(pre);
+                            
+                            BufferedImage img = new BufferedImage(WIDTH, HEIGHT, 1);
+                            
+                            img = ScaleImage(474, 672, "name_img.png");
+                            
+                            ImageIcon icon = new ImageIcon(img);
+                            JLabel label = new JLabel(icon);
+                            
+                            label.repaint();                                          //-
+                      
+                            showMessageDialog(null, label);
+                           
+                            jOptionPane1.repaint();                                 //-
+                            jOptionPane1.add(label);
+                            jOptionPane1.repaint();                                   //-
+                            
+                            img.flush();
+                           
+                            
+                            
+                        } catch (java.text.ParseException | ParserConfigurationException | SAXException | IOException | DocumentException | PrinterException ex) {
+                            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+                        System.out.println("clicked on: " + o.toString());
+                    }
+                }
+            }
             
-            //событие щелчка на лист в отчетах
-            String dateoflist;
-            
-              try {
-                  dateoflist=ParseDateList(o.toString());
-                  showMessageDialog(null, dateoflist);
-                  
-              
-              
-              
-              } catch (java.text.ParseException ex) {
-                  Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-              }
-               
-            System.out.println("Double-clicked on: " + o.toString());
-          }
-        }
-      }
-
             private String ParseDateList(String s) throws java.text.ParseException {
-               // оно ищет в листе дату что бы потом выбрать из бд все по этой дате НАВЕРНОЕ 
+                // оно ищет в листе дату что бы потом выбрать из бд все по этой дате НАВЕРНОЕ 
                 Calendar calendar = new GregorianCalendar();
                 SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
                 String s2 = s.substring(s.indexOf("(")+1 , s.indexOf(")") ) ;
@@ -189,7 +220,7 @@ jFormattedTextField2.setText(getShortDate());
                 String dateToday = formattedDate.format(docDate);
                 return dateToday;
             }
-    };
+        };
     jList1.addMouseListener(mouseListener);
         
     
@@ -201,33 +232,111 @@ jFormattedTextField2.setText(getShortDate());
     
     
         // combobox 1 listener
-        jComboBox1.addActionListener ((ActionEvent e) -> {
-            try {
-                //при нажатии
-                int select = jComboBox1.getSelectedIndex()+1;
-                showMessageDialog(null, "ПИК "+select);
-                
-                switch(select){
-                    //отчет по курсам
-                    case 1:
-                
-                                    DefaultListModel listModel = new DefaultListModel();
-                                    ArrayList order = new ArrayList();
-                                    ArrayList tmp = new ArrayList();
-                                    tmp.add("order_id||\"-й Приказ (\"||TimetoStart||\")\"");
-                                    String date1 = jFormattedTextField1.getText();
-                                    String date2 = jFormattedTextField2.getText();
-                                    order = ReadSQLite(tmp,"currencies","Where DATE(TimetoStart) BETWEEN DATE(\""+date1+"\") AND DATE(\""+date2+"\") GROUP BY order_id ORDER BY `currencies_id`  DESC LIMIT 23   ;");
-                                    for(int i=0;i<order.size();i++)
-                                    {
-                                        listModel.addElement(order.get(i));
-                                    }
-                                    jList1.setModel(listModel);
-                
-                
+        jComboBox1.addActionListener (new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    StorageMemory SD= getInstance();
+                    String htm="";
+                    //при нажатии
+                    int select = jComboBox1.getSelectedIndex()+1;
+                    showMessageDialog(null, "ПИК "+select);
+                    //заглушки выбора пунтиков меню
+                    
+                    switch(select){
+                        
+                        //отчет по курсам
+                        case 1:{
+                          //  htm="";
+                            showMessageDialog(null, "Зашел в Case 1");
+                            DefaultListModel listModel = new DefaultListModel();
+                            ArrayList order = new ArrayList();
+                            ArrayList tmp = new ArrayList();
+                            tmp.add("order_id||\"-й Приказ (\"||TimetoStart||\")\"");
+                            String date1 = jFormattedTextField1.getText();
+                            String date2 = jFormattedTextField2.getText();
+                            order = ReadSQLite(tmp,"currencies","Where DATE(TimetoStart) BETWEEN DATE(\""+date1+"\") AND DATE(\""+date2+"\") GROUP BY order_id ORDER BY `currencies_id`  DESC LIMIT 23   ;");
+                            for(int i=0;i<order.size();i++)
+                            {
+                                listModel.addElement(order.get(i));
+                            }
+                            jList1.setModel(listModel);
+                            
+                            
+                        /*    RenderPDF_img_too(htm);
+                            BufferedImage img = new BufferedImage(1,1,1);
+                            img = ScaleImage(474, 672, "name_img.png");
+                            ImageIcon icon = new ImageIcon(img);
+                            JLabel label = new JLabel(icon);
+                            JOptionPane.showMessageDialog(null, label);
+                            jOptionPane1.add(label);
+                        
+                           */ 
+                            
+                            break;
+                        }
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                        case 6:
+                        case 7:
+                        case 8:
+                        case 9:
+                        case 10:
+                        case 11:
+                        case 12:
+                        case 13:
+                        case 14:
+                        case 15:
+                        case 16:
+                        case 17:
+                        case 18:
+                        {
+                            //htm="";
+                            showMessageDialog(null, "Зашел в Case = "+select);
+                           
+                            DefaultListModel listMod = new DefaultListModel();
+                            listMod.addElement("Пустой шаблон (2015-10-03)");
+                            jList1.setModel(listMod);
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            break;
+                            
+                            
+                            
+                        }
+                        
+                        
+                        
+                        
+                        
+                        
+                        default:
+                            showMessageDialog(null, "Несуществует документа!");
+                            break;
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                    }
+                } catch (ClassNotFoundException | SQLException ex) {
+                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (ClassNotFoundException | SQLException ex) {
-                Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
         
@@ -321,6 +430,7 @@ jFormattedTextField2.setText(getShortDate());
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
+        jOptionPane1 = new javax.swing.JOptionPane();
         jPanel14 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         jTable6 = new javax.swing.JTable();
@@ -819,7 +929,7 @@ jFormattedTextField2.setText(getShortDate());
                                 .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                     .add(jLabel16, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .add(jLabel17, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .add(jLabel15, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE))
+                                    .add(jLabel15, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .add(9, 9, 9)
                                 .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                                     .add(jPanel8Layout.createSequentialGroup()
@@ -860,7 +970,7 @@ jFormattedTextField2.setText(getShortDate());
                     .add(jPanel8Layout.createSequentialGroup()
                         .add(jLabel50)
                         .add(0, 0, Short.MAX_VALUE))
-                    .add(jTextField48, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
+                    .add(jTextField48))
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
@@ -1182,7 +1292,7 @@ jFormattedTextField2.setText(getShortDate());
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(jPanel16Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jPanel16Layout.createSequentialGroup()
-                                .add(0, 62, Short.MAX_VALUE)
+                                .add(0, 0, Short.MAX_VALUE)
                                 .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 117, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                             .add(jFormattedTextField2))))
                 .addContainerGap())
@@ -1192,9 +1302,9 @@ jFormattedTextField2.setText(getShortDate());
             .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel16Layout.createSequentialGroup()
                 .add(6, 6, 6)
                 .add(jLabel44)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 23, Short.MAX_VALUE)
                 .add(jPanel16Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel2)
                     .add(jLabel3))
@@ -1212,15 +1322,26 @@ jFormattedTextField2.setText(getShortDate());
 
         jPanel17.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        jOptionPane1.setMessage("Предварительный просмотр");
+        jOptionPane1.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
+        jOptionPane1.setMaximumSize(new java.awt.Dimension(0, 0));
+        jOptionPane1.setMinimumSize(new java.awt.Dimension(0, 0));
+        jOptionPane1.setPreferredSize(new java.awt.Dimension(20, 90));
+
         org.jdesktop.layout.GroupLayout jPanel17Layout = new org.jdesktop.layout.GroupLayout(jPanel17);
         jPanel17.setLayout(jPanel17Layout);
         jPanel17Layout.setHorizontalGroup(
             jPanel17Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 0, Short.MAX_VALUE)
+            .add(jPanel17Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jOptionPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 0, Short.MAX_VALUE)
+            .add(jPanel17Layout.createSequentialGroup()
+                .add(jOptionPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel14.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Журнал операций", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
@@ -1568,31 +1689,32 @@ jFormattedTextField2.setText(getShortDate());
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel10, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1190, Short.MAX_VALUE)
-            .add(jPanel9, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1190, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel10, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1213, Short.MAX_VALUE)
+            .add(jPanel9, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1213, Short.MAX_VALUE)
             .add(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel1Layout.createSequentialGroup()
-                        .add(jPanel11, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1170, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .add(jPanel1Layout.createSequentialGroup()
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jPanel12, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE)
+                            .add(jPanel12, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
                             .add(jPanel7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(jPanel6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jPanel8, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(jPanel13, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE)))
+                            .add(jPanel13, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)))
+                    .add(jPanel14, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1203, Short.MAX_VALUE)
                     .add(jPanel1Layout.createSequentialGroup()
-                        .add(jPanel16, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jPanel17, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .add(jPanel14, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1180, Short.MAX_VALUE)
-                    .add(jPanel1Layout.createSequentialGroup()
-                        .add(jPanel15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(0, 47, Short.MAX_VALUE))))
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jPanel11, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1193, Short.MAX_VALUE)
+                            .add(jPanel1Layout.createSequentialGroup()
+                                .add(jPanel16, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(jPanel17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(jPanel1Layout.createSequentialGroup()
+                                .add(jPanel15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(0, 60, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1616,7 +1738,7 @@ jFormattedTextField2.setText(getShortDate());
                     .add(jPanel12, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(jPanel16, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(jPanel16, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 681, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jPanel17, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(jPanel14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -1832,17 +1954,11 @@ jFormattedTextField2.setText(getShortDate());
         try {
             ArrayList order = new ArrayList();
             SD.PrintTpl= new LinkedHashMap <String,String>();
-            SD.PrintTpl=ReadSQLiteMulti("SELECT pattern_id||name,html FROM print group by pattern_id ORDER BY pattern_id LIMIT 18 ;");
+            SD.PrintTpl=ReadSQLiteMulti("SELECT pattern_id||\" \"||name,html FROM print group by pattern_id ORDER BY pattern_id LIMIT 18 ;");
             //WHERE order_id="+order.get(i)+"
             Set<String> keys = SD.PrintTpl.keySet();
             
-            try {
-                //   String strtemp=SD.PrintTpl.get("1Наказ на встановлення курсів обміну готівкової іноземної валюти").toString();
-                //    Print(strtemp);
-                PreImgPrint();
-            } catch (IOException ex) {
-                Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-            }
+           
 	
         
         
@@ -2380,6 +2496,7 @@ double tmp = Double.parseDouble((String) jTextField6.getText());
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
