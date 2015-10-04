@@ -53,6 +53,10 @@ import org.json.simple.parser.ParseException;
 import org.xml.sax.SAXException;
 import static com.verbox.PrintHtml.RenderPDF_img_too;
 import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
 import static javax.swing.JOptionPane.showMessageDialog;
 import sun.awt.image.OffScreenImage;
 
@@ -175,7 +179,7 @@ jFormattedTextField2.setText(getShortDate());
                             dateoflist=ParseDateList(o.toString());
                             // showMessageDialog(null, dateoflist);
                             
-                       
+                            
                             
                             String pre = SD.PrintTpl.get(String.valueOf(jComboBox1.getSelectedItem())).toString();
                             RenderPDF_img_too(pre);
@@ -184,16 +188,31 @@ jFormattedTextField2.setText(getShortDate());
                             
                             img = ScaleImage(474, 672, "name_img.png");
                             
-                            ImageIcon icon = new ImageIcon(img);
+                            ImageIcon icon;
+                            icon = new ImageIcon(img);
+                             
+                                   
                             JLabel label = new JLabel(icon);
-                            
-                            label.repaint();                                          //-
-                      
-                            showMessageDialog(null, label);
                            
-                            jOptionPane1.repaint();                                 //-
+                  
+
+                      
+                            JOptionPane a ; 
+                            a=null;
+                            a= new JOptionPane();
+                           
+                            //
+                           a.showMessageDialog(null,
+                                     "",
+                                     "Печать документа",
+                                     JOptionPane.PLAIN_MESSAGE,
+                                     icon);
+                         
+                            //
+                           
+
                             jOptionPane1.add(label);
-                            jOptionPane1.repaint();                                   //-
+
                             
                             img.flush();
                            

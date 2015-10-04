@@ -7,6 +7,7 @@ package com.verbox;
 
 import static com.verbox.Serial_XDD.Serial_XDDGet;
 import static com.verbox.Serial_XDD.Serial_XDDGetHash;
+import static com.verbox.StorageMemory.getInstance;
 import static com.verbox.sqlite_metod.GetMd5;
 import static com.verbox.sqlite_metod.cureList_GetCash;
 import static com.verbox.sqlite_metod.cureList_GetLog;
@@ -78,17 +79,17 @@ public class json_metod {
         try {
         Serial_XDDGet();
         String tmp = Serial_XDDGetHash();
-        
+        StorageMemory SD = getInstance();
         JSONObject obparams = new JSONObject();
         obparams.put("patterns", "2015-03-05 13:00:53");
         JSONObject obj = new JSONObject();
         obj.put("cash_id", cureList_GetCash());
         obj.put("cash_password",   tmp);
-        obj.put("cashier_id", "1");
-        obj.put("cashier_password", "117475e8ed646af06790a513fd91f0fd");
+        obj.put("cashier_id", SD.getCashier_id());
+        obj.put("cashier_password", SD.getCashier_password());
         obj.put("action_name", "get_info");
-        obj.put("params", obparams);
-        obj.put("lastmes", "2020-03-05 13:54:53");
+        obj.put("params", SD.getParams());
+        obj.put("lastmes", SD.getLastmess());
         return obj;
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(json_metod.class.getName()).log(Level.SEVERE, null, ex+"getPairLogin");

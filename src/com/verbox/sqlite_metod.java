@@ -115,6 +115,8 @@ public class sqlite_metod {
      * @throws InterruptedException
      */
     public static boolean LoginSQLite(String login, String password) throws ClassNotFoundException, SQLException, UnsupportedEncodingException, ParseException, InterruptedException {
+        String patt = SELECT("SELECT patterns FROM SDobj LIMIT 1;");
+        String lastm =SELECT("SELECT lastmess FROM SDobj LIMIT 1;");
         resSet = statmt.executeQuery("SELECT * FROM user");
         boolean flag=false;
         while (resSet.next()) {
@@ -140,7 +142,7 @@ public class sqlite_metod {
     } 
             
             JSONObject temp = new JSONObject();
-                temp.put("patterns", "2015-03-05 13:00:53");
+                temp.put("patterns", patt);
                
                 StorageMemory SD=getInstance();
                
@@ -150,7 +152,8 @@ public class sqlite_metod {
                         resSet.getString("cashier_password"), 
                         "get_info", 
                         temp, 
-                        "2020-03-05 13:54:53",us
+                        lastm,
+                        us
                           );      
                try {
                SendPost(SD.GetSD());
@@ -426,6 +429,7 @@ public class sqlite_metod {
                             }
                           return "NULL";
                         }
+   
                         
     /**
      *

@@ -8,6 +8,7 @@ package com.verbox;
 /**
  *
  * @author maxxl
+ * служит в качестве HTML шаблонизатора
  */
 public class JERRY_Parser {
     

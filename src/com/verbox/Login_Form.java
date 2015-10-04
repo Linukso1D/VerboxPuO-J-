@@ -223,7 +223,7 @@ boolean log_in=false;
         }
          */
         try {
-         ParseJson Ob = null;
+         ParseJson Ob =null;
          StorageMemory SD=getInstance();
         //get_currencies
             SD.setAction_name("get_currencies");
