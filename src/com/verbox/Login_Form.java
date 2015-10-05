@@ -72,7 +72,7 @@ Ob.Write_LoginToSQLite();
 
         } catch (IOException ex) {
             Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
-            
+            showMessageDialog(null, "Не удалось вытащить логины из сервера, Причина: Скорее всего нету касиров в кассе ");
         }
         
         

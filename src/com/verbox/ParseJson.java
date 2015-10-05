@@ -7,6 +7,7 @@ package com.verbox;
 
 import static com.verbox.DecodeUTF.DecodeUTF;
 import static com.verbox.ErrorList.DesctiptError;
+import static com.verbox.In.getInstanceMain;
 import static com.verbox.StorageMemory.getInstance;
 import static com.verbox.sqlite_metod.DELETE_ALL;
 import static com.verbox.sqlite_metod.Insert;
@@ -93,13 +94,13 @@ public class ParseJson {
                                                         boolean ido=UPDATE("UPDATE SDobj SET id_operation= 1 ;");
                                                         boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= 1 ;");
                                                         boolean idqwiadmin=UPDATE("UPDATE SDobj SET idqwiadmin= 1 ;");
-                                                        showMessageDialog(null, "[openday_success]");
+                                                        showMessageDialog(null, "[opendey_success]");
                                             }
                                             if(msg.toJSONString().equals("openday_success"))
                                             {
                                                         boolean ido=UPDATE("UPDATE SDobj SET id_operation= 1 ;");
                                                         boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= 1 ;");
-                                                        showMessageDialog(null, "openday_success");
+                                                        showMessageDialog(null, "opendey_success");
                                             }
                                             
                                         }
@@ -197,12 +198,19 @@ public class ParseJson {
                                                          value.add(cartulary_id);
                                                          
 
+                                                         
+                                                         sd.setBalance("980",Double.parseDouble(sd.getGrn_sum()));
+                                                         sd.setBalance(sd.getCurrency_code(),Double.parseDouble(sd.getCurrency_sum()));
+                                                         
                                                          boolean ido=UPDATE("UPDATE SDobj SET id_operation= \""+(sd.getId_operation()+1)+"\" ;" );
                                                          boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= \""+(sd.getIdqwi()+1)+"\" ;" );
                                                          
                                                          boolean ins =Insert("journal",key,value);
                                                         showMessageDialog(null,"ID operation " + ido + "ID qwi updated "+ idqwi+"Insert "+ins);
                                                          sd.initCourse() ; 
+                                                         In mf=getInstanceMain();
+                                                        mf.RefreshINF();
+                                                        mf.repaint();
                                             }       
                                    } 
                         }
@@ -262,12 +270,19 @@ public class ParseJson {
                                                          value.add(cartulary_id);
                                                          
 
+                                                         sd.setBalance("980",Double.parseDouble(sd.getGrn_sum()));
+                                                         sd.setBalance(sd.getCurrency_code(),Double.parseDouble(sd.getCurrency_sum()));
+                                                         
                                                          boolean ido=UPDATE("UPDATE SDobj SET id_operation= \""+(sd.getId_operation()+1)+"\" ;" );
                                                          boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= \""+(sd.getIdqwi()+1)+"\" ;" );
                                                          
                                                          boolean ins =Insert("journal",key,value);
                                                         showMessageDialog(null,"ID operation " + ido + "ID qwi updated "+ idqwi+"Insert "+ins);
-                                                         sd.initCourse() ; 
+                                                        sd.initCourse() ; 
+                                                        
+                                                        In mf=getInstanceMain();
+                                                        mf.RefreshINF();
+                                                        mf.repaint();
                                             }       
                                    } 
                         }
@@ -331,7 +346,10 @@ try {
                                                         
                                                        
                                                        
-                                                       sd.initCourse() ; 
+                                                       sd.initCourse() ;
+                                                       In mf=getInstanceMain();
+                                                        mf.RefreshINF();
+                                                        mf.repaint();
                                                    
                                    } 
                         }

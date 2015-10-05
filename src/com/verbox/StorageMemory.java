@@ -8,9 +8,12 @@ package com.verbox;
 import static com.verbox.MyMath.round;
 import static com.verbox.Serial_XDD.Serial_XDDGet;
 import static com.verbox.Serial_XDD.Serial_XDDGetHash;
+import static com.verbox.Setting.GetDoubleStr;
 import static com.verbox.sqlite_metod.GetMd5;
 import static com.verbox.sqlite_metod.ReadSQLite;
 import static com.verbox.sqlite_metod.ReadSQLiteMulti;
+import static com.verbox.sqlite_metod.UPDATE;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,6 +25,8 @@ import java.util.Set;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.RowFilter.Entry;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
 import org.json.simple.JSONObject;
 
 /**
@@ -86,6 +91,8 @@ public int Pfsell,
      */
     public Map PrintTpl;
     
+    public VelocityContext velocity;
+    public Map TPLveloPrint;
     StorageMemory() {
     }
 
@@ -211,7 +218,45 @@ public int Pfsell,
         tmp.add("ur_street");               // юр улица
 
         get_info = ReadSQLite(tmp, "info","ORDER BY `enterprise_id` DESC LIMIT 1");
-
+        //добавление в шаблонизатор инфы о предприятии
+        //инициализация
+        velocity = new VelocityContext();
+        //добавление в шаблонизатор общей информации
+        try{
+        velocity.put("bookk_fio", get_info.get(0));
+        velocity.put("bookk_first_name", get_info.get(1));
+        velocity.put("bookk_last_name", get_info.get(2));
+        velocity.put("bookk_surname", get_info.get(3));
+        velocity.put("dir_fio", get_info.get(4));
+        velocity.put("dir_first_name", get_info.get(5));
+        velocity.put("dir_last_name", get_info.get(6));
+        velocity.put("dir_surname", get_info.get(7));
+        velocity.put("enterprise_full_name", get_info.get(8));
+        velocity.put("enterprise_mfo", get_info.get(9));
+        velocity.put("enterprise_name", get_info.get(10));
+        velocity.put("enterprise_okpo", get_info.get(11));
+        velocity.put("enterprise_short_name", get_info.get(12));
+        velocity.put("logo_full_image", get_info.get(13));
+        velocity.put("logo_short_image", get_info.get(14));
+        velocity.put("nat_city", get_info.get(15));
+        velocity.put("nat_city_code", get_info.get(16));
+        velocity.put("nat_house", get_info.get(17));
+        velocity.put("nat_office", get_info.get(18));
+        velocity.put("nat_street", get_info.get(19));
+        velocity.put("payment_account", get_info.get(20));
+        velocity.put("stamp_image", get_info.get(21));
+        velocity.put("ur_city", get_info.get(22));
+        velocity.put("ur_city_code", get_info.get(23));
+        velocity.put("ur_house", get_info.get(24));
+        velocity.put("ur_office", get_info.get(25));
+        velocity.put("ur_street", get_info.get(26));
+        }
+        catch(Exception E)
+        {
+            showMessageDialog(null, "Не удалось добавить в шаблонизатор данные о предприятии");
+        }
+        
+        
     }
     //---Методы получения гет инфо структуры
 
@@ -963,4 +1008,25 @@ public int Pfsell,
                 );
     }
     
+    public static String ShablonThisHtml(String str)
+            {
+                showMessageDialog(null, "XER");
+                StorageMemory SD = getInstance();
+            StringWriter w = new StringWriter();
+        
+            Velocity.evaluate(SD.velocity, w, "", "cycle"
+                + str);
+                
+            return w.toString();
+            }
+    public Double getBalance(String codes)
+    {
+        return Double.parseDouble(GetDoubleStr((ArrayList) balance.get(codes)));
+    }
+    public boolean setBalance(String codes,double value) throws SQLException
+    {
+        double d=Double.parseDouble(GetDoubleStr((ArrayList) balance.get(codes)));
+        double end =d+value;
+      return  UPDATE("UPDATE SDbalance SET balance=\""+end+"\" WHERE currency_code=\""+codes+"\";");
+    }
 }

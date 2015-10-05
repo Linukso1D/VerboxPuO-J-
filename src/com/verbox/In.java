@@ -9,6 +9,7 @@ import com.itextpdf.text.DocumentException;
 import static com.verbox.Date.getShortDate;
 import static com.verbox.MyMath.round;
 import static com.verbox.PrintHtml.PreImgPrint;
+import static com.verbox.PrintHtml.Print;
 import static com.verbox.PrintHtml.ScaleImage;
 import static com.verbox.Setting.GetDoubleStr;
 import static com.verbox.StorageMemory.getInstance;
@@ -57,6 +58,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
+import java.awt.image.TileObserver;
+import javax.swing.JInternalFrame;
 import static javax.swing.JOptionPane.showMessageDialog;
 import sun.awt.image.OffScreenImage;
 
@@ -82,14 +85,32 @@ public class In extends javax.swing.JFrame {
     /**
      * Creates new form In
      */
+    private static volatile In instance;
     double pf;
     boolean inpf;
+public static  In getInstanceMain() throws ClassNotFoundException {
+        if (instance == null) {
+            synchronized (In.class) {
+                if (instance == null) {
+                    instance = new In();
+                }
+                System.out.println("Create new Instanse Main");
+            }
+        }
+        System.out.println("Return Instanse Main");
 
+        return instance;
+    }
     /**
      *
      * @throws ClassNotFoundException
      */
     public In() throws ClassNotFoundException {
+        
+        
+        
+        
+        
         initComponents();
         //ныкать панели
         HideEl();
@@ -129,6 +150,10 @@ jFormattedTextField2.setText(getShortDate());
             jTextField39.setText(obj.StorageGetInfo("bookk_surname"));
             jTextField40.setText(obj.StorageGetInfo("bookk_first_name"));
             jTextField41.setText(obj.StorageGetInfo("bookk_last_name"));
+            
+            //курсы USD
+           RefreshINF();
+            
         } catch (NullPointerException e) {
             showMessageDialog(null, "Не удалось загрузить информацию от предприятии!!!");
             System.out.println("EXEPTION" + e);
@@ -178,47 +203,108 @@ jFormattedTextField2.setText(getShortDate());
                             StorageMemory SD =getInstance();
                             dateoflist=ParseDateList(o.toString());
                             // showMessageDialog(null, dateoflist);
+                            String pre = null;
+                            switch(jComboBox1.getSelectedIndex())
+                            {
+                                //печать большого отчета по валютам
+                                case 0:
+                                        pre = SD.PrintTpl.get(String.valueOf(jComboBox1.getSelectedItem())).toString();
+                                        //Прогнать через шаблонизатор 
+                                        SD.TPLveloPrint=new LinkedHashMap<String,ArrayList>();
+                                        SD.TPLveloPrint= ReadSQLiteMulti("SELECT currency_code,quantity_text,currency_name,CAST(course_buy AS DOUBLE),CAST(course_sale AS DOUBLE),CAST(course_nbu AS DOUBLE) FROM `currencies` WHERE TimetoStart=\""+dateoflist+"\" ORDER BY `currencies_id` LIMIT 22 ");
+                                        SD.velocity.put("map", SD.TPLveloPrint);
+                                        //положили временный масив в шаблонизатор
+                                        SD.velocity.put("TimetoStart", dateoflist);
+                                        SD.velocity.put("TimetoFinish", SELECT("SELECT TimetoFinish FROM `currencies` WHERE TimetoStart=\""+dateoflist+"\" LIMIT 1;"));
+                                        //шаблонизируем
+                                        
+                                        RenderPDF_img_too(SD.ShablonThisHtml(pre));break;
+                                case 1:
+                                        pre = SD.PrintTpl.get(String.valueOf(jComboBox1.getSelectedItem())).toString();
+                                        //Прогнать через шаблонизатор 
+                                        SD.TPLveloPrint=new LinkedHashMap<String,ArrayList>();
+                                        SD.TPLveloPrint= ReadSQLiteMulti("SELECT currency_code,quantity_text,currency_name,CAST(course_buy AS DOUBLE),CAST(course_sale AS DOUBLE),CAST(course_nbu AS DOUBLE) FROM `currencies` WHERE TimetoStart=\""+dateoflist+"\" ORDER BY `currencies_id` LIMIT 3 ");
+                                        //положили временный масив в шаблонизатор
+                                        SD.velocity.put("TimetoStart", dateoflist);
+                                        SD.velocity.put("TimetoFinish", SELECT("SELECT TimetoFinish FROM `currencies` WHERE TimetoStart=\""+dateoflist+"\" LIMIT 1;"));
+                                        SD.velocity.put("map", SD.TPLveloPrint);
+                                        //шаблонизируем
+                                        RenderPDF_img_too(SD.ShablonThisHtml(pre));
+                                        
+                                        break;
+                                        
+                                   //по умолчанию берем пустой шаблон и печатаем    
+                                   default: pre = SD.PrintTpl.get(String.valueOf(jComboBox1.getSelectedItem())).toString(); 
+                                        RenderPDF_img_too(pre);
+                                        
+                                        break;
+                            }
                             
                             
-                            
-                            String pre = SD.PrintTpl.get(String.valueOf(jComboBox1.getSelectedItem())).toString();
-                            RenderPDF_img_too(pre);
                             
                             BufferedImage img = new BufferedImage(WIDTH, HEIGHT, 1);
+                
                             
                             img = ScaleImage(474, 672, "name_img.png");
                             
-                            ImageIcon icon;
+                            ImageIcon icon ;
                             icon = new ImageIcon(img);
                              
                                    
                             JLabel label = new JLabel(icon);
-                           
-                  
-
+                            System.out.println("Icon obs"+icon.getImageObserver());
+                            System.out.println("img obs"+img.getProperty("name", icon.getImageObserver()));
+                                
                       
-                            JOptionPane a ; 
-                            a=null;
-                            a= new JOptionPane();
+                            
                            
                             //
-                           a.showMessageDialog(null,
-                                     "",
-                                     "Печать документа",
-                                     JOptionPane.PLAIN_MESSAGE,
-                                     icon);
-                         
+
+   
+                           
+JInternalFrame frame = null;
+                     
+
+
+  Object[] options = {"Да, пожалуйста напечатай.",
+                    "Нет, спасибо."
+                    };
+    int n = JOptionPane.showOptionDialog(frame,
+    "",
+    "Предварительный просмотр",
+    JOptionPane.YES_NO_OPTION,
+    JOptionPane.PLAIN_MESSAGE,
+    icon,
+    options,
+    options[1]);
+    if (n == JOptionPane.YES_OPTION) {
+       boolean pr= Print();
+       if(pr)
+       {
+            JOptionPane.showMessageDialog(null,"Напечатал");
+       }
+       else
+       {
+           JOptionPane.showMessageDialog(null,"Упс, что то пошло не так.");
+       }
+}
                             //
                            
 
                             jOptionPane1.add(label);
 
-                            
+                            icon.setImageObserver(null);
                             img.flush();
-                           
+                          // Print();
                             
                             
                         } catch (java.text.ParseException | ParserConfigurationException | SAXException | IOException | DocumentException | PrinterException ex) {
+                            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ClassNotFoundException ex) {
+                            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (Throwable ex) {
                             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         
@@ -257,6 +343,9 @@ jFormattedTextField2.setText(getShortDate());
                 try {
                     StorageMemory SD= getInstance();
                     String htm="";
+                    
+                    
+                    
                     //при нажатии
                     int select = jComboBox1.getSelectedIndex()+1;
                     showMessageDialog(null, "ПИК "+select);
@@ -294,7 +383,20 @@ jFormattedTextField2.setText(getShortDate());
                             
                             break;
                         }
-                        case 2:
+                        case 2: showMessageDialog(null, "Зашел в Case 2");
+                            DefaultListModel listModel = new DefaultListModel();
+                            ArrayList order = new ArrayList();
+                            ArrayList tmp = new ArrayList();
+                            tmp.add("order_id||\"-й Приказ [3 валюты] (\"||TimetoStart||\")\"");
+                            String date1 = jFormattedTextField1.getText();
+                            String date2 = jFormattedTextField2.getText();
+                            order = ReadSQLite(tmp,"currencies","Where DATE(TimetoStart) BETWEEN DATE(\""+date1+"\") AND DATE(\""+date2+"\") GROUP BY order_id ORDER BY `currencies_id`  DESC LIMIT 23   ;");
+                            for(int i=0;i<order.size();i++)
+                            {
+                                listModel.addElement(order.get(i));
+                            }
+                            jList1.setModel(listModel);
+                            break;
                         case 3:
                         case 4:
                         case 5:
@@ -1772,6 +1874,11 @@ jFormattedTextField2.setText(getShortDate());
 
         jMenuItem1.setText("Выйти");
         jMenuItem1.setMargin(new java.awt.Insets(0, -10, 0, 30));
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem1);
 
         jMenuItem8.setText("Настройки");
@@ -2358,20 +2465,43 @@ showMessageDialog(null, (Double.parseDouble(jTextField6.getText()) + bal));
 
     private void jButton6MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseEntered
 //наведение на пополнение
+if(!jTextField6.getText().equals(""))
+{
       double tmp = Double.parseDouble((String) jTextField6.getText());
             if (tmp < 0) {
                 jTextField6.setText(Double.toString(round(tmp * (-1), 2)));
             }  
-
+}
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton6MouseEntered
 
     private void jButton7MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseEntered
-double tmp = Double.parseDouble((String) jTextField6.getText());
+if(!jTextField6.getText().equals("")){
+        double tmp = Double.parseDouble((String) jTextField6.getText());
             if (tmp > 0) {
                 jTextField6.setText(Double.toString(round(tmp * (-1), 2)));
             }        // TODO add your handling code here:
+}
     }//GEN-LAST:event_jButton7MouseEntered
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        try {
+            Login_Form frm = new Login_Form();
+            StorageMemory SD = getInstance();
+            SD=null;
+            In.this.setVisible(false);
+            frm.setVisible(true);
+            // TODO add your handling code here:
+        } catch (ParseException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      */
@@ -2389,7 +2519,41 @@ double tmp = Double.parseDouble((String) jTextField6.getText());
         jPanel16.setVisible(false);
         jPanel17.setVisible(false);
     }
+public  void RefreshINF()
+{
+    StorageMemory obj=getInstance();
+ ArrayList tmpz = new ArrayList();
+            tmpz=(ArrayList) obj.curse.get("840");
+                
+            jTextField13.setText(Double.toString(round(Double.parseDouble((String)tmpz.get(0)),2)));
+            jTextField16.setText(Double.toString(round(Double.parseDouble((String)tmpz.get(1)),2)));
+            jTextField42.setText(Double.toString(round(Double.parseDouble((String)tmpz.get(2)),2)));
+            
+            //Euro
+ 
+            tmpz = new ArrayList();
+            tmpz=(ArrayList) obj.curse.get("978");
+                
+            jTextField14.setText(Double.toString(round(Double.parseDouble((String)tmpz.get(0)),2)));
+            jTextField17.setText(Double.toString(round(Double.parseDouble((String)tmpz.get(1)),2)));
+            jTextField43.setText(Double.toString(round(Double.parseDouble((String)tmpz.get(2)),2)));
+            
+             //Ru
+ 
+            tmpz = new ArrayList();
+            tmpz=(ArrayList) obj.curse.get("643");
+                
+            jTextField15.setText(Double.toString(round(Double.parseDouble((String)tmpz.get(0)),2)));
+            jTextField18.setText(Double.toString(round(Double.parseDouble((String)tmpz.get(1)),2)));
+            jTextField44.setText(Double.toString(round(Double.parseDouble((String)tmpz.get(2)),2)));
+            
+            
+                    jTextField45.setText(Double.toString(Double.parseDouble(GetDoubleStr((ArrayList)obj.balance.get("840")))));
+                    jTextField46.setText(Double.toString(Double.parseDouble(GetDoubleStr((ArrayList)obj.balance.get("978")))));
+                    jTextField47.setText(Double.toString(Double.parseDouble(GetDoubleStr((ArrayList)obj.balance.get("643")))));
+                    jTextField48.setText(Double.toString(Double.parseDouble(GetDoubleStr((ArrayList)obj.balance.get("980")))));
 
+}
     /**
      *
      * @param args
