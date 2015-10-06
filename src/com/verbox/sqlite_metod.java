@@ -565,7 +565,12 @@ public class sqlite_metod {
        {
        statmt.execute("DELETE FROM "+Where+" ;");
        }
-               
+     
+    
+    public static void DELETEpatt(String Who) throws SQLException
+       {
+       statmt.execute("DELETE  FROM print WHERE pattent_id=\""+Who+"\" ;");
+       }
        
        
        

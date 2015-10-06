@@ -5,11 +5,13 @@
  */
 package com.verbox;
 
+import static com.verbox.Date.getShortDate;
 import static com.verbox.DecodeUTF.DecodeUTF;
 import static com.verbox.ErrorList.DesctiptError;
 import static com.verbox.In.getInstanceMain;
 import static com.verbox.StorageMemory.getInstance;
 import static com.verbox.sqlite_metod.DELETE_ALL;
+import static com.verbox.sqlite_metod.DELETEpatt;
 import static com.verbox.sqlite_metod.Insert;
 import static com.verbox.sqlite_metod.SELECT;
 import static com.verbox.sqlite_metod.UPDATE;
@@ -90,17 +92,18 @@ public class ParseJson {
                                         if(msg.size()==1)
                                         {
                                             showMessageDialog(null,msg.toJSONString()+"Выполнено ");
-                                            if(msg.toJSONString().equals("[\"openday_success\"]"))
+                                            if(msg.toJSONString().equals("[\"opendey_success\"]"))
                                             {
                                                         boolean ido=UPDATE("UPDATE SDobj SET id_operation= 1 ;");
                                                         boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= 1 ;");
                                                         boolean idqwiadmin=UPDATE("UPDATE SDobj SET idqwiadmin= 1 ;");
                                                         showMessageDialog(null, "[opendey_success]");
                                             }
-                                            if(msg.toJSONString().equals("openday_success"))
+                                            if(msg.toJSONString().equals("opendey_success"))
                                             {
                                                         boolean ido=UPDATE("UPDATE SDobj SET id_operation= 1 ;");
                                                         boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= 1 ;");
+                                                        boolean idqwiadmin=UPDATE("UPDATE SDobj SET idqwiadmin= 1 ;");
                                                         showMessageDialog(null, "opendey_success");
                                             }
                                             
@@ -118,7 +121,7 @@ public class ParseJson {
                        //Забираем курсы с сервака   
                        if(json.get("action_name").equals("get_currencies"))
                        {
-                           showMessageDialog(null,json.get("action_name"));
+                          // showMessageDialog(null,json.get("action_name"));
                                     if(json.get("params")!=null)
                                    {
                                     JSONObject tmp = (JSONObject) json.get("params");
@@ -140,6 +143,22 @@ public class ParseJson {
                                     Currencies.add(mas2.get("quantity_text"));
                                      
                                     }
+                                    //обновление индексов патернс
+                                    try
+                                    {
+                                        String s= (String) tmp.get("patterns");
+                                        if(s!=null)
+                                        {
+                                        UPDATE("UPDATE SDobj SET patterns=\""+s+"\";");
+                                        String SELECT = SELECT("SELECT name FROM print WHERE DATE(date_create)=DATE(\""+getShortDate()+"\")");
+                                        showMessageDialog(null, "Обновлен шаблон печати на документ "+SELECT );
+                                        }
+                                    }
+                                        catch(Exception e)
+                                    {
+                                    
+                                    }
+                                    
                                    } 
                         }
                        //Принимаем платежи в приходящем JSON
@@ -208,6 +227,7 @@ public class ParseJson {
                                                          
                                                          boolean ins =Insert("journal",key,value);
                                                         showMessageDialog(null,"ID operation " + ido + "ID qwi updated "+ idqwi+"Insert "+ins);
+                                                        //обновляем локальную валюту
                                                          sd.initCourse() ; 
                                                          In mf=getInstanceMain();
                                                         mf.RefreshINF();
@@ -279,11 +299,14 @@ public class ParseJson {
                                                          
                                                          boolean ins =Insert("journal",key,value);
                                                         showMessageDialog(null,"ID operation " + ido + "ID qwi updated "+ idqwi+"Insert "+ins);
-                                                        sd.initCourse() ; 
+                                                       
                                                         
-                                                        In mf=getInstanceMain();
+                                                        //обновляем локальную валюту
+                                                         sd.initCourse() ; 
+                                                         In mf=getInstanceMain();
                                                         mf.RefreshINF();
                                                         mf.repaint();
+                                                      
                                             }       
                                    } 
                         }
@@ -426,6 +449,7 @@ try {
             JSONObject jo = (JSONObject) json.get("params");
             JSONObject enterprise = (JSONObject) jo.get("enterprise"); //инфо
             JSONArray patterns = (JSONArray) jo.get("patterns");
+            JSONArray taxpf = (JSONArray) jo.get("taxes");
                 info.add(enterprise.get("bookk_fio"));
                 info.add(enterprise.get("bookk_first_name"));
                 info.add(enterprise.get("bookk_last_name"));
@@ -503,11 +527,44 @@ try {
                         ListKey.add("name");
                         ListKey.add("html");
                         ListKey.add("date_create");
+                        try
+                        {
+                        DELETEpatt(obj2.get("pattern_id").toString());
+                        }
+                        catch(SQLException e)
+                        {
+                            System.out.println("sql exp parsejson517 "+e);
+                        }
                 Insert("print", ListKey, ListValue);
                 
                 
              }
             }   
+            
+            //Берем пф и ложим в лан
+             for(int i=0;i<taxpf.size();i++)
+            {
+             if(taxpf.get(i)!=null)
+             {
+                 // заполняем шаблоны на пф
+                JSONObject obj3 = (JSONObject)patterns.get(i);
+             
+                
+               
+                        
+                       
+                        
+                      
+                UPDATE("UPDATE SDobj SET Pfbuy= \""+ obj3.get("taxpf_buy")+"\" ;" );      
+                UPDATE("UPDATE SDobj SET Pfbuy= \""+ obj3.get("taxpf_sale")+"\" ;" );      
+                       
+    
+                
+                
+             }
+            }   
+            
+            
            
             //--  
         }
