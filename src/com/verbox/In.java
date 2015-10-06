@@ -10,7 +10,7 @@ import static com.verbox.Date.getShortDate;
 import static com.verbox.MyMath.round;
 import static com.verbox.PrintHtml.PreImgPrint;
 import static com.verbox.PrintHtml.Print;
-import static com.verbox.PrintHtml.ScaleImage;
+
 import static com.verbox.Setting.GetDoubleStr;
 import static com.verbox.StorageMemory.getInstance;
 import static com.verbox.json_metod.SendPost;
@@ -59,8 +59,10 @@ import java.awt.Image;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 import java.awt.image.TileObserver;
+import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import static javax.swing.JOptionPane.showMessageDialog;
+import javax.swing.event.MouseInputListener;
 import sun.awt.image.OffScreenImage;
 
 /**
@@ -74,6 +76,8 @@ public class In extends javax.swing.JFrame {
      * @param str
      * @return
      */
+
+    
     public static boolean isNumeric(String str) {
         for (char c : str.toCharArray()) {
             if (!Character.isDigit(c)) {
@@ -101,6 +105,13 @@ public static  In getInstanceMain() throws ClassNotFoundException {
 
         return instance;
     }
+
+
+
+
+     private MouseListener mouseListener;
+
+
     /**
      *
      * @throws ClassNotFoundException
@@ -109,7 +120,7 @@ public static  In getInstanceMain() throws ClassNotFoundException {
         
         
         
-        
+      
         
         initComponents();
         //ныкать панели
@@ -186,11 +197,22 @@ jFormattedTextField2.setText(getShortDate());
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-      MouseListener mouseListener;
-        mouseListener = new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent mouseEvent) {
-                JList theList = (JList) mouseEvent.getSource();
+      
+
+        
+
+    
+    
+    
+    // list listener
+    jList1.addMouseListener(new MouseAdapter() 
+{
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent) 
+    {
+
+
+         JList theList = (JList) mouseEvent.getSource();
                 if (mouseEvent.getClickCount() == 1) {
                     int index = theList.locationToIndex(mouseEvent.getPoint());
                     if (index >= 0) {
@@ -198,9 +220,10 @@ jFormattedTextField2.setText(getShortDate());
                         
                         //событие щелчка на лист в отчетах
                         String dateoflist;
-                        
+                       
                         try {
                             StorageMemory SD =getInstance();
+                           
                             dateoflist=ParseDateList(o.toString());
                             // showMessageDialog(null, dateoflist);
                             String pre = null;
@@ -239,66 +262,20 @@ jFormattedTextField2.setText(getShortDate());
                                         
                                         break;
                             }
-                            
-                            
-                            
-                            BufferedImage img = new BufferedImage(WIDTH, HEIGHT, 1);
-                
-                            
-                            img = ScaleImage(474, 672, "name_img.png");
-                            
-                            ImageIcon icon ;
-                            icon = new ImageIcon(img);
-                             
-                                   
-                            JLabel label = new JLabel(icon);
-                            System.out.println("Icon obs"+icon.getImageObserver());
-                            System.out.println("img obs"+img.getProperty("name", icon.getImageObserver()));
-                                
-                      
-                            
-                           
-                            //
+                        
+               
 
+   ResizeImage img = new ResizeImage();
    
-                           
-JInternalFrame frame = null;
-                     
-
-
-  Object[] options = {"Да, пожалуйста напечатай.",
-                    "Нет, спасибо."
-                    };
-    int n = JOptionPane.showOptionDialog(frame,
-    "",
-    "Предварительный просмотр",
-    JOptionPane.YES_NO_OPTION,
-    JOptionPane.PLAIN_MESSAGE,
-    icon,
-    options,
-    options[1]);
-    if (n == JOptionPane.YES_OPTION) {
-       boolean pr= Print();
-       if(pr)
-       {
-            JOptionPane.showMessageDialog(null,"Напечатал");
-       }
-       else
-       {
-           JOptionPane.showMessageDialog(null,"Упс, что то пошло не так.");
-       }
-}
                             //
                            
 
-                            jOptionPane1.add(label);
-
-                            icon.setImageObserver(null);
-                            img.flush();
+                  
+                          
                           // Print();
                             
                             
-                        } catch (java.text.ParseException | ParserConfigurationException | SAXException | IOException | DocumentException | PrinterException ex) {
+                        } catch (ParserConfigurationException | SAXException | IOException | DocumentException | PrinterException ex) {
                             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (ClassNotFoundException ex) {
                             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
@@ -311,10 +288,10 @@ JInternalFrame frame = null;
                         System.out.println("clicked on: " + o.toString());
                     }
                 }
-            }
-            
+    }
+
             private String ParseDateList(String s) throws java.text.ParseException {
-                // оно ищет в листе дату что бы потом выбрать из бд все по этой дате НАВЕРНОЕ 
+               // оно ищет в листе дату что бы потом выбрать из бд все по этой дате НАВЕРНОЕ 
                 Calendar calendar = new GregorianCalendar();
                 SimpleDateFormat formattedDate = new SimpleDateFormat("yyyy-MM-dd");
                 String s2 = s.substring(s.indexOf("(")+1 , s.indexOf(")") ) ;
@@ -325,141 +302,12 @@ JInternalFrame frame = null;
                 String dateToday = formattedDate.format(docDate);
                 return dateToday;
             }
-        };
-    jList1.addMouseListener(mouseListener);
-        
+        });
     
-    
-    
-    
-    
-    
-    
+       
     
         // combobox 1 listener
-        jComboBox1.addActionListener (new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    StorageMemory SD= getInstance();
-                    String htm="";
-                    
-                    
-                    
-                    //при нажатии
-                    int select = jComboBox1.getSelectedIndex()+1;
-                    showMessageDialog(null, "ПИК "+select);
-                    //заглушки выбора пунтиков меню
-                    
-                    switch(select){
-                        
-                        //отчет по курсам
-                        case 1:{
-                          //  htm="";
-                            showMessageDialog(null, "Зашел в Case 1");
-                            DefaultListModel listModel = new DefaultListModel();
-                            ArrayList order = new ArrayList();
-                            ArrayList tmp = new ArrayList();
-                            tmp.add("order_id||\"-й Приказ (\"||TimetoStart||\")\"");
-                            String date1 = jFormattedTextField1.getText();
-                            String date2 = jFormattedTextField2.getText();
-                            order = ReadSQLite(tmp,"currencies","Where DATE(TimetoStart) BETWEEN DATE(\""+date1+"\") AND DATE(\""+date2+"\") GROUP BY order_id ORDER BY `currencies_id`  DESC LIMIT 23   ;");
-                            for(int i=0;i<order.size();i++)
-                            {
-                                listModel.addElement(order.get(i));
-                            }
-                            jList1.setModel(listModel);
-                            
-                            
-                        /*    RenderPDF_img_too(htm);
-                            BufferedImage img = new BufferedImage(1,1,1);
-                            img = ScaleImage(474, 672, "name_img.png");
-                            ImageIcon icon = new ImageIcon(img);
-                            JLabel label = new JLabel(icon);
-                            JOptionPane.showMessageDialog(null, label);
-                            jOptionPane1.add(label);
-                        
-                           */ 
-                            
-                            break;
-                        }
-                        case 2: showMessageDialog(null, "Зашел в Case 2");
-                            DefaultListModel listModel = new DefaultListModel();
-                            ArrayList order = new ArrayList();
-                            ArrayList tmp = new ArrayList();
-                            tmp.add("order_id||\"-й Приказ [3 валюты] (\"||TimetoStart||\")\"");
-                            String date1 = jFormattedTextField1.getText();
-                            String date2 = jFormattedTextField2.getText();
-                            order = ReadSQLite(tmp,"currencies","Where DATE(TimetoStart) BETWEEN DATE(\""+date1+"\") AND DATE(\""+date2+"\") GROUP BY order_id ORDER BY `currencies_id`  DESC LIMIT 23   ;");
-                            for(int i=0;i<order.size();i++)
-                            {
-                                listModel.addElement(order.get(i));
-                            }
-                            jList1.setModel(listModel);
-                            break;
-                        case 3:
-                        case 4:
-                        case 5:
-                        case 6:
-                        case 7:
-                        case 8:
-                        case 9:
-                        case 10:
-                        case 11:
-                        case 12:
-                        case 13:
-                        case 14:
-                        case 15:
-                        case 16:
-                        case 17:
-                        case 18:
-                        {
-                            //htm="";
-                            showMessageDialog(null, "Зашел в Case = "+select);
-                           
-                            DefaultListModel listMod = new DefaultListModel();
-                            listMod.addElement("Пустой шаблон (2015-10-03)");
-                            jList1.setModel(listMod);
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            break;
-                            
-                            
-                            
-                        }
-                        
-                        
-                        
-                        
-                        
-                        
-                        default:
-                            showMessageDialog(null, "Несуществует документа!");
-                            break;
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                    }
-                } catch (ClassNotFoundException | SQLException ex) {
-                    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
+        jComboBox1.addActionListener (new ActionListenerImpl());
         
     }
 
@@ -2602,6 +2450,19 @@ public  void RefreshINF()
 
     }
 
+    public JComboBox getjComboBox1() {
+        return jComboBox1;
+    }
+
+    public JList getjList1() {
+        return jList1;
+    }
+
+    public void setjOptionPane1(JOptionPane jOptionPane1) {
+        this.jOptionPane1 = jOptionPane1;
+    }
+    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -2756,4 +2617,135 @@ public  void RefreshINF()
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     // End of variables declaration//GEN-END:variables
+
+    private class ActionListenerImpl implements ActionListener {
+
+        public ActionListenerImpl() {
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                StorageMemory SD= getInstance();
+                String htm="";
+             
+                
+                
+                //при нажатии
+                int select = jComboBox1.getSelectedIndex()+1;
+                showMessageDialog(null, "ПИК "+select);
+                //заглушки выбора пунтиков меню
+                
+                switch(select){
+                    
+                    //отчет по курсам
+                    case 1:{
+                        //  htm="";
+                        showMessageDialog(null, "Зашел в Case 1");
+                        DefaultListModel listModel = new DefaultListModel();
+                        ArrayList order = new ArrayList();
+                        ArrayList tmp = new ArrayList();
+                        tmp.add("order_id||\"-й Приказ (\"||TimetoStart||\")\"");
+                        String date1 = jFormattedTextField1.getText();
+                        String date2 = jFormattedTextField2.getText();
+                        order = ReadSQLite(tmp,"currencies","Where DATE(TimetoStart) BETWEEN DATE(\""+date1+"\") AND DATE(\""+date2+"\") GROUP BY order_id ORDER BY `currencies_id`  DESC LIMIT 23   ;");
+                        for(int i=0;i<order.size();i++)
+                        {
+                            listModel.addElement(order.get(i));
+                        }
+                        jList1.setModel(listModel);
+                        
+                        
+                        /*    RenderPDF_img_too(htm);
+                        BufferedImage img = new BufferedImage(1,1,1);
+                        img = ScaleImage(474, 672, "name_img.png");
+                        ImageIcon icon = new ImageIcon(img);
+                        JLabel label = new JLabel(icon);
+                        JOptionPane.showMessageDialog(null, label);
+                        jOptionPane1.add(label);
+                        
+                        */
+                        
+                        break;
+                    }
+                    case 2: showMessageDialog(null, "Зашел в Case 2");
+                    DefaultListModel listModel = new DefaultListModel();
+                    ArrayList order = new ArrayList();
+                    ArrayList tmp = new ArrayList();
+                    tmp.add("order_id||\"-й Приказ [3 валюты] (\"||TimetoStart||\")\"");
+                    String date1 = jFormattedTextField1.getText();
+                    String date2 = jFormattedTextField2.getText();
+                    order = ReadSQLite(tmp,"currencies","Where DATE(TimetoStart) BETWEEN DATE(\""+date1+"\") AND DATE(\""+date2+"\") GROUP BY order_id ORDER BY `currencies_id`  DESC LIMIT 23   ;");
+                    for(int i=0;i<order.size();i++)
+                    {
+                        listModel.addElement(order.get(i));
+                    }
+                    jList1.setModel(listModel);
+                    break;
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                    case 9:
+                    case 10:
+                    case 11:
+                    case 12:
+                    case 13:
+                    case 14:
+                    case 15:
+                    case 16:
+                    case 17:
+                    case 18:
+                    {
+                        //htm="";
+                        showMessageDialog(null, "Зашел в Case = "+select);
+                        
+                        DefaultListModel listMod = new DefaultListModel();
+                        listMod.addElement("Пустой шаблон (2015-10-03)");
+                        jList1.setModel(listMod);
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        break;
+                        
+                        
+                        
+                    }
+                    
+                    
+                    
+                    
+                    
+                    
+                    default:
+                        showMessageDialog(null, "Несуществует документа!");
+                        break;
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                }
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+ 
+ 
 }

@@ -25,6 +25,8 @@ import com.itextpdf.tool.xml.XMLWorkerHelper;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.print.PrinterJob;
 import java.io.ByteArrayInputStream;
@@ -39,6 +41,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -51,6 +54,7 @@ import org.apache.pdfbox.pdmodel.PDPage;
  */
 public class PrintHtml {
 public static String fullhtml;
+
     /**
      * @param inpHtml
      * @throws java.io.FileNotFoundException
@@ -125,22 +129,7 @@ ImageIO.write(previewImage, "png", new File(pdfPath + ".png"));
     
     }
     
-    public static BufferedImage ScaleImage(int WIDTH, int HEIGHT, String filename) {
-    BufferedImage bi = null;
-    
-    try {
-        ImageIcon ii = new ImageIcon(filename);//path to image
-        bi = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g2d = (Graphics2D) bi.createGraphics();
-        g2d.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY));
-        g2d.drawImage(ii.getImage(), 0, 0, WIDTH, HEIGHT, null);
-        g2d.dispose();
-    } catch (Exception e) {
-        e.printStackTrace();
-        return null;
-    }
-    return bi;
-}
+
 
     
     

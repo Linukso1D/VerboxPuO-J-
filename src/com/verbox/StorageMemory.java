@@ -1010,7 +1010,7 @@ public int Pfsell,
     
     public static String ShablonThisHtml(String str)
             {
-                showMessageDialog(null, "XER");
+               
                 StorageMemory SD = getInstance();
             StringWriter w = new StringWriter();
         
