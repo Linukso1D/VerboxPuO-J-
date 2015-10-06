@@ -256,7 +256,7 @@ boolean log_in=false;
         if (log_in)
         {
     try {
-        In frm = new In();
+        In frm = In.getInstanceMain();
         frm.setVisible(true);
         Login_Form.this.setVisible(false);
     } catch (ClassNotFoundException ex) {

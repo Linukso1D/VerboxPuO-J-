@@ -158,6 +158,7 @@ public class rootes extends javax.swing.JFrame {
         {
         showMessageDialog(null, "saved and invisible root");
         InviZ(0);
+        
         }
             
             

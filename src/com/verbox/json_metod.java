@@ -52,7 +52,10 @@ public class json_metod {
         try {
         Serial_XDDGet();
         String tmp = Serial_XDDGetHash();
-        
+        if(cureList_GetCash().equals("")) 
+        {
+            showMessageDialog(null, "Настроечный лист не корректен");
+        }
         JSONObject obparams = new JSONObject();
         obparams.put("patterns", "2015-03-05 13:00:53");
         JSONObject obj = new JSONObject();

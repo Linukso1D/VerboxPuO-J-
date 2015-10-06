@@ -13,6 +13,7 @@ import static com.verbox.sqlite_metod.DELETE_ALL;
 import static com.verbox.sqlite_metod.Insert;
 import static com.verbox.sqlite_metod.SELECT;
 import static com.verbox.sqlite_metod.UPDATE;
+import static com.verbox.sqlite_metod.viZ;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -613,6 +614,7 @@ for (Object item : Currencies) {
      */
         public boolean Write_LoginToSQLite() throws SQLException, ClassNotFoundException {
         boolean flag = false;
+        try{
         if (!CashierNameList.isEmpty()) {
 
             int i = 4;
@@ -640,6 +642,12 @@ for (Object item : Currencies) {
             }
 
             return flag;
+        }
+        }
+        catch(NullPointerException e)
+        {
+            showMessageDialog(null, "Не удалось записать касиров в базу (Проверьте настройки кассы в настроечном листе)");
+            viZ(0);
         }
         return flag;
 
