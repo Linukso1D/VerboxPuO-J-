@@ -47,6 +47,7 @@ public class Login_Form extends javax.swing.JFrame {
      */
     public Login_Form() throws org.json.simple.parser.ParseException, SQLException, ClassNotFoundException, InterruptedException {
 
+        this.setLocationByPlatform(true);
         //прорисовка формы
         initComponents();
         //инициализация обьектов
@@ -283,12 +284,19 @@ boolean log_in=false;
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
+        //kobelchak@gmail.com
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                 
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
+                /*if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }*/
+               
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(Login_Form.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
