@@ -60,10 +60,13 @@ import java.awt.event.ItemEvent;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 import java.awt.image.TileObserver;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JTable;
+import javax.swing.RowFilter;
 import javax.swing.event.MouseInputListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -129,6 +132,64 @@ public static  In getInstanceMain() throws ClassNotFoundException {
         initComponents();
         //ныкать панели
         HideEl();
+        
+        //общие сведения
+        
+          //Общие сведения
+        try{    
+            
+            Map mapData = new LinkedHashMap<String,ArrayList>();
+            mapData=  ReadSQLiteMulti(
+                    "SELECT `j`.`type`, `j`.`type`, `s`.`currency_name`,SUM(j.grn_sum),SUM(currency_sum)\n" +
+                    "FROM `journal` AS `j`\n" +
+                    "INNER JOIN `SDbalance` AS `s` ON `j`.`currency_code` = `s`.`currency_code`\n" +
+                    "WHERE DATE(\""+getShortDate()+"\") = DATE(`j`.`date_create`) AND `s`.`active` = 'true'\n" +
+                    "GROUP BY j.type");
+            Set<String> keys = mapData.keySet();
+            DefaultTableModel mod = new DefaultTableModel();
+            jTable2.setModel(mod);
+            
+            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+            model.addColumn("Операция");
+            model.addColumn("Валюта");
+            model.addColumn("Приход по Грн");
+            model.addColumn("Приход по валюте");
+            
+            
+            
+            Set<RowFilter.Entry<String, ArrayList<String>>> setMap = mapData.entrySet(); 
+            Iterator<RowFilter.Entry<String,  ArrayList<String>>> iteratorMap = setMap.iterator(); 
+            while(iteratorMap.hasNext()) { 
+            Map.Entry<String, ArrayList<String>> entry =  
+            (Map.Entry<String, ArrayList<String>>) iteratorMap.next();
+            String key = entry.getKey(); 
+            List<String> values = entry.getValue(); 
+            
+            
+                ArrayList tmpz = new ArrayList();
+                tmpz=(ArrayList) mapData.get(key);
+               
+                
+             model.addRow(new Object[]{  tmpz.get(0).toString() , tmpz.get(1).toString() , tmpz.get(2).toString() , tmpz.get(3).toString()  });
+            
+         
+      } 
+            
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+        
+        
+        
+        ///конец общие сведения
+        
+        
+        
+        
+        
         //  размер окна
         setSize(1200, 800);
         jPanel11.setVisible(true);
@@ -404,8 +465,6 @@ jFormattedTextField2.setText(getShortDate());
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jPanel17 = new javax.swing.JPanel();
-        jOptionPane1 = new javax.swing.JOptionPane();
         jPanel14 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         jTable6 = new javax.swing.JTable();
@@ -491,62 +550,6 @@ jFormattedTextField2.setText(getShortDate());
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Подкрепления", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         jPanel9.setPreferredSize(new java.awt.Dimension(491, 675));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, "ы", null, null, "1", "2"},
-                {null, "ы", null, null, null, "1"},
-                {null, null, null, null, null, "2"},
-                {"1", null, "2", "3", "5", "4"},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Код валюты", "Номер документа", "Дата", "Время", "Сумма", "Пр.документа"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
         jScrollPane1.setViewportView(jTable1);
 
         org.jdesktop.layout.GroupLayout jPanel9Layout = new org.jdesktop.layout.GroupLayout(jPanel9);
@@ -568,41 +571,6 @@ jFormattedTextField2.setText(getShortDate());
         jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Инкасация", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         jPanel10.setPreferredSize(new java.awt.Dimension(474, 675));
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"ы", "890", null, "4", "6", "6"},
-                {"ы", "65", "2", "2", "1", "2"},
-                {"ы", "4", null, null, null, null},
-                {null, "8", null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Номер документа", "Код валюты", "Дата", "Время", "Сумма", "Пр. документа"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
         jScrollPane3.setViewportView(jTable3);
 
         org.jdesktop.layout.GroupLayout jPanel10Layout = new org.jdesktop.layout.GroupLayout(jPanel10);
@@ -638,32 +606,6 @@ jFormattedTextField2.setText(getShortDate());
             }
         });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"Грн",  new Integer(552), null,  new Integer(416),  new Integer(1),  new Integer(4),  new Integer(64)},
-                {"Доллар",  new Integer(1),  new Integer(2),  new Integer(3),  new Integer(5),  new Integer(4),  new Integer(7)},
-                {"Евро",  new Integer(3),  new Integer(1),  new Integer(1),  new Integer(5),  new Integer(6),  new Integer(1)},
-                {"Руб",  new Integer(1),  new Integer(1),  new Integer(2),  new Integer(3),  new Integer(4), null}
-            },
-            new String [] {
-                "Валюта", "Остаток на начало дня", "Подкрепление", "Инкассировано", "Приход", "Расход", "Итого"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
         jScrollPane2.setViewportView(jTable2);
 
         jButton5.setBackground(new java.awt.Color(255, 225, 225));
@@ -713,12 +655,6 @@ jFormattedTextField2.setText(getShortDate());
         jLabel12.setText("Номер телефона");
 
         jCheckBox1.setText("Резидент");
-
-        try {
-            jTextField9.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("????????????????????")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
 
         try {
             jTextField10.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("??")));
@@ -1123,7 +1059,7 @@ jFormattedTextField2.setText(getShortDate());
                 .add(jButton6)
                 .add(18, 18, 18)
                 .add(jButton7)
-                .addContainerGap(205, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1149,43 +1085,7 @@ jFormattedTextField2.setText(getShortDate());
         jPanel12.setPreferredSize(new java.awt.Dimension(484, 675));
 
         jTable4.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"Фамилия Имя Отчество", "380934030891"},
-                {"Фамилия Имя Отчество", "380934030891"},
-                {"Фамилия Имя Отчество", "380934030891"},
-                {"Фамилия Имя Отчество", "380934030891"},
-                {"Фамилия Имя Отчество", "380934030891"},
-                {"Фамилия Имя Отчество", "380934030891"},
-                {"Фамилия Имя Отчество", "380934030891"},
-                {"Фамилия Имя Отчество", "380934030891"},
-                {"Фамилия Имя Отчество", "380934030891"},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Ф.И.О.", "Номер"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
         jScrollPane4.setViewportView(jTable4);
-        if (jTable4.getColumnModel().getColumnCount() > 0) {
-            jTable4.getColumnModel().getColumn(1).setMinWidth(100);
-            jTable4.getColumnModel().getColumn(1).setPreferredWidth(100);
-            jTable4.getColumnModel().getColumn(1).setMaxWidth(100);
-        }
 
         org.jdesktop.layout.GroupLayout jPanel12Layout = new org.jdesktop.layout.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -1208,25 +1108,6 @@ jFormattedTextField2.setText(getShortDate());
         jPanel13.setPreferredSize(new java.awt.Dimension(484, 675));
 
         jTable5.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"фывфывфыв", "380934030891"},
-                {"Фамилия", "380934030891"},
-                {"Имя ", "380934030891"},
-                {"Отчество", "380934030891"}
-            },
-            new String [] {
-                "Ф.И.О.", "Номер"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
         jScrollPane5.setViewportView(jTable5);
         if (jTable5.getColumnModel().getColumnCount() > 0) {
             jTable5.getColumnModel().getColumn(1).setMinWidth(100);
@@ -1283,19 +1164,20 @@ jFormattedTextField2.setText(getShortDate());
                     .add(jComboBox1, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(jPanel16Layout.createSequentialGroup()
                         .add(jPanel16Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jLabel44, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 104, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel45)
                             .add(jPanel16Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                                .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel44, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 104, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel45, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .add(jFormattedTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 156, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(jLabel4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 12, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(jPanel16Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jPanel16Layout.createSequentialGroup()
-                                .add(0, 0, Short.MAX_VALUE)
-                                .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 117, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                            .add(jFormattedTextField2))))
+                                .add(jPanel16Layout.createSequentialGroup()
+                                    .add(jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 117, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel16Layout.createSequentialGroup()
+                                    .add(jFormattedTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 156, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                    .add(jLabel4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 12, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .add(10, 10, 10)
+                                    .add(jFormattedTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 182, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                        .add(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel16Layout.setVerticalGroup(
@@ -1303,9 +1185,7 @@ jFormattedTextField2.setText(getShortDate());
             .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel16Layout.createSequentialGroup()
                 .add(6, 6, 6)
                 .add(jLabel44)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(jPanel16Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel2)
                     .add(jLabel3))
@@ -1314,59 +1194,18 @@ jFormattedTextField2.setText(getShortDate());
                     .add(jFormattedTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jFormattedTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel4))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 13, Short.MAX_VALUE)
                 .add(jLabel45)
                 .add(18, 18, 18)
                 .add(jScrollPane6, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 519, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        jPanel17.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        jOptionPane1.setMessage("Предварительный просмотр");
-        jOptionPane1.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
-        jOptionPane1.setMaximumSize(new java.awt.Dimension(0, 0));
-        jOptionPane1.setMinimumSize(new java.awt.Dimension(0, 0));
-        jOptionPane1.setPreferredSize(new java.awt.Dimension(20, 90));
-
-        org.jdesktop.layout.GroupLayout jPanel17Layout = new org.jdesktop.layout.GroupLayout(jPanel17);
-        jPanel17.setLayout(jPanel17Layout);
-        jPanel17Layout.setHorizontalGroup(
-            jPanel17Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel17Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jOptionPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 571, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel17Layout.setVerticalGroup(
-            jPanel17Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel17Layout.createSequentialGroup()
-                .add(jOptionPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
         jPanel14.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Журнал операций", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         jPanel14.setPreferredSize(new java.awt.Dimension(484, 675));
 
-        jTable6.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"25221 ", "фывфывфыв", "фывфыв", null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Дата", "Время", "Операция", "Кассир"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
         jScrollPane7.setViewportView(jTable6);
         if (jTable6.getColumnModel().getColumnCount() > 0) {
             jTable6.getColumnModel().getColumn(0).setMaxWidth(200);
@@ -1707,11 +1546,8 @@ jFormattedTextField2.setText(getShortDate());
                     .add(jPanel14, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1203, Short.MAX_VALUE)
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jPanel16, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1193, Short.MAX_VALUE)
                             .add(jPanel11, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1193, Short.MAX_VALUE)
-                            .add(jPanel1Layout.createSequentialGroup()
-                                .add(jPanel16, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(jPanel17, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                             .add(jPanel1Layout.createSequentialGroup()
                                 .add(jPanel15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .add(0, 60, Short.MAX_VALUE)))
@@ -1738,9 +1574,7 @@ jFormattedTextField2.setText(getShortDate());
                     .add(jPanel13, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(jPanel12, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                    .add(jPanel16, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 681, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jPanel17, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(jPanel16, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 681, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(jPanel14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -1899,15 +1733,176 @@ jFormattedTextField2.setText(getShortDate());
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         HideEl();
         jPanel11.setVisible(true);
+       
+            //Общие сведения
+        try{    
+            
+            Map mapData = new LinkedHashMap<String,ArrayList>();
+            mapData=  ReadSQLiteMulti(
+                    "SELECT `j`.`type`, `j`.`type`, `s`.`currency_name`,SUM(j.grn_sum),SUM(currency_sum)\n" +
+                    "FROM `journal` AS `j`\n" +
+                    "INNER JOIN `SDbalance` AS `s` ON `j`.`currency_code` = `s`.`currency_code`\n" +
+                    "WHERE DATE(\""+getShortDate()+"\") = DATE(`j`.`date_create`) AND `s`.`active` = 'true'\n" +
+                    "GROUP BY j.type");
+            Set<String> keys = mapData.keySet();
+            DefaultTableModel mod = new DefaultTableModel();
+            jTable2.setModel(mod);
+            
+            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+            model.addColumn("Операция");
+            model.addColumn("Валюта");
+            model.addColumn("Приход по Грн");
+            model.addColumn("Приход по валюте");
+            
+            
+            
+            Set<RowFilter.Entry<String, ArrayList<String>>> setMap = mapData.entrySet(); 
+            Iterator<RowFilter.Entry<String,  ArrayList<String>>> iteratorMap = setMap.iterator(); 
+            while(iteratorMap.hasNext()) { 
+            Map.Entry<String, ArrayList<String>> entry =  
+            (Map.Entry<String, ArrayList<String>>) iteratorMap.next();
+            String key = entry.getKey(); 
+            List<String> values = entry.getValue(); 
+            
+            
+                ArrayList tmpz = new ArrayList();
+                tmpz=(ArrayList) mapData.get(key);
+               
+                
+             model.addRow(new Object[]{  tmpz.get(0).toString() , tmpz.get(1).toString() , tmpz.get(2).toString() , tmpz.get(3).toString()  });
+            
+         
+      } 
+            
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+        
+        
+        
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        HideEl();
-        jPanel9.setVisible(true);
-
+        try {
+            //подкрепления
+            
+            
+            Map mapData = new LinkedHashMap<String,ArrayList>();
+            mapData=  ReadSQLiteMulti(
+                    "SELECT j.id_journal,j.date_create,j.time_create,j.FIO,j.currency_sum, c.currency_name\n" +
+                    "FROM journal AS j\n" +
+                    "LEFT JOIN SDbalance AS c ON j.currency_code = c.currency_code\n" +
+                    "WHERE type=\"replenish\" ORDER by id_journal DESC");
+            Set<String> keys = mapData.keySet();
+            DefaultTableModel mod = new DefaultTableModel();
+            jTable1.setModel(mod);
+            
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.addColumn("Дата");
+            model.addColumn("Время");
+            model.addColumn("Кассир");
+            model.addColumn("Сумма");
+            model.addColumn("Валюта");
+            
+            
+              Set<RowFilter.Entry<String, ArrayList<String>>> setMap = mapData.entrySet(); 
+   Iterator<RowFilter.Entry<String,  ArrayList<String>>> iteratorMap = setMap.iterator(); 
+        while(iteratorMap.hasNext()) { 
+            Map.Entry<String, ArrayList<String>> entry =  
+            (Map.Entry<String, ArrayList<String>>) iteratorMap.next();
+            String key = entry.getKey(); 
+            List<String> values = entry.getValue(); 
+            
+            
+                ArrayList tmpz = new ArrayList();
+                tmpz=(ArrayList) mapData.get(key);
+               
+                
+             model.addRow(new Object[]{  tmpz.get(0).toString() , tmpz.get(1).toString() , tmpz.get(2).toString() , tmpz.get(3).toString() , tmpz.get(4).toString() });
+            
+         
+      } 
+            
+            
+            
+            
+            
+        
+            
+            
+            
+            
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        }
+HideEl();
+jPanel9.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+ try {
+            //подкрепления
+            
+            
+            Map mapData = new LinkedHashMap<String,ArrayList>();
+            mapData=  ReadSQLiteMulti(
+                    "SELECT j.id_journal,j.date_create,j.time_create,j.FIO,j.currency_sum, c.currency_name\n" +
+                    "FROM journal AS j\n" +
+                    "LEFT JOIN SDbalance AS c ON j.currency_code = c.currency_code\n" +
+                    "WHERE type=\"collection\" ORDER by id_journal DESC");
+            Set<String> keys = mapData.keySet();
+            DefaultTableModel mod = new DefaultTableModel();
+            jTable3.setModel(mod);
+            
+            DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+            model.addColumn("Дата");
+            model.addColumn("Время");
+            model.addColumn("Кассир");
+            model.addColumn("Сумма");
+            model.addColumn("Валюта");
+            
+            
+              Set<RowFilter.Entry<String, ArrayList<String>>> setMap = mapData.entrySet(); 
+   Iterator<RowFilter.Entry<String,  ArrayList<String>>> iteratorMap = setMap.iterator(); 
+        while(iteratorMap.hasNext()) { 
+            Map.Entry<String, ArrayList<String>> entry =  
+            (Map.Entry<String, ArrayList<String>>) iteratorMap.next();
+            String key = entry.getKey(); 
+            List<String> values = entry.getValue(); 
+            
+            
+                ArrayList tmpz = new ArrayList();
+                tmpz=(ArrayList) mapData.get(key);
+               
+                
+             model.addRow(new Object[]{  tmpz.get(0).toString() , tmpz.get(1).toString() , tmpz.get(2).toString() , tmpz.get(3).toString() , tmpz.get(4).toString() });
+            
+         
+      } 
+            
+            
+            
+            
+            
+        
+            
+            
+            
+            
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         HideEl();
         jPanel10.setVisible(true);
 
@@ -1922,31 +1917,64 @@ jFormattedTextField2.setText(getShortDate());
     }//GEN-LAST:event_jMenu2MouseClicked
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        HideEl();
-        jPanel12.setVisible(true);
+//Кассиры
+        
+        try {
+          Map mapData = new LinkedHashMap<String,String>();
+          mapData=  ReadSQLiteMulti("SELECT cash_id,surname||\" \"||first_name||\" \"||last_name FROM user where super=\"false\" ;");
+          Set<String> keys = mapData.keySet();
+          DefaultTableModel mod = new DefaultTableModel();
+          jTable4.setModel(mod);
+         
+          DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
+          model.addColumn("Фамилия"); 
+	  for (String key : keys) {
+              
+             
+
+	      model.addRow(new Object[]{ GetDoubleStr((ArrayList)mapData.get(key))});  
+          
+	    }
+    
+        
+           
+            
+            HideEl();
+            jPanel12.setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-      /*  try {
+       try {
             //пкункт меню инкассаторы
           Map mapData = new LinkedHashMap<String,String>();
-     
-         
-           mapData=  ReadSQLiteMulti("SELECT cash_id,surname||\" \"||first_name||\" \"||last_name FROM user where super=\"true\" ;");
-           
-         Set<String> keys = mapData.keySet();
-      
-	for (String key : keys) {
-              DefaultTableModel model = (DefaultTableModel) jTable5.getModel();
-	      model.addRow(new Object[]{ mapData.get(key)});  
-	}
+          mapData=  ReadSQLiteMulti("SELECT cash_id,surname||\" \"||first_name||\" \"||last_name FROM user where super=\"true\" ;");
+          Set<String> keys = mapData.keySet();
+          
+          DefaultTableModel mod = new DefaultTableModel();
+          jTable5.setModel(mod);
+          DefaultTableModel model = (DefaultTableModel) jTable5.getModel();
+          model.addColumn("Фамилия"); 
+	  for (String key : keys) {
+              
+             
+
+	      model.addRow(new Object[]{ GetDoubleStr((ArrayList) mapData.get(key))});  
     
+	    }
+        
+        
+           
                     
                    
                
             
-            
+    
             
             
             
@@ -1958,7 +1986,7 @@ jFormattedTextField2.setText(getShortDate());
             jPanel13.setVisible(true); 
        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-        }  */
+        } 
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
@@ -1967,10 +1995,68 @@ jFormattedTextField2.setText(getShortDate());
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenu5MenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenu5MenuSelected
-        // TODO add your handling code here:
+        HideEl();
+        jPanel14.setVisible(true);
     }//GEN-LAST:event_jMenu5MenuSelected
 
     private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
+try {
+            //подкрепления
+            
+            
+            Map mapData = new LinkedHashMap<String,ArrayList>();
+            mapData=  ReadSQLiteMulti(
+                    "SELECT j.id_journal,j.date_create,j.time_create,j.FIO,j.currency_sum, c.currency_name , j.type \n" +
+                    "FROM journal AS j\n" +
+                    "LEFT JOIN SDbalance AS c ON j.currency_code = c.currency_code\n" +
+                    " ORDER by id_journal DESC");
+            Set<String> keys = mapData.keySet();
+            DefaultTableModel mod = new DefaultTableModel();
+            jTable6.setModel(mod);
+            
+            DefaultTableModel model = (DefaultTableModel) jTable6.getModel();
+            model.addColumn("Дата");
+            model.addColumn("Время");
+            model.addColumn("Кассир");
+            model.addColumn("Сумма");
+            model.addColumn("Валюта");
+            model.addColumn("Операция");
+            
+            
+              Set<RowFilter.Entry<String, ArrayList<String>>> setMap = mapData.entrySet(); 
+   Iterator<RowFilter.Entry<String,  ArrayList<String>>> iteratorMap = setMap.iterator(); 
+        while(iteratorMap.hasNext()) { 
+            Map.Entry<String, ArrayList<String>> entry =  
+            (Map.Entry<String, ArrayList<String>>) iteratorMap.next();
+            String key = entry.getKey(); 
+            List<String> values = entry.getValue(); 
+            
+            
+                ArrayList tmpz = new ArrayList();
+                tmpz=(ArrayList) mapData.get(key);
+               
+                
+             model.addRow(new Object[]{  tmpz.get(0).toString() , tmpz.get(1).toString() , tmpz.get(2).toString() , tmpz.get(3).toString() , tmpz.get(4).toString(),tmpz.get(5).toString() });
+            
+         
+      } 
+            
+            
+            
+            
+            
+        
+            
+            
+            
+            
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         HideEl();
         jPanel14.setVisible(true);
     }//GEN-LAST:event_jMenu5MouseClicked
@@ -1979,7 +2065,7 @@ jFormattedTextField2.setText(getShortDate());
        //Отчеты 
         HideEl();
         jPanel16.setVisible(true);
-        jPanel17.setVisible(true);
+       
         StorageMemory SD = getInstance();
         
         try {
@@ -2094,7 +2180,9 @@ jFormattedTextField2.setText(getShortDate());
         StorageMemory SD = getInstance();
        try{
             double bal = Double.parseDouble(GetDoubleStr((ArrayList) SD.balance.get("980")));
-            if ((Double.parseDouble(jTextField3.getText()) + bal) > 0) 
+            
+            
+            if (((Double.parseDouble(jTextField3.getText()) + bal) > 0)||(Double.parseDouble(jTextField6.getText()) - bal)> 0) 
             {  //проверка на отрицательный баланс
 
                 double sum;
@@ -2214,8 +2302,10 @@ jFormattedTextField2.setText(getShortDate());
       try{
             String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
             double bal = Double.parseDouble(GetDoubleStr((ArrayList) SD.balance.get(code)));
-            if ((Double.parseDouble(jTextField6.getText()) + bal) > 0) {
-showMessageDialog(null, (Double.parseDouble(jTextField6.getText()) + bal));
+            if ((Double.parseDouble(jTextField6.getText()) + bal) > 0||(Double.parseDouble(jTextField6.getText()) - bal)> 0)
+      
+            {
+
                 double sum;
                 if (inpf) {
                     sum = pf;
@@ -2296,6 +2386,7 @@ showMessageDialog(null, (Double.parseDouble(jTextField6.getText()) + bal));
 //валюты
         String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
         double bal = Double.parseDouble(GetDoubleStr((ArrayList)SD.balance.get(code)));
+        
         if (bal-(Double.parseDouble(jTextField6.getText()) ) > 0) {
             System.out.println("Пополнение");
            
@@ -2340,7 +2431,10 @@ showMessageDialog(null, (Double.parseDouble(jTextField6.getText()) + bal));
 //валюты
         String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
         double bal = Double.parseDouble(GetDoubleStr((ArrayList)SD.balance.get(code)));
-        if (bal-(Double.parseDouble(jTextField6.getText()) ) > 0) {
+        
+       
+        
+        if (bal+(Double.parseDouble(jTextField6.getText()) ) > 0.0) {
          System.out.println("инкасация");
                 SD.OperationX(
                         jComboBox2.getSelectedIndex(),
@@ -2370,7 +2464,14 @@ showMessageDialog(null, (Double.parseDouble(jTextField6.getText()) + bal));
                     Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
                 
             }
-        }        // TODO add your handling code here:
+        }      
+else
+        {
+          showMessageDialog(null, "Недостаточно денег в кассе");
+        
+        }
+
+// TODO add your handling code here:
     }//GEN-LAST:event_jButton7MouseClicked
 
     private void jButton6MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseEntered
@@ -2445,7 +2546,7 @@ if(!jTextField6.getText().equals("")){
         jPanel14.setVisible(false);
         jPanel15.setVisible(false);
         jPanel16.setVisible(false);
-        jPanel17.setVisible(false);
+
     }
 public  void RefreshINF()
 {
@@ -2538,9 +2639,7 @@ public  void RefreshINF()
         return jList1;
     }
 
-    public void setjOptionPane1(JOptionPane jOptionPane1) {
-        this.jOptionPane1 = jOptionPane1;
-    }
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -2620,7 +2719,6 @@ public  void RefreshINF()
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -2629,7 +2727,6 @@ public  void RefreshINF()
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
-    private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;

@@ -197,7 +197,7 @@ public class ParseJson {
                                                          key.add("time_create");
                                                          key.add("type");
                                                          key.add("cartulary_id");
-
+                                                         key.add("FIO");
 
                                                          ArrayList value = new ArrayList();
                                                          value.add(sd.getBuyer_first_name());
@@ -217,7 +217,7 @@ public class ParseJson {
                                                          value.add(time_create);
                                                          value.add(tmp.get("type"));
                                                          value.add(cartulary_id);
-                                                         
+                                                         value.add(sd.getFIO());
 
                                                          
                                                          sd.setBalance("980",Double.parseDouble(sd.getGrn_sum()));
@@ -270,7 +270,7 @@ public class ParseJson {
                                                          key.add("time_create");
                                                          key.add("type");
                                                          key.add("cartulary_id");
-
+                                                         key.add("FIO");
 
                                                          ArrayList value = new ArrayList();
                                                          value.add(sd.getBuyer_first_name());
@@ -290,7 +290,7 @@ public class ParseJson {
                                                          value.add(time_create);
                                                          value.add(tmp.get("type"));
                                                          value.add(cartulary_id);
-                                                         
+                                                         value.add(sd.getFIO());
 
                                                          sd.setBalance("980",Double.parseDouble(sd.getGrn_sum()));
                                                          sd.setBalance(sd.getCurrency_code(),Double.parseDouble(sd.getCurrency_sum()));
