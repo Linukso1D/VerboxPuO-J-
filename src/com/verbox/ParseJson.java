@@ -5,17 +5,22 @@
  */
 package com.verbox;
 
+import static com.verbox.Date.IsAfterDateCompare;
 import static com.verbox.Date.getShortDate;
 import static com.verbox.DecodeUTF.DecodeUTF;
 import static com.verbox.ErrorList.DesctiptError;
 import static com.verbox.In.getInstanceMain;
+import static com.verbox.Setting.GetDoubleStr;
 import static com.verbox.StorageMemory.getInstance;
+import static com.verbox.json_metod.SendPost;
 import static com.verbox.sqlite_metod.DELETE_ALL;
 import static com.verbox.sqlite_metod.DELETEpatt;
+import static com.verbox.sqlite_metod.GetPatternDate;
 import static com.verbox.sqlite_metod.Insert;
 import static com.verbox.sqlite_metod.SELECT;
 import static com.verbox.sqlite_metod.UPDATE;
 import static com.verbox.sqlite_metod.viZ;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -25,6 +30,7 @@ import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -93,19 +99,27 @@ public class ParseJson {
                                         {
                                             showMessageDialog(null,msg.toJSONString()+"Выполнено ");
                                             if(msg.toJSONString().equals("[\"opendey_success\"]"))
-                                            {
+                                            {//открытие дня
                                                         boolean ido=UPDATE("UPDATE SDobj SET id_operation= 1 ;");
                                                         boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= 1 ;");
                                                         boolean idqwiadmin=UPDATE("UPDATE SDobj SET idqwiadmin= 1 ;");
                                                         showMessageDialog(null, "[opendey_success]");
+                                                        //повторное получение валюты
+       
+                                                try {
+                                                    StorageMemory SD=getInstance();
+                                                    //get_currencies
+                                                    SD.setAction_name("get_currencies");
+                                                    ParseJson pjs;
+                                                    pjs = new ParseJson(SendPost(SD.GetSD()));
+                                                    pjs.Write_CurrenciesToSQLite();
+                                                } catch (IOException | ParseException | InterruptedException ex) {
+                                                    Logger.getLogger(ParseJson.class.getName()).log(Level.SEVERE, null, ex);
+                                                    showMessageDialog(null, "Не удалось подхватить курсы валют на лету, перезагрузите приложение");
+                                                }
+            
                                             }
-                                            if(msg.toJSONString().equals("opendey_success"))
-                                            {
-                                                        boolean ido=UPDATE("UPDATE SDobj SET id_operation= 1 ;");
-                                                        boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= 1 ;");
-                                                        boolean idqwiadmin=UPDATE("UPDATE SDobj SET idqwiadmin= 1 ;");
-                                                        showMessageDialog(null, "opendey_success");
-                                            }
+                                           
                                             
                                         }
                                         msg.clear();
@@ -144,20 +158,7 @@ public class ParseJson {
                                      
                                     }
                                     //обновление индексов патернс
-                                    try
-                                    {
-                                        String s= (String) tmp.get("patterns");
-                                        if(s!=null)
-                                        {
-                                        UPDATE("UPDATE SDobj SET patterns=\""+s+"\";");
-                                        String SELECT = SELECT("SELECT name FROM print WHERE DATE(date_create)=DATE(\""+getShortDate()+"\")");
-                                        showMessageDialog(null, "Обновлен шаблон печати на документ "+SELECT );
-                                        }
-                                    }
-                                        catch(Exception e)
-                                    {
                                     
-                                    }
                                     
                                    } 
                         }
@@ -527,14 +528,31 @@ try {
                         ListKey.add("name");
                         ListKey.add("html");
                         ListKey.add("date_create");
-                        try
+                        
+                         // showMessageDialog(null, obj2.get("date_create").toString());
+                                    try
+                                    {
+                                        if(IsAfterDateCompare(obj2.get("date_create").toString(),GetPatternDate()))
+                                        {
+                                       
+                                        UPDATE("UPDATE SDobj SET patterns=\""+obj2.get("date_create").toString()+"\";");
+                                        
+                                      
+                                        }
+                                    }
+                                        catch(Exception e)
+                                    {
+                                        showMessageDialog(null, "Не смог обновить документ на печать");
+                                    }
+                        
+                   /*     try
                         {
                         DELETEpatt(obj2.get("pattern_id").toString());
                         }
                         catch(SQLException e)
                         {
                             System.out.println("sql exp parsejson517 "+e);
-                        }
+                        }*/
                 Insert("print", ListKey, ListValue);
                 
                 
@@ -542,27 +560,35 @@ try {
             }   
             
             //Берем пф и ложим в лан
-             for(int i=0;i<taxpf.size();i++)
-            {
-             if(taxpf.get(i)!=null)
+           
+             if(taxpf.get(0)!=null)
              {
+                 try
+                 {
                  // заполняем шаблоны на пф
-                JSONObject obj3 = (JSONObject)patterns.get(i);
-             
+                JSONObject obj3 = (JSONObject)taxpf.get(0);  
+               //  showMessageDialog(null," tx pf"+ obj3.toJSONString()+" byu " + obj3.get("taxpf_buy").toString());
+                String s1="";
+                String s2="";
                 
-               
-                        
-                       
-                        
-                      
-                UPDATE("UPDATE SDobj SET Pfbuy= \""+ obj3.get("taxpf_buy")+"\" ;" );      
-                UPDATE("UPDATE SDobj SET Pfbuy= \""+ obj3.get("taxpf_sale")+"\" ;" );      
-                       
+                s1=obj3.get("taxpf_buy").toString();
+                s2=obj3.get("taxpf_sale").toString();
+                //    showMessageDialog(null, "s1= "+ s1 + " s2= "+s2);
+                            if(!s1.equals("")&&!s2.equals(""))
+                            {
+                                UPDATE("UPDATE SDobj SET Pfbuy= \""+ s1+"\" ;" );      
+                                UPDATE("UPDATE SDobj SET Pfbuy= \""+ s2+"\" ;" );      
+                            }
+                 }
+                 catch(Exception E)
+                 {
+                 
+                 }
     
                 
                 
              }
-            }   
+               
             
             
            
@@ -703,7 +729,7 @@ for (Object item : Currencies) {
         }
         catch(NullPointerException e)
         {
-            showMessageDialog(null, "Не удалось записать касиров в базу (Проверьте настройки кассы в настроечном листе)");
+            showMessageDialog(null, "Не удалось записать кассиров в базу (Проверьте настройки кассы в настроечном листе)");
             viZ(0);
         }
         return flag;

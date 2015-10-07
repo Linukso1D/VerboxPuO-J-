@@ -675,6 +675,12 @@ public class sqlite_metod {
                             }
                           return false;
                         }
+                public static String GetPatternDate() throws SQLException
+                {
+                    return SELECT("SELECT patterns FROM SDobj;");
+                
+                }
+                 
       
        
 }

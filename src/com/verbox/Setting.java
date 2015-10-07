@@ -80,6 +80,7 @@ public static String GetDoubleStr(ArrayList tmpz )
         jTextField20.setText(GetDoubleStr((ArrayList) Bablo.get("440")));
         jTextField21.setText(GetDoubleStr((ArrayList) Bablo.get("498")));
         jTextField22.setText(GetDoubleStr((ArrayList) Bablo.get("946")));
+        jTextField25.setText(GetDoubleStr((ArrayList) Bablo.get("980")));
         
         //включенность
         jCheckBox1.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("840"))));
@@ -104,6 +105,7 @@ public static String GetDoubleStr(ArrayList tmpz )
         jCheckBox20.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("440"))));
         jCheckBox21.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("498"))));
         jCheckBox22.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("946"))));
+        jCheckBox23.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("980"))));
         
         
         }
@@ -182,6 +184,8 @@ public static String GetDoubleStr(ArrayList tmpz )
         jTextField21 = new javax.swing.JTextField();
         jTextField22 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        jCheckBox23 = new javax.swing.JCheckBox();
+        jTextField25 = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -487,6 +491,13 @@ public static String GetDoubleStr(ArrayList tmpz )
 
         jLabel2.setText("Валюта в кассе");
 
+        jCheckBox23.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jCheckBox23.setSelected(true);
+        jCheckBox23.setText("Гривна");
+        jCheckBox23.setEnabled(false);
+
+        jTextField25.setEnabled(false);
+
         org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -574,7 +585,11 @@ public static String GetDoubleStr(ArrayList tmpz )
                         .add(18, 18, 18)
                         .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jTextField21, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jTextField22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                            .add(jTextField22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                    .add(jPanel2Layout.createSequentialGroup()
+                        .add(jCheckBox23)
+                        .add(18, 18, 18)
+                        .add(jTextField25)))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -656,7 +671,11 @@ public static String GetDoubleStr(ArrayList tmpz )
                     .add(jTextField11, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 25, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jCheckBox22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 25, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jTextField22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 25, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(120, Short.MAX_VALUE))
+                .add(18, 18, 18)
+                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jCheckBox23)
+                    .add(jTextField25, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
@@ -1286,6 +1305,7 @@ if(jCheckBox22.isSelected())
     private javax.swing.JCheckBox jCheckBox20;
     private javax.swing.JCheckBox jCheckBox21;
     private javax.swing.JCheckBox jCheckBox22;
+    private javax.swing.JCheckBox jCheckBox23;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JCheckBox jCheckBox5;
@@ -1317,6 +1337,7 @@ if(jCheckBox22.isSelected())
     private javax.swing.JTextField jTextField22;
     private javax.swing.JTextField jTextField23;
     private javax.swing.JTextField jTextField24;
+    private javax.swing.JTextField jTextField25;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;

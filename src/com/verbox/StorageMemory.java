@@ -783,13 +783,24 @@ public int Pfsell,
             String Phone
     )
             {
+            try{
             buyer_first_name=Fn;
             buyer_last_name=Ln;
             buyer_surname=Sn;
             buyer_resident=resident;
-            passport_number=Integer.toString(pspCode);
-            passport_serial=pspS;
+            }
+            catch(Exception E)
+            {
+                System.out.println("OperationX Хреновое имя/фамилия/отчество/статус резидента ");
+            }
+            try
+            {
             phone_number=Phone;
+            }
+            catch(NumberFormatException e)
+            {
+            Phone="0";
+            }
             //ПФ
                         if (typeOx.equals("sale"))
                         {
@@ -798,7 +809,9 @@ public int Pfsell,
                        
                         if (typeOx.equals("buy"))
                         {
-                                taxpf=Integer.toString(Pfbuy);
+            taxpf=Integer.toString(Pfbuy);
+            passport_number=Integer.toString(pspCode);
+            passport_serial=pspS;
                         }
                    
             //Код валюты передает кнопка купить /../ и получаем из дропдауна индекс выбраного и подтягиваем из массива.
@@ -840,9 +853,15 @@ public int Pfsell,
             forparam.put("buyer_last_name", buyer_last_name);
             forparam.put("buyer_surname", buyer_surname);
             forparam.put("buyer_resident", buyer_resident);
-            forparam.put("passport_number", passport_number);
-            forparam.put("passport_serial", passport_serial);
-            forparam.put("phone_number", phone_number);
+                    if(!typeOx.equals("sale"))
+                    {
+                    forparam.put("passport_number", passport_number);
+                    forparam.put("passport_serial", passport_serial);
+                    }
+                    if(!phone_number.equals("0"))
+                    {
+                    forparam.put("phone_number", phone_number);
+                    }
             forparam.put("currency_code", currency_code);
             forparam.put("currency_course", currency_course);
             forparam.put("currency_sum", currency_sum);

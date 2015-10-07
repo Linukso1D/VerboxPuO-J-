@@ -30,7 +30,7 @@ public class ErrorList {
                 case "not_cash": return "Отсутствует данная каса.";
                 case "not_cashier" : return "Отсутствует данный кассир.";
                 case "openday_already_set": return "День уже открыт.";
-                case "not_currency_order": return "Нет приказа по валютам на сегодня.";
+                case "not_currency_order": return "Нет приказа по валютам на сегодня. (Если вы создали приказ после запуска программы, есть вероятность не получить курсы валют.)";
                 case "empty_params": return "Пустой Params.";
                 case "not_currency_code": return "Не существующий код валюты.";
                 case "auto_close_day": return "Произошло автозакрытие дня. Пакуйте вёсла.";

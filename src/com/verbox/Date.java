@@ -5,6 +5,7 @@
  */
 package com.verbox;
     
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -44,5 +45,21 @@ public class Date {
          return dateToday;
          //2015-03-05
      }
+     // 1 дата и время больше второй?
+      public static boolean IsAfterDateCompare(String dateone, String datetwo) throws ParseException
+      {
+      
+                SimpleDateFormat format = new SimpleDateFormat();
+                format.applyPattern("yyyy-MM-dd HH:mm:ss");
+                java.util.Date docDate= format.parse(dateone);
+          
+                SimpleDateFormat format2 = new SimpleDateFormat();
+                format2.applyPattern("yyyy-MM-dd HH:mm:ss");
+                java.util.Date docDate2= format.parse(datetwo);
+                
+                boolean a = docDate.getTime()>docDate2.getTime();
+          System.out.println("docDate.getTime "+docDate.getTime()+" docDate2.getTime "+docDate2.getTime() );
+      return a;
+      }
 
 }
