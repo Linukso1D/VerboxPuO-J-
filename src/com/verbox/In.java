@@ -63,7 +63,10 @@ import java.awt.image.TileObserver;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 import static javax.swing.JOptionPane.showMessageDialog;
+import javax.swing.JTable;
 import javax.swing.event.MouseInputListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import sun.awt.image.OffScreenImage;
 
 /**
@@ -336,19 +339,19 @@ jFormattedTextField2.setText(getShortDate());
         jTable2 = new javax.swing.JTable();
         jButton5 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
-        jTextField7 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField();
-        jTextField11 = new javax.swing.JTextField();
-        jTextField12 = new javax.swing.JTextField();
         jCheckBox1 = new javax.swing.JCheckBox();
+        jTextField7 = new javax.swing.JFormattedTextField();
+        jTextField8 = new javax.swing.JFormattedTextField();
+        jTextField9 = new javax.swing.JFormattedTextField();
+        jTextField10 = new javax.swing.JFormattedTextField();
+        jTextField11 = new javax.swing.JFormattedTextField();
+        jTextField12 = new javax.swing.JFormattedTextField();
         jPanel8 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -709,13 +712,31 @@ jFormattedTextField2.setText(getShortDate());
 
         jLabel12.setText("Номер телефона");
 
-        jTextField12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField12ActionPerformed(evt);
-            }
-        });
-
         jCheckBox1.setText("Резидент");
+
+        try {
+            jTextField9.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("????????????????????")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            jTextField10.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("??")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            jTextField11.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("######")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            jTextField12.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("+##(###) ### ####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         org.jdesktop.layout.GroupLayout jPanel7Layout = new org.jdesktop.layout.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -726,25 +747,24 @@ jFormattedTextField2.setText(getShortDate());
                 .add(jPanel7Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jCheckBox1)
                     .add(jPanel7Layout.createSequentialGroup()
-                        .add(jPanel7Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                        .add(jPanel7Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(jLabel7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                            .add(jLabel10, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                            .add(jTextField7)
+                            .add(jTextField10))
+                        .add(22, 22, 22)
+                        .add(jPanel7Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                             .add(jPanel7Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                                .add(jTextField7)
-                                .add(jLabel7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
-                            .add(jLabel10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 130, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jTextField10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 130, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                .add(jLabel8, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                                .add(jLabel11, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                                .add(jTextField11))
+                            .add(jTextField8, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 131, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .add(18, 18, 18)
-                        .add(jPanel7Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jPanel7Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                                .add(jLabel8, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(jTextField8, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 130, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                            .add(jLabel11, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 130, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jTextField11, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 130, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .add(18, 18, 18)
-                        .add(jPanel7Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jTextField9, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 130, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jTextField12, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 130, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jLabel12, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 130, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jLabel9, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 130, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                        .add(jPanel7Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(jLabel12, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                            .add(jLabel9, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(jTextField9)
+                            .add(jTextField12))))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
@@ -1103,7 +1123,7 @@ jFormattedTextField2.setText(getShortDate());
                 .add(jButton6)
                 .add(18, 18, 18)
                 .add(jButton7)
-                .addContainerGap(201, Short.MAX_VALUE))
+                .addContainerGap(205, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1677,13 +1697,13 @@ jFormattedTextField2.setText(getShortDate());
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jPanel12, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 698, Short.MAX_VALUE)
+                            .add(jPanel12, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 702, Short.MAX_VALUE)
                             .add(jPanel7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(jPanel6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(jPanel8, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(jPanel13, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)))
+                            .add(jPanel13, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)))
                     .add(jPanel14, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1203, Short.MAX_VALUE)
                     .add(jPanel1Layout.createSequentialGroup()
                         .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1876,10 +1896,6 @@ jFormattedTextField2.setText(getShortDate());
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField15ActionPerformed
 
-    private void jTextField12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField12ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField12ActionPerformed
-
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         HideEl();
         jPanel11.setVisible(true);
@@ -1912,8 +1928,37 @@ jFormattedTextField2.setText(getShortDate());
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        HideEl();
-        jPanel13.setVisible(true);
+      /*  try {
+            //пкункт меню инкассаторы
+          Map mapData = new LinkedHashMap<String,String>();
+     
+         
+           mapData=  ReadSQLiteMulti("SELECT cash_id,surname||\" \"||first_name||\" \"||last_name FROM user where super=\"true\" ;");
+           
+         Set<String> keys = mapData.keySet();
+      
+	for (String key : keys) {
+              DefaultTableModel model = (DefaultTableModel) jTable5.getModel();
+	      model.addRow(new Object[]{ mapData.get(key)});  
+	}
+    
+                    
+                   
+               
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            HideEl();
+            jPanel13.setVisible(true); 
+       } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+        }  */
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
@@ -2607,9 +2652,9 @@ public  void RefreshINF()
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
     private javax.swing.JTable jTable6;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
+    private javax.swing.JFormattedTextField jTextField10;
+    private javax.swing.JFormattedTextField jTextField11;
+    private javax.swing.JFormattedTextField jTextField12;
     private javax.swing.JTextField jTextField13;
     private javax.swing.JTextField jTextField14;
     private javax.swing.JTextField jTextField15;
@@ -2648,9 +2693,9 @@ public  void RefreshINF()
     private javax.swing.JTextField jTextField47;
     private javax.swing.JTextField jTextField48;
     private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JFormattedTextField jTextField7;
+    private javax.swing.JFormattedTextField jTextField8;
+    private javax.swing.JFormattedTextField jTextField9;
     // End of variables declaration//GEN-END:variables
 
     private class ActionListenerImpl implements ActionListener {
