@@ -809,9 +809,9 @@ public int Pfsell,
                        
                         if (typeOx.equals("buy"))
                         {
-            taxpf=Integer.toString(Pfbuy);
-            passport_number=Integer.toString(pspCode);
-            passport_serial=pspS;
+                            taxpf=Integer.toString(Pfbuy);
+                            passport_number=Integer.toString(pspCode);
+                            passport_serial=pspS;
                         }
                    
             //Код валюты передает кнопка купить /../ и получаем из дропдауна индекс выбраного и подтягиваем из массива.
@@ -880,7 +880,7 @@ public int Pfsell,
                
                 setReceipt_number(Integer.toString(idqwiadmin));
                 forparam.put("receipt_number", getReceipt_number());
-               setParams(forparam);
+                setParams(forparam);
                 
                
                 

@@ -323,8 +323,8 @@ jFormattedTextField2.setText(getShortDate());
                                         
                                         break;
                                         
-                                   //по умолчанию берем пустой шаблон и печатаем    
-                                   default: pre = SD.PrintTpl.get(String.valueOf(jComboBox1.getSelectedItem())).toString(); 
+                                        //по умолчанию берем пустой шаблон и печатаем    
+                                        default: pre = SD.PrintTpl.get(String.valueOf(jComboBox1.getSelectedItem())).toString(); 
                                         RenderPDF_img_too(pre);
                                         
                                         break;
@@ -1186,9 +1186,9 @@ jFormattedTextField2.setText(getShortDate());
                 .add(6, 6, 6)
                 .add(jLabel44)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(jPanel16Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel2)
-                    .add(jLabel3))
+                .add(jPanel16Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jLabel3)
+                    .add(jLabel2))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jPanel16Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jFormattedTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -1798,8 +1798,9 @@ jFormattedTextField2.setText(getShortDate());
                     "WHERE type=\"replenish\" ORDER by id_journal DESC");
             Set<String> keys = mapData.keySet();
             DefaultTableModel mod = new DefaultTableModel();
-            jTable1.setModel(mod);
             
+            jTable1.setModel(mod);
+            jTable1.setEnabled(false);
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.addColumn("Дата");
             model.addColumn("Время");
@@ -1995,8 +1996,7 @@ jPanel9.setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenu5MenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenu5MenuSelected
-        HideEl();
-        jPanel14.setVisible(true);
+
     }//GEN-LAST:event_jMenu5MenuSelected
 
     private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
@@ -2387,7 +2387,7 @@ try {
         String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
         double bal = Double.parseDouble(GetDoubleStr((ArrayList)SD.balance.get(code)));
         
-        if (bal-(Double.parseDouble(jTextField6.getText()) ) > 0) {
+      
             System.out.println("Пополнение");
            
 
@@ -2421,7 +2421,7 @@ try {
 
             
 
-        }
+        
 
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton6MouseClicked
@@ -2796,7 +2796,7 @@ public  void RefreshINF()
     // End of variables declaration//GEN-END:variables
 
     private class ActionListenerImpl implements ActionListener {
-
+// обработчик на комбобокс
         public ActionListenerImpl() {
         }
 

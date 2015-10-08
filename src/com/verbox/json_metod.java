@@ -151,7 +151,17 @@ public class json_metod {
         System.out.println("\nSending 'POST' request to URL : " + url);
         System.out.println("Post parameters : " + urlParameters);
         System.out.println("Response Code : " + responseCode);
-
+        if(responseCode!=200)
+        {   
+            if(responseCode==401)
+            {
+                showMessageDialog(null, "Ошибка авторизации ");
+            }
+            else
+            {
+            showMessageDialog(null, "Внутренняя ошибка сервера "+responseCode );
+        }
+        }
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(connection.getInputStream()));
         String inputLine;

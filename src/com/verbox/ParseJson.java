@@ -574,10 +574,11 @@ try {
                 s1=obj3.get("taxpf_buy").toString();
                 s2=obj3.get("taxpf_sale").toString();
                 //    showMessageDialog(null, "s1= "+ s1 + " s2= "+s2);
+                 UPDATE("UPDATE SDobj SET Pfbuy= \""+ s1+"\" ;" );      
+                 UPDATE("UPDATE SDobj SET Pfsell= \""+ s2+"\" ;" );      
                             if(!s1.equals("")&&!s2.equals(""))
                             {
-                                UPDATE("UPDATE SDobj SET Pfbuy= \""+ s1+"\" ;" );      
-                                UPDATE("UPDATE SDobj SET Pfbuy= \""+ s2+"\" ;" );      
+                               
                             }
                  }
                  catch(Exception E)
