@@ -63,7 +63,9 @@ public static String fullhtml;
      * @throws java.awt.print.PrinterException
      * @throws com.itextpdf.text.DocumentException
      */
-public static boolean Print() throws PrinterException
+public static boolean Print(boolean a) throws PrinterException
+{
+   if(a)
 {
     try {
         PDDocument doc = PDDocument.load("pdf.pdf");
@@ -77,6 +79,7 @@ public static boolean Print() throws PrinterException
     } catch (IOException ex) {
         Logger.getLogger(PrintHtml.class.getName()).log(Level.SEVERE, null, ex);
     }
+}
     return false;
 }
     public static void RenderPDF_img_too(String inpHtml) throws FileNotFoundException, ParserConfigurationException, SAXException, IOException, DocumentException, PrinterException {

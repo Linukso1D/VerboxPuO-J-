@@ -512,6 +512,7 @@ public class sqlite_metod {
            
            
            resSet = statmt.executeQuery("SELECT "+ItemKey+" FROM "+From+" "+Where+" ;");
+           System.out.println("[SELECT ar=] SELECT "+ItemKey+" FROM "+From+" "+Where+";");
            
         ArrayList tm = new ArrayList();
         //колово колонок 

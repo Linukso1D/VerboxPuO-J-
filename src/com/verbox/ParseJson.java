@@ -70,7 +70,7 @@ public class ParseJson {
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    public ParseJson(JSONObject json) throws ClassNotFoundException, SQLException {
+    public ParseJson(JSONObject json) throws ClassNotFoundException, SQLException, java.text.ParseException {
         //Ошибки
         if(json.isEmpty())
         {

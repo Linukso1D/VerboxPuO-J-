@@ -15,6 +15,7 @@ import java.io.IOException;
 import javax.swing.*;
 import javax.imageio.ImageIO;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
@@ -34,6 +35,8 @@ public class ResizeImage {
                 try {
                     tmpobj = In.getInstanceMain();
                 } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(ResizeImage.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
                     Logger.getLogger(ResizeImage.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 JLabel unresize = new JLabel(new ImageIcon(bi));
@@ -67,8 +70,8 @@ public class ResizeImage {
                 
                 
                 
-                Object[] options = {"Да, пожалуйста напечатай.",
-                    "Нет, спасибо."
+                Object[] options = {"Печать",
+                    "Отмена."
                     };
                 JInternalFrame frame = new JInternalFrame();
     int n = JOptionPane.showOptionDialog(frame,
@@ -82,7 +85,7 @@ public class ResizeImage {
     if (n == JOptionPane.YES_OPTION) {
        boolean pr = false;
                     try {
-                        pr = Print();
+                        pr = Print(true);
                     } catch (PrinterException ex) {
                         Logger.getLogger(ResizeImage.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -92,7 +95,7 @@ public class ResizeImage {
        }
        else
        {
-           JOptionPane.showMessageDialog(null,"Упс, что то пошло не так.");
+           JOptionPane.showMessageDialog(null,"Проверьте конфигурацию принтера");
        }
 }
                 

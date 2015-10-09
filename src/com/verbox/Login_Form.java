@@ -45,7 +45,7 @@ public class Login_Form extends javax.swing.JFrame {
      * @throws java.lang.ClassNotFoundException
      * @throws java.lang.InterruptedException
      */
-    public Login_Form() throws org.json.simple.parser.ParseException, SQLException, ClassNotFoundException, InterruptedException {
+    public Login_Form() throws org.json.simple.parser.ParseException, SQLException, ClassNotFoundException, InterruptedException, java.text.ParseException {
 
         this.setLocationByPlatform(true);
         //прорисовка формы
@@ -251,6 +251,8 @@ boolean log_in=false;
             Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (java.text.ParseException ex) {
+            Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
@@ -261,6 +263,8 @@ boolean log_in=false;
         frm.setVisible(true);
         Login_Form.this.setVisible(false);
     } catch (ClassNotFoundException ex) {
+        Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (java.text.ParseException ex) {
         Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
     }
         }
@@ -321,6 +325,8 @@ boolean log_in=false;
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
             } catch (InterruptedException ex) {
+                Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (java.text.ParseException ex) {
                 Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
