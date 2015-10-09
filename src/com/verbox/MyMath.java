@@ -23,8 +23,7 @@ public class MyMath {
      * @return
      */
     public static double round(double number, int scale) {
-double newDouble = new BigDecimal(number).setScale(scale, RoundingMode.DOWN).doubleValue();
-return newDouble;
+return Math.round(number * 100.0) / 100.0;
 }
 
 //ищет дату из листа в скобок

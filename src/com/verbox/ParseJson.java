@@ -103,7 +103,7 @@ public class ParseJson {
                                                         boolean ido=UPDATE("UPDATE SDobj SET id_operation= 1 ;");
                                                         boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= 1 ;");
                                                         boolean idqwiadmin=UPDATE("UPDATE SDobj SET idqwiadmin= 1 ;");
-                                                        showMessageDialog(null, "[opendey_success]");
+                                                        showMessageDialog(null, "Открыт день");
                                                         //повторное получение валюты
        
                                                 try {
@@ -120,7 +120,10 @@ public class ParseJson {
             
                                             }
                                            
-                                            
+                                                        boolean ido=UPDATE("UPDATE SDobj SET id_operation= 1 ;");
+                                                        boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= 1 ;");
+                                                        boolean idqwiadmin=UPDATE("UPDATE SDobj SET idqwiadmin= 1 ;");
+                                                     
                                         }
                                         msg.clear();
                                         }

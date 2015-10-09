@@ -805,6 +805,8 @@ public int Pfsell,
                         if (typeOx.equals("sale"))
                         {
                                 taxpf=Integer.toString(Pfsell);
+                                passport_number=Integer.toString(pspCode);
+                                passport_serial=pspS;
                         }
                        
                         if (typeOx.equals("buy"))
@@ -812,6 +814,7 @@ public int Pfsell,
                             taxpf=Integer.toString(Pfbuy);
                             passport_number=Integer.toString(pspCode);
                             passport_serial=pspS;
+                            
                         }
                    
             //Код валюты передает кнопка купить /../ и получаем из дропдауна индекс выбраного и подтягиваем из массива.
@@ -853,10 +856,12 @@ public int Pfsell,
             forparam.put("buyer_last_name", buyer_last_name);
             forparam.put("buyer_surname", buyer_surname);
             forparam.put("buyer_resident", buyer_resident);
-                    if(!typeOx.equals("sale"))
+            forparam.put("patterns", getPatterns());
+            forparam.put("passport_number", passport_number);
+            forparam.put("passport_serial", passport_serial);
+                    if(!typeOx.equals("buy"))
                     {
-                    forparam.put("passport_number", passport_number);
-                    forparam.put("passport_serial", passport_serial);
+                    
                     }
                     if(!phone_number.equals("0"))
                     {

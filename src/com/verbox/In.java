@@ -1206,6 +1206,7 @@ jFormattedTextField2.setText(getShortDate());
         jPanel14.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Журнал операций", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         jPanel14.setPreferredSize(new java.awt.Dimension(484, 675));
 
+        jTable6.setEnabled(false);
         jScrollPane7.setViewportView(jTable6);
         if (jTable6.getColumnModel().getColumnCount() > 0) {
             jTable6.getColumnModel().getColumn(0).setMaxWidth(200);
@@ -2179,13 +2180,15 @@ try {
 
         StorageMemory SD = getInstance();
        try{
-            double bal = Double.parseDouble(GetDoubleStr((ArrayList) SD.balance.get("980")));
+            String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
+            double bal = Double.parseDouble(GetDoubleStr((ArrayList) SD.balance.get(code)));
+            double grn = Double.parseDouble(GetDoubleStr((ArrayList) SD.balance.get("980")));
             
             
-            if (((Double.parseDouble(jTextField3.getText()) + bal) > 0)||(Double.parseDouble(jTextField6.getText()) - bal)> 0) 
+            if (((Double.parseDouble(jTextField3.getText()) + grn) > 0)||(bal-Double.parseDouble(jTextField6.getText()) )> 0) 
             {  //проверка на отрицательный баланс
 
-                double sum;
+                double sum=0;
                 if (inpf) {
                     sum = pf;
                 } else {
@@ -2246,7 +2249,12 @@ try {
             if (SD.Pfbuy != 0) {
                 inpf = true;
                 pf = round((Double.parseDouble((String) tmpz.get(0))) * Double.parseDouble((String) jTextField6.getText()) / 100 * SD.Pfbuy, 2);
+             
                 jTextField3.setText((Double.toString(round((Double.parseDouble((String) tmpz.get(0))) * Double.parseDouble((String) jTextField6.getText()) / 100 * SD.Pfbuy + ((Double.parseDouble((String) tmpz.get(0))) * Double.parseDouble((String) jTextField6.getText())), 2))));
+             if(pf<0)
+                {
+                pf*=(-1);
+                }
             } else {
                 jTextField3.setText((Double.toString(round(Double.parseDouble((String) tmpz.get(0)) * Double.parseDouble((String) jTextField6.getText()), 2))));
             }
@@ -2279,6 +2287,10 @@ try {
                 inpf = true;
                 pf = round((Double.parseDouble((String) tmpz.get(1))) * Double.parseDouble((String) jTextField6.getText()) / 100 * SD.Pfsell, 2);
                 jTextField3.setText((Double.toString(round((Double.parseDouble((String) tmpz.get(1))) * Double.parseDouble((String) jTextField6.getText()) / 100 * SD.Pfsell + ((Double.parseDouble((String) tmpz.get(1))) * Double.parseDouble((String) jTextField6.getText())), 2))));
+                if(pf<0)
+                {
+                pf*=(-1);
+                }
             } else {
                 jTextField3.setText((Double.toString(round(Double.parseDouble((String) tmpz.get(1)) * Double.parseDouble((String) jTextField6.getText()), 2))));
             }
@@ -2302,11 +2314,12 @@ try {
       try{
             String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
             double bal = Double.parseDouble(GetDoubleStr((ArrayList) SD.balance.get(code)));
-            if ((Double.parseDouble(jTextField6.getText()) + bal) > 0||(Double.parseDouble(jTextField6.getText()) - bal)> 0)
+            double grn = Double.parseDouble(GetDoubleStr((ArrayList) SD.balance.get("980")));
+            if ((Double.parseDouble(jTextField6.getText()) + bal) > 0||(grn-Double.parseDouble(jTextField3.getText()))> 0)
       
             {
 
-                double sum;
+                double sum=0;
                 if (inpf) {
                     sum = pf;
                 } else {
@@ -2320,8 +2333,7 @@ try {
                 }
                 sum = round(sum, 2);
 
-                
-                
+           
                 
                 
                 
