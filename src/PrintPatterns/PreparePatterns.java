@@ -5,6 +5,7 @@
  */
 package PrintPatterns;
 
+
 import com.itextpdf.text.DocumentException;
 import static com.verbox.Date.ParseDateList;
 import com.verbox.In;
@@ -15,13 +16,20 @@ import com.verbox.StorageMemory;
 import static com.verbox.StorageMemory.getInstance;
 import static com.verbox.sqlite_metod.ReadSQLiteMulti;
 import static com.verbox.sqlite_metod.SELECT;
+import java.awt.BorderLayout;
 import java.awt.print.PrinterException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
@@ -29,26 +37,47 @@ import org.xml.sax.SAXException;
  *
  * @author maxxl
  */
-public class PreparePatterns
+public class PreparePatterns 
 {
 
-
-   public PreparePatterns(boolean print,boolean show)
+   public PreparePatterns(boolean print, boolean show)
    {
-
+	
 	String dateoflist;
 
 	try
 	{
 	   StorageMemory SD = getInstance();
 	   In MainForm = In.getInstanceMain();
+	
 	   dateoflist = ParseDateList(MainForm.getjList1().getSelectedValue().toString());
 	   // showMessageDialog(null, dateoflist);
+
 	   String pre = null;
+	
 	   switch (MainForm.getjComboBox1().getSelectedIndex())
 	   {
+	
 		//печать большого отчета по валютам
 		case 0:
+	
+		
+			
+	
+	
+
+
+		
+		
+		
+		//
+		
+
+// TODO add your handling code here:
+	
+		
+		
+		
 		   pre = SD.PrintTpl.get(String.valueOf(MainForm.getjComboBox1().getSelectedItem())).toString();
 		   //Прогнать через шаблонизатор 
 		   SD.TPLveloPrint = new LinkedHashMap<String, ArrayList>();
@@ -57,11 +86,12 @@ public class PreparePatterns
 		   //положили временный масив в шаблонизатор
 		   SD.velocity.put("TimetoStart", dateoflist);
 		   SD.velocity.put("TimetoFinish", SELECT("SELECT TimetoFinish FROM `currencies` WHERE TimetoStart=\"" + dateoflist + "\" LIMIT 1;"));
-		   //шаблонизируем
-
 		   RenderPDF_img_too(SD.ShablonThisHtml(pre));
+		   
 		   break;
 		case 1:
+		  
+		   
 		   pre = SD.PrintTpl.get(String.valueOf(MainForm.getjComboBox1().getSelectedItem())).toString();
 		   //Прогнать через шаблонизатор 
 		   SD.TPLveloPrint = new LinkedHashMap<String, ArrayList>();
@@ -71,6 +101,9 @@ public class PreparePatterns
 		   SD.velocity.put("TimetoFinish", SELECT("SELECT TimetoFinish FROM `currencies` WHERE TimetoStart=\"" + dateoflist + "\" LIMIT 1;"));
 		   SD.velocity.put("map", SD.TPLveloPrint);
 		   //шаблонизируем
+		   
+		   
+		   
 		   RenderPDF_img_too(SD.ShablonThisHtml(pre));
 		   break;
 
@@ -81,11 +114,12 @@ public class PreparePatterns
 
 		   break;
 	   }
+	 
 
-	  
-	   ShowDialogMsgBox(show);
-         Print(print)  ;                 //
-	   // Print();
+	  ShowDialogMsgBox(show);
+	   Print(print);                 //
+	 
+	
 	}
 	catch (ParserConfigurationException | SAXException | IOException | DocumentException | PrinterException ex)
 	{
@@ -111,7 +145,11 @@ public class PreparePatterns
 	if(a)
 	{
 	   ResizeImage img = new ResizeImage();
-   	}
+	}
    }
+   
+   
+   
+   
 
 }

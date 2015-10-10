@@ -6,7 +6,6 @@
 package com.verbox;
 
 import PrintPatterns.PreparePatterns;
-import PrintPatterns.ProgressBarDialog;
 import static com.verbox.Date.ConvertJXPiker;
 import static com.verbox.Date.getJXShortDate;
 import static com.verbox.Date.getShortDate;
@@ -42,16 +41,20 @@ import javax.swing.UIManager;
 import org.json.simple.parser.ParseException;
 import java.util.Iterator;
 import java.util.List;
+import javafx.application.Platform;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.BevelBorder;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.ProgressBarUI;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -116,7 +119,7 @@ public class In extends javax.swing.JFrame
 	HideEl();
 
 	//статусбар
-	
+
 
 
 // create the status bar panel and shove it down the bottom of the frame
@@ -216,6 +219,14 @@ public class In extends javax.swing.JFrame
 	   jTextField39.setText(obj.StorageGetInfo("bookk_surname"));
 	   jTextField40.setText(obj.StorageGetInfo("bookk_first_name"));
 	   jTextField41.setText(obj.StorageGetInfo("bookk_last_name"));
+	   
+	   
+	   
+	   
+	//   JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+	 //  jPanel2.setPreferredSize(new Dimension(topFrame.getWidth(), 16));
+
+
 
 	   //курсы USD
 	   RefreshINF();
@@ -226,7 +237,7 @@ public class In extends javax.swing.JFrame
 	   showMessageDialog(null, "Не удалось загрузить информацию от предприятии!!!");
 	   System.out.println("EXEPTION" + e);
 	}
-
+jLabel5.setText(obj.getFIO());
 	//заполнения дропдауна активными валютами
 	try
 	{
@@ -458,7 +469,7 @@ public class In extends javax.swing.JFrame
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
       setTitle("Обмен валют");
       setBackground(new java.awt.Color(252, 252, 252));
-      setBounds(new java.awt.Rectangle(10, 10, 0, 0));
+      setBounds(new java.awt.Rectangle(0, 0, 0, 0));
       setMaximumSize(new java.awt.Dimension(500, 500));
       setModalExclusionType(java.awt.Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
 
@@ -996,6 +1007,13 @@ public class In extends javax.swing.JFrame
       });
 
       jButton9.setText("jButton9");
+      jButton9.addActionListener(new java.awt.event.ActionListener()
+      {
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            jButton9ActionPerformed(evt);
+         }
+      });
 
       org.jdesktop.layout.GroupLayout jPanel6Layout = new org.jdesktop.layout.GroupLayout(jPanel6);
       jPanel6.setLayout(jPanel6Layout);
@@ -1026,7 +1044,7 @@ public class In extends javax.swing.JFrame
          .add(jPanel6Layout.createSequentialGroup()
             .add(33, 33, 33)
             .add(jButton9)
-            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 147, Short.MAX_VALUE)
+            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 206, Short.MAX_VALUE)
             .add(jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                .add(jComboBox2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
                .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1555,7 +1573,7 @@ public class In extends javax.swing.JFrame
          .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
             .addContainerGap()
             .add(jPanel11, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
-            .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
             .add(jPanel9, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
             .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
             .add(jPanel10, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 661, Short.MAX_VALUE)
@@ -1581,8 +1599,8 @@ public class In extends javax.swing.JFrame
 
       org.jdesktop.swingx.border.DropShadowBorder dropShadowBorder1 = new org.jdesktop.swingx.border.DropShadowBorder();
       dropShadowBorder1.setCornerSize(5);
-      dropShadowBorder1.setShadowColor(new java.awt.Color(102, 0, 102));
-      dropShadowBorder1.setShowLeftShadow(true);
+      dropShadowBorder1.setShowBottomShadow(false);
+      dropShadowBorder1.setShowRightShadow(false);
       dropShadowBorder1.setShowTopShadow(true);
       jPanel2.setBorder(dropShadowBorder1);
 
@@ -1601,8 +1619,10 @@ public class In extends javax.swing.JFrame
       );
       jPanel2Layout.setVerticalGroup(
          jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-         .add(jLabel5, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-         .add(jProgressBar1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+         .add(jLabel5, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+         .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addContainerGap()
+            .add(jProgressBar1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
       );
 
       jMenuBar2.setPreferredSize(new java.awt.Dimension(56, 31));
@@ -1760,8 +1780,9 @@ public class In extends javax.swing.JFrame
          layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
          .add(layout.createSequentialGroup()
             .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-            .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 11, Short.MAX_VALUE)
+            .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap())
       );
 
       pack();
@@ -2701,14 +2722,48 @@ public class In extends javax.swing.JFrame
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
 //просмотр
-	PreparePatterns ab = new PreparePatterns(false,true);
+
+
+
+
+// Platform.runLater(() -> jProgressBar1.setValue(100));
+if(jProgressBar1.getValue()==100)
+	 {
+   
+	    PreparePatterns ab = new PreparePatterns(false,true) ;
+	 }
+ else
+	 {
+	    showMessageDialog(null, "Операция уже запущена");
+	 }
+//jProgressBar1.setIndeterminate(false);
+jProgressBar1.setValue(0);
+
+
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 	 //Печать
-	 PreparePatterns ba = new PreparePatterns(true,false);
+	 jProgressBar1.setValue(100);
+	 if(jProgressBar1.getValue()!=100)
+	 {
+	   
+		 PreparePatterns ba = new PreparePatterns(true,false);
+	   
+	 }
+	 else
+	 {
+	    showMessageDialog(null, "Операция уже запущена");
+	 }
+	 jProgressBar1.setValue(0);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+   private void jButton9ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton9ActionPerformed
+   {//GEN-HEADEREND:event_jButton9ActionPerformed
+
+	
+   }//GEN-LAST:event_jButton9ActionPerformed
 
    /**
     */
@@ -3000,6 +3055,27 @@ public class In extends javax.swing.JFrame
    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
    private org.jdesktop.swingx.JXDatePicker jXDatePicker2;
    // End of variables declaration//GEN-END:variables
+   public void setjLabel5(String s)
+   {
+	jLabel5.setText(s);
+   }
+   public JProgressBar getjProgressBar1()
+   {
+	return jProgressBar1;
+   }
+   public void updateBar(int n)
+   {
+	jProgressBar1.setValue(n);
+   }
+  
+   public JPanel getjPanel2()
+   {
+	return jPanel2;
+   }
+   
+   
+   
+    
 
    private class ActionListenerImpl implements ActionListener
    {
@@ -3028,7 +3104,7 @@ public class In extends javax.swing.JFrame
 		   case 1:
 		   {
                         //  htm="";
-			//   showMessageDialog(null, "Зашел в Case 1");
+			
 			DefaultListModel listModel = new DefaultListModel();
 			ArrayList order = new ArrayList();
 			ArrayList tmp = new ArrayList();
@@ -3056,7 +3132,7 @@ public class In extends javax.swing.JFrame
 			break;
 		   }
 		   case 2:
-			showMessageDialog(null, "Зашел в Case 2");
+			
 			DefaultListModel listModel = new DefaultListModel();
 			ArrayList order = new ArrayList();
 			ArrayList tmp = new ArrayList();
@@ -3088,7 +3164,7 @@ public class In extends javax.swing.JFrame
 		   case 18:
 		   {
 			//htm="";
-			showMessageDialog(null, "Зашел в Case = " + select);
+			//showMessageDialog(null, "Зашел в Case = " + select);
 
 			DefaultListModel listMod = new DefaultListModel();
 			listMod.addElement("Пустой шаблон (2015-10-03)");
@@ -3127,5 +3203,6 @@ public class In extends javax.swing.JFrame
 	   return "0";
 	}
    }
+   
 
 }
