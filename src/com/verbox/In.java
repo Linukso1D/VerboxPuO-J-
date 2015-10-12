@@ -119,17 +119,8 @@ public class In extends javax.swing.JFrame
 	HideEl();
 
 	//статусбар
-
-
-
 // create the status bar panel and shove it down the bottom of the frame
-
-
-
-
         //общие сведения
-	
-
 	//Общие сведения
 	try
 	{
@@ -180,7 +171,7 @@ public class In extends javax.swing.JFrame
 	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
 	}
 
-        ///конец общие сведения
+	///конец общие сведения
 	//  размер окна
 	setSize(1200, 800);
 	jPanel11.setVisible(true);
@@ -219,15 +210,9 @@ public class In extends javax.swing.JFrame
 	   jTextField39.setText(obj.StorageGetInfo("bookk_surname"));
 	   jTextField40.setText(obj.StorageGetInfo("bookk_first_name"));
 	   jTextField41.setText(obj.StorageGetInfo("bookk_last_name"));
-	   
-	   
-	   
-	   
+
 	//   JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-	 //  jPanel2.setPreferredSize(new Dimension(topFrame.getWidth(), 16));
-
-
-
+	   //  jPanel2.setPreferredSize(new Dimension(topFrame.getWidth(), 16));
 	   //курсы USD
 	   RefreshINF();
 
@@ -237,7 +222,7 @@ public class In extends javax.swing.JFrame
 	   showMessageDialog(null, "Не удалось загрузить информацию от предприятии!!!");
 	   System.out.println("EXEPTION" + e);
 	}
-jLabel5.setText(obj.getFIO());
+	jLabel5.setText(obj.getFIO());
 	//заполнения дропдауна активными валютами
 	try
 	{
@@ -249,16 +234,15 @@ jLabel5.setText(obj.getFIO());
 			+ "INNER JOIN \n"
 			+ "currencies AS c ON c.currency_code=sd.currency_code\n"
 			+ "WHERE sd.active=\"true\" ORDER BY `id_SDbalance` ");
-	  
+
 	   Set<String> keys = ListActiveCourse.keySet();
 	   for (String key : keys)
 	   {
 		jComboBox2.addItem(ListActiveCourse.get(key));
-		
 
 	   }
-	    ListActiveCourse.put("980", "[Гривна]");
-	    for (String key : keys)
+	   ListActiveCourse.put("980", "[Гривна]");
+	   for (String key : keys)
 	   {
 		jComboBox4.addItem(ListActiveCourse.get(key));
 		jComboBox3.addItem(ListActiveCourse.get(key));
@@ -1109,8 +1093,8 @@ jLabel5.setText(obj.getFIO());
                      .add(jTextField6))
                   .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                   .add(jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                     .add(jTextField49)
-                     .add(jButton2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)))
+                     .add(jButton2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                     .add(jTextField49, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)))
                .add(jComboBox2, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
@@ -1716,7 +1700,7 @@ jLabel5.setText(obj.getFIO());
             .addContainerGap()
             .add(jLabel5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 517, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-            .add(jProgressBar1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
+            .add(jProgressBar1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addContainerGap())
       );
       jPanel2Layout.setVerticalGroup(
@@ -2001,7 +1985,7 @@ jLabel5.setText(obj.getFIO());
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
 	 try
 	 {
-            //подкрепления
+	    //подкрепления
 
 	    Map mapData = new LinkedHashMap<String, ArrayList>();
 	    mapData = ReadSQLiteMulti(
@@ -2056,7 +2040,7 @@ jLabel5.setText(obj.getFIO());
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
 	 try
 	 {
-            //подкрепления
+	    //подкрепления
 
 	    Map mapData = new LinkedHashMap<String, ArrayList>();
 	    mapData = ReadSQLiteMulti(
@@ -2194,7 +2178,7 @@ jLabel5.setText(obj.getFIO());
     private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
 	 try
 	 {
-            //подкрепления
+	    //подкрепления
 
 	    Map mapData = new LinkedHashMap<String, ArrayList>();
 	    mapData = ReadSQLiteMulti(
@@ -2268,7 +2252,7 @@ jLabel5.setText(obj.getFIO());
 		 jComboBox1.addItem(key);
 	    }
 
-            // добавление елементов в лист на форме
+	    // добавление елементов в лист на форме
        /*     DefaultListModel listModel = new DefaultListModel();
                 
                ArrayList tmp = new ArrayList();
@@ -2412,17 +2396,18 @@ jLabel5.setText(obj.getFIO());
 		    sum = 0;
 		 }
 		 sum += Double.parseDouble(jTextField3.getText());
-		 String s1="",s2="";
-			    int s3=0;
-try{
-s1=jTextField12.getText();
-s2=jTextField10.getText();
-s3=Integer.parseInt(jTextField11.getText());
-}
-catch(Exception e)
-{}
-		 
-		 
+		 String s1 = "", s2 = "";
+		 int s3 = 0;
+		 try
+		 {
+		    s1 = jTextField12.getText();
+		    s2 = jTextField10.getText();
+		    s3 = Integer.parseInt(jTextField11.getText());
+		 }
+		 catch (Exception e)
+		 {
+		 }
+
 		 SD.OperationX(
 			    jComboBox2.getSelectedIndex(),
 			    Resident(),
@@ -2486,17 +2471,17 @@ catch(Exception e)
     }//GEN-LAST:event_jButton1MouseEntered
 
     private void jButton2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseEntered
-	    double tmp = Double.parseDouble((String) jTextField49.getText());
-	    if(tmp > 0)
-	    {
-	     jTextField49.setText(Double.toString(round(tmp*(-1), 2)));
-	    }
-	    
+	 double tmp = Double.parseDouble((String) jTextField49.getText());
+	 if(tmp > 0)
+	 {
+	    jTextField49.setText(Double.toString(round(tmp * (-1), 2)));
+	 }
+
 
     }//GEN-LAST:event_jButton2MouseEntered
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-	//продажа
+	 //продажа
 	 StorageMemory SD = getInstance();
 
 	 try
@@ -2527,14 +2512,15 @@ catch(Exception e)
 
 		 }
 		 sum = round(sum, 2);
-String s1="",s2="",s3="";
-try{
-s1=jTextField12.getText();
+		 String s1 = "", s2 = "", s3 = "";
+		 try
+		 {
+		    s1 = jTextField12.getText();
 
-
-}
-catch(Exception e)
-{}
+		 }
+		 catch (Exception e)
+		 {
+		 }
 		 SD.OperationX(
 			    jComboBox2.getSelectedIndex(),
 			    Resident(),
@@ -2619,7 +2605,7 @@ catch(Exception e)
 
 	 SD.OperationX(
 		    jComboBox4.getSelectedIndex(),
-		   "0",
+		    "0",
 		    "",
 		    "",
 		    "",
@@ -2727,7 +2713,7 @@ catch(Exception e)
 
     private void jButton6MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseEntered
 //наведение на пополнение
-	
+
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton6MouseEntered
 
@@ -2776,20 +2762,17 @@ catch(Exception e)
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
 
-
 // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void jXDatePicker2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker2ActionPerformed
-int tmpk=jComboBox1.getSelectedIndex();
-jComboBox1.setSelectedIndex(tmpk);
+	 int tmpk = jComboBox1.getSelectedIndex();
+	 jComboBox1.setSelectedIndex(tmpk);
 	 // TODO add your handling code here:
     }//GEN-LAST:event_jXDatePicker2ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
 //просмотр
-
-
 
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
@@ -2801,189 +2784,209 @@ jComboBox1.setSelectedIndex(tmpk);
    private void jButton8MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton8MouseClicked
    {//GEN-HEADEREND:event_jButton8MouseClicked
 
-
 // Platform.runLater(() -> jProgressBar1.setValue(100));
-if(jProgressBar1.getValue()==100)
-	 {
-   
-	    PreparePatterns ab = new PreparePatterns(false,true) ;
-	 }
- else
-	 {
-	    showMessageDialog(null, "Операция уже запущена");
-	 }
+	if(jProgressBar1.getValue() == 100)
+	{
+
+	   PreparePatterns ab = new PreparePatterns(false, true);
+	}
+	else
+	{
+	   showMessageDialog(null, "Операция уже запущена");
+	}
 //jProgressBar1.setIndeterminate(false);
-jProgressBar1.setValue(0);
-jButton8.setEnabled(true);
-      // TODO add your handling code here:
+	jProgressBar1.setValue(0);
+	jButton8.setEnabled(true);
+	// TODO add your handling code here:
    }//GEN-LAST:event_jButton8MouseClicked
 
    private void jButton8MousePressed(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton8MousePressed
    {//GEN-HEADEREND:event_jButton8MousePressed
-if(jProgressBar1.getValue()==0)
-{
-	jProgressBar1.setValue(100);  
-}
-jButton8.setEnabled(false);
+	if(jProgressBar1.getValue() == 0)
+	{
+	   jProgressBar1.setValue(100);
+	}
+	jButton8.setEnabled(false);
    }//GEN-LAST:event_jButton8MousePressed
 
    private void jButton3MousePressed(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton3MousePressed
    {//GEN-HEADEREND:event_jButton3MousePressed
-if(jProgressBar1.getValue()==0)
-{
-	jProgressBar1.setValue(100);  
-}  
-jButton3.setEnabled(false);
+	if(jProgressBar1.getValue() == 0)
+	{
+	   jProgressBar1.setValue(100);
+	}
+	jButton3.setEnabled(false);
 // TODO add your handling code here:
    }//GEN-LAST:event_jButton3MousePressed
 
    private void jButton3MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton3MouseClicked
    {//GEN-HEADEREND:event_jButton3MouseClicked
-      if(jProgressBar1.getValue()==100)
-	 {
-	   
-		 PreparePatterns ba = new PreparePatterns(true,false);
-	   
-	 }
-	 else
-	 {
-	    showMessageDialog(null, "Операция уже запущена");
-	 }
-	 jProgressBar1.setValue(0); // TODO add your handling code here:
-	 jButton3.setEnabled(true);
+	if(jProgressBar1.getValue() == 100)
+	{
+
+	   PreparePatterns ba = new PreparePatterns(true, false);
+
+	}
+	else
+	{
+	   showMessageDialog(null, "Операция уже запущена");
+	}
+	jProgressBar1.setValue(0); // TODO add your handling code here:
+	jButton3.setEnabled(true);
    }//GEN-LAST:event_jButton3MouseClicked
 
    private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jXDatePicker1ActionPerformed
    {//GEN-HEADEREND:event_jXDatePicker1ActionPerformed
-int tmpk=jComboBox1.getSelectedIndex();
-jComboBox1.setSelectedIndex(tmpk);      // TODO add your handling code here:
+	int tmpk = jComboBox1.getSelectedIndex();
+	jComboBox1.setSelectedIndex(tmpk);      // TODO add your handling code here:
    }//GEN-LAST:event_jXDatePicker1ActionPerformed
 
    private void jTextField2KeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextField2KeyReleased
    {//GEN-HEADEREND:event_jTextField2KeyReleased
- if(!jTextField2.getText().equals(""))
-	 {
-	    double tmp = Double.parseDouble((String) jTextField2.getText());
-	    if(tmp < 0)
-	    {
-		 jTextField2.setText(Double.toString(round(tmp * (-1), 2)));
-	    }
-	 }      // TODO add your handling code here:
+	if(!jTextField2.getText().equals(""))
+	{
+	   double tmp = Double.parseDouble((String) jTextField2.getText());
+	   if(tmp < 0)
+	   {
+		jTextField2.setText(Double.toString(round(tmp * (-1), 2)));
+	   }
+	}      // TODO add your handling code here:
    }//GEN-LAST:event_jTextField2KeyReleased
 
    private void jTextField49KeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextField49KeyPressed
    {//GEN-HEADEREND:event_jTextField49KeyPressed
-      // TODO add your handling code here:
+	// TODO add your handling code here:
    }//GEN-LAST:event_jTextField49KeyPressed
 
    private void jTextField6KeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextField6KeyReleased
    {//GEN-HEADEREND:event_jTextField6KeyReleased
-	 pf = 0;
-	 inpf = false;
-	 if(!jTextField6.getText().equals(""))
-	 {
+	pf = 0;
+	inpf = false;
+	if(!jTextField6.getText().equals(""))
+	{
 
-	    StorageMemory SD = getInstance();
+	   StorageMemory SD = getInstance();
 
-	    String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
+	   String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
 
-	    ArrayList tmpz = new ArrayList();
-	    tmpz = (ArrayList) SD.curse.get(code);
-	    if(SD.Pfbuy != 0)
-	    {
-		 inpf = true;
-		 pf = round((Double.parseDouble((String) tmpz.get(0))) * Double.parseDouble((String) jTextField6.getText()) / 100 * SD.Pfbuy, 2);
+	   ArrayList tmpz = new ArrayList();
+	   tmpz = (ArrayList) SD.curse.get(code);
+	   if(SD.Pfbuy != 0)
+	   {
+		inpf = true;
+		pf = round((Double.parseDouble((String) tmpz.get(0))) * Double.parseDouble((String) jTextField6.getText()) / 100 * SD.Pfbuy, 2);
 
-		 jTextField3.setText((Double.toString(round((Double.parseDouble((String) tmpz.get(0))) * Double.parseDouble((String) jTextField6.getText()) / 100 * SD.Pfbuy + ((Double.parseDouble((String) tmpz.get(0))) * Double.parseDouble((String) jTextField6.getText())), 2))));
-		 if(pf < 0)
-		 {
-		    pf *= (-1);
-		 }
-	    }
-	    else
-	    {
-		 jTextField3.setText((Double.toString(round(Double.parseDouble((String) tmpz.get(0)) * Double.parseDouble((String) jTextField6.getText()), 2))));
-	    }
-	    double tmp = Double.parseDouble((String) jTextField3.getText());
-	    double tmp2 = Double.parseDouble((String) jTextField6.getText());
-	    if(tmp > 0)
-	    {
-		 jTextField3.setText(Double.toString(round(tmp * (-1), 2)));
-	    }
-	    if(tmp2 < 0)
-	    {
-		 jTextField6.setText(Double.toString(round(tmp2 * (-1), 2)));
-	    }
+		jTextField3.setText((Double.toString(round((Double.parseDouble((String) tmpz.get(0))) * Double.parseDouble((String) jTextField6.getText()) / 100 * SD.Pfbuy + ((Double.parseDouble((String) tmpz.get(0))) * Double.parseDouble((String) jTextField6.getText())), 2))));
+		if(pf < 0)
+		{
+		   pf *= (-1);
+		}
+	   }
+	   else
+	   {
+		jTextField3.setText((Double.toString(round(Double.parseDouble((String) tmpz.get(0)) * Double.parseDouble((String) jTextField6.getText()), 2))));
+	   }
+	   double tmp = Double.parseDouble((String) jTextField3.getText());
+	   double tmp2 = Double.parseDouble((String) jTextField6.getText());
+	   if(tmp > 0)
+	   {
+		jTextField3.setText(Double.toString(round(tmp * (-1), 2)));
+	   }
+	   if(tmp2 < 0)
+	   {
+		jTextField6.setText(Double.toString(round(tmp2 * (-1), 2)));
+	   }
 
-	 }      // TODO add your handling code here:
+	}      // TODO add your handling code here:
    }//GEN-LAST:event_jTextField6KeyReleased
 
    private void jTextField49KeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextField49KeyReleased
    {//GEN-HEADEREND:event_jTextField49KeyReleased
-	 pf = 0;
-	 inpf = false;
-	 if(!jTextField49.getText().equals(""))
-	 {
+	pf = 0;
+	inpf = false;
+	if(!jTextField49.getText().equals(""))
+	{
 
-	    inpf = false;
-	    StorageMemory SD = getInstance();
+	   inpf = false;
+	   StorageMemory SD = getInstance();
 
-	    String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
+	   String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
 
-	    ArrayList tmpz = new ArrayList();
-	    tmpz = (ArrayList) SD.curse.get(code);
-	    if(SD.Pfsell != 0)
-	    {
-		 inpf = true;
-		 pf = round((Double.parseDouble((String) tmpz.get(1))) * Double.parseDouble((String) jTextField49.getText()) / 100 * SD.Pfsell, 2);
-		 jTextField3.setText((Double.toString(round((Double.parseDouble((String) tmpz.get(1))) * Double.parseDouble((String) jTextField49.getText()) / 100 * SD.Pfsell + ((Double.parseDouble((String) tmpz.get(1))) * Double.parseDouble((String) jTextField49.getText())), 2))));
-		 if(pf < 0)
-		 {
-		    pf *= (-1);
-		 }
-	    }
-	    else
-	    {
-		 jTextField49.setText((Double.toString(round(Double.parseDouble((String) tmpz.get(1)) * Double.parseDouble((String) jTextField6.getText()), 2))));
-	    }
+	   ArrayList tmpz = new ArrayList();
+	   tmpz = (ArrayList) SD.curse.get(code);
+	   if(SD.Pfsell != 0)
+	   {
+		inpf = true;
+		pf = round((Double.parseDouble((String) tmpz.get(1))) * Double.parseDouble((String) jTextField49.getText()) / 100 * SD.Pfsell, 2);
+		jTextField3.setText((Double.toString(round((Double.parseDouble((String) tmpz.get(1))) * Double.parseDouble((String) jTextField49.getText()) / 100 * SD.Pfsell + ((Double.parseDouble((String) tmpz.get(1))) * Double.parseDouble((String) jTextField49.getText())), 2))));
+		if(pf < 0)
+		{
+		   pf *= (-1);
+		}
+	   }
+	   else
+	   {
+		jTextField49.setText((Double.toString(round(Double.parseDouble((String) tmpz.get(1)) * Double.parseDouble((String) jTextField6.getText()), 2))));
+	   }
 
-	   
-	 }
-     
+	}
+
    }//GEN-LAST:event_jTextField49KeyReleased
 
    private void jMenuItem9MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jMenuItem9MouseClicked
    {//GEN-HEADEREND:event_jMenuItem9MouseClicked
-   // TODO add your handling code here:
+	// TODO add your handling code here:
    }//GEN-LAST:event_jMenuItem9MouseClicked
 
    private void jMenuItem10MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jMenuItem10MouseClicked
    {//GEN-HEADEREND:event_jMenuItem10MouseClicked
- // TODO add your handling code here:
+	// TODO add your handling code here:
    }//GEN-LAST:event_jMenuItem10MouseClicked
 
    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItem9ActionPerformed
    {//GEN-HEADEREND:event_jMenuItem9ActionPerformed
- HideEl();
-	 jPanel6.setVisible(true);
-	 jPanel7.setVisible(true);
-	 jPanel8.setVisible(true);
-	 jTextField49.setVisible(false);
-	 jButton2.setVisible(false);
- jTextField6.setVisible(true);
-	 jButton1.setVisible(true);         // TODO add your handling code here:
+	HideEl();
+	jPanel6.setVisible(true);
+	jPanel7.setVisible(true);
+	jPanel8.setVisible(true);
+	jTextField49.setVisible(false);
+	jButton2.setVisible(false);
+	jTextField6.setVisible(true);
+	jButton1.setVisible(true);
+	jTextField7.setText("");
+	jTextField8.setText("");
+	jTextField9.setText("");
+	jTextField10.setText("");
+	jTextField11.setText("");
+	jTextField12.setText("");
+	jTextField3.setText("");
+	jTextField6.setText("");
+	jTextField49.setText("");
+	jCheckBox1.setSelected(false);
+
+// TODO add your handling code here:
    }//GEN-LAST:event_jMenuItem9ActionPerformed
 
    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItem10ActionPerformed
    {//GEN-HEADEREND:event_jMenuItem10ActionPerformed
- HideEl();
-	 jPanel6.setVisible(true);
-	 jPanel7.setVisible(true);
-	 jPanel8.setVisible(true);
-	 jTextField49.setVisible(true);
-	 jButton2.setVisible(true);
-	 jTextField6.setVisible(false);
-	 jButton1.setVisible(false);           // TODO add your handling code here:
+	HideEl();
+	jPanel6.setVisible(true);
+	jPanel7.setVisible(true);
+	jPanel8.setVisible(true);
+	jTextField49.setVisible(true);
+	jButton2.setVisible(true);
+	jTextField6.setVisible(false);
+	jButton1.setVisible(false);   
+	jTextField7.setText("");
+	jTextField8.setText("");
+	jTextField9.setText("");
+	jTextField10.setText("");
+	jTextField11.setText("");
+	jTextField12.setText("");
+	jTextField3.setText("");
+	jTextField6.setText("");
+	jTextField49.setText("");
+	jCheckBox1.setSelected(false);// TODO add your handling code here:
    }//GEN-LAST:event_jMenuItem10ActionPerformed
 
    /**
@@ -3014,7 +3017,7 @@ jComboBox1.setSelectedIndex(tmpk);      // TODO add your handling code here:
 	jTextField16.setText(Double.toString(round(Double.parseDouble((String) tmpz.get(1)), 2)));
 	jTextField42.setText(Double.toString(round(Double.parseDouble((String) tmpz.get(2)), 2)));
 
-            //Euro
+	//Euro
 	tmpz = new ArrayList();
 	tmpz = (ArrayList) obj.curse.get("978");
 
@@ -3022,7 +3025,7 @@ jComboBox1.setSelectedIndex(tmpk);      // TODO add your handling code here:
 	jTextField17.setText(Double.toString(round(Double.parseDouble((String) tmpz.get(1)), 2)));
 	jTextField43.setText(Double.toString(round(Double.parseDouble((String) tmpz.get(2)), 2)));
 
-             //Ru
+	//Ru
 	tmpz = new ArrayList();
 	tmpz = (ArrayList) obj.curse.get("643");
 
@@ -3044,7 +3047,7 @@ jComboBox1.setSelectedIndex(tmpk);      // TODO add your handling code here:
    public static void main(String args[])
    {
 	/* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+	//<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
 	 */
@@ -3289,28 +3292,25 @@ jComboBox1.setSelectedIndex(tmpk);      // TODO add your handling code here:
    {
 	jLabel5.setText(s);
    }
+
    public JProgressBar getjProgressBar1()
    {
 	return jProgressBar1;
    }
+
    public void updateBar(int n)
    {
 	jProgressBar1.setValue(n);
    }
-  
+
    public JPanel getjPanel2()
    {
 	return jPanel2;
    }
-   
-   
-   
-    
 
    private class ActionListenerImpl implements ActionListener
    {
 // обработчик на комбобокс
-	
 
 	@Override
 	public void actionPerformed(ActionEvent e)
@@ -3322,7 +3322,7 @@ jComboBox1.setSelectedIndex(tmpk);      // TODO add your handling code here:
 
 		//при нажатии
 		int select = jComboBox1.getSelectedIndex() + 1;
-              //  showMessageDialog(null, "ПИК "+select);
+		//  showMessageDialog(null, "ПИК "+select);
 		//заглушки выбора пунтиков меню
 
 		switch (select)
@@ -3332,7 +3332,7 @@ jComboBox1.setSelectedIndex(tmpk);      // TODO add your handling code here:
 		   case 1:
 		   {
                         //  htm="";
-			
+
 			DefaultListModel listModel = new DefaultListModel();
 			ArrayList order = new ArrayList();
 			ArrayList tmp = new ArrayList();
@@ -3360,7 +3360,7 @@ jComboBox1.setSelectedIndex(tmpk);      // TODO add your handling code here:
 			break;
 		   }
 		   case 2:
-			
+
 			DefaultListModel listModel = new DefaultListModel();
 			ArrayList order = new ArrayList();
 			ArrayList tmp = new ArrayList();
@@ -3431,6 +3431,5 @@ jComboBox1.setSelectedIndex(tmpk);      // TODO add your handling code here:
 	   return "0";
 	}
    }
-   
 
 }
