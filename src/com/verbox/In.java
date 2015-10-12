@@ -1139,6 +1139,17 @@ jLabel5.setText(obj.getFIO());
       });
 
       jButton3.setText("Печать");
+      jButton3.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            jButton3MouseClicked(evt);
+         }
+         public void mousePressed(java.awt.event.MouseEvent evt)
+         {
+            jButton3MousePressed(evt);
+         }
+      });
       jButton3.addActionListener(new java.awt.event.ActionListener()
       {
          public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -1148,6 +1159,17 @@ jLabel5.setText(obj.getFIO());
       });
 
       jButton8.setText("Просмотр");
+      jButton8.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            jButton8MouseClicked(evt);
+         }
+         public void mousePressed(java.awt.event.MouseEvent evt)
+         {
+            jButton8MousePressed(evt);
+         }
+      });
       jButton8.addActionListener(new java.awt.event.ActionListener()
       {
          public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -2725,6 +2747,22 @@ jLabel5.setText(obj.getFIO());
 
 
 
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+   private void jButton9ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton9ActionPerformed
+   {//GEN-HEADEREND:event_jButton9ActionPerformed
+
+	
+   }//GEN-LAST:event_jButton9ActionPerformed
+
+   private void jButton8MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton8MouseClicked
+   {//GEN-HEADEREND:event_jButton8MouseClicked
+
 
 // Platform.runLater(() -> jProgressBar1.setValue(100));
 if(jProgressBar1.getValue()==100)
@@ -2738,15 +2776,32 @@ if(jProgressBar1.getValue()==100)
 	 }
 //jProgressBar1.setIndeterminate(false);
 jProgressBar1.setValue(0);
+jButton8.setEnabled(true);
+      // TODO add your handling code here:
+   }//GEN-LAST:event_jButton8MouseClicked
 
+   private void jButton8MousePressed(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton8MousePressed
+   {//GEN-HEADEREND:event_jButton8MousePressed
+if(jProgressBar1.getValue()==0)
+{
+	jProgressBar1.setValue(100);  
+}
+jButton8.setEnabled(false);
+   }//GEN-LAST:event_jButton8MousePressed
 
+   private void jButton3MousePressed(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton3MousePressed
+   {//GEN-HEADEREND:event_jButton3MousePressed
+if(jProgressBar1.getValue()==0)
+{
+	jProgressBar1.setValue(100);  
+}  
+jButton3.setEnabled(false);
 // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
+   }//GEN-LAST:event_jButton3MousePressed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-	 //Печать
-	 jProgressBar1.setValue(100);
-	 if(jProgressBar1.getValue()!=100)
+   private void jButton3MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton3MouseClicked
+   {//GEN-HEADEREND:event_jButton3MouseClicked
+      if(jProgressBar1.getValue()!=100)
 	 {
 	   
 		 PreparePatterns ba = new PreparePatterns(true,false);
@@ -2756,14 +2811,9 @@ jProgressBar1.setValue(0);
 	 {
 	    showMessageDialog(null, "Операция уже запущена");
 	 }
-	 jProgressBar1.setValue(0);
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-   private void jButton9ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton9ActionPerformed
-   {//GEN-HEADEREND:event_jButton9ActionPerformed
-
-	
-   }//GEN-LAST:event_jButton9ActionPerformed
+	 jProgressBar1.setValue(0); // TODO add your handling code here:
+	 jButton3.setEnabled(true);
+   }//GEN-LAST:event_jButton3MouseClicked
 
    /**
     */
