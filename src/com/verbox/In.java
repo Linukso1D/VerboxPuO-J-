@@ -385,6 +385,7 @@ jLabel5.setText(obj.getFIO());
       jTextField6 = new javax.swing.JTextField();
       jComboBox2 = new javax.swing.JComboBox();
       jLabel1 = new javax.swing.JLabel();
+      jTextField49 = new javax.swing.JTextField();
       jPanel12 = new javax.swing.JPanel();
       jScrollPane4 = new javax.swing.JScrollPane();
       jTable4 = new javax.swing.JTable();
@@ -473,6 +474,8 @@ jLabel5.setText(obj.getFIO());
       jMenuItem3 = new javax.swing.JMenuItem();
       jMenuItem4 = new javax.swing.JMenuItem();
       jMenu2 = new javax.swing.JMenu();
+      jMenuItem9 = new javax.swing.JMenuItem();
+      jMenuItem10 = new javax.swing.JMenuItem();
       jMenu4 = new javax.swing.JMenu();
       jMenuItem5 = new javax.swing.JMenuItem();
       jMenuItem6 = new javax.swing.JMenuItem();
@@ -887,9 +890,9 @@ jLabel5.setText(obj.getFIO());
       jPanel8Layout.setHorizontalGroup(
          jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
          .add(jPanel8Layout.createSequentialGroup()
+            .add(19, 19, 19)
             .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                .add(jPanel8Layout.createSequentialGroup()
-                  .add(19, 19, 19)
                   .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                      .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
                         .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel47, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
@@ -900,45 +903,41 @@ jLabel5.setText(obj.getFIO());
                .add(jPanel8Layout.createSequentialGroup()
                   .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                      .add(jPanel8Layout.createSequentialGroup()
-                        .add(19, 19, 19)
                         .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                           .add(jLabel16, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                           .add(jLabel15, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                            .add(jPanel8Layout.createSequentialGroup()
-                              .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                 .add(jLabel16, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                 .add(jLabel15, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                              .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                                 .add(jPanel8Layout.createSequentialGroup()
-                                    .add(32, 32, 32)
-                                    .add(jLabel13, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                 .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel8Layout.createSequentialGroup()
-                                    .add(24, 24, 24)
-                                    .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                       .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextField13)
-                                       .add(jTextField14)))))
+                              .add(32, 32, 32)
+                              .add(jLabel13, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                           .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel8Layout.createSequentialGroup()
+                              .add(26, 26, 26)
+                              .add(jTextField13))
                            .add(jPanel8Layout.createSequentialGroup()
-                              .add(jLabel17, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                               .add(27, 27, 27)
-                              .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                                 .add(jTextField44)
-                                 .add(jTextField43)
-                                 .add(jTextField42)
-                                 .add(jTextField15, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)))))
+                              .add(jTextField14))))
                      .add(jPanel8Layout.createSequentialGroup()
-                        .add(19, 19, 19)
+                        .add(jLabel17, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(26, 26, 26)
+                        .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                           .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                              .add(jTextField44, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                              .add(jTextField43)
+                              .add(jTextField42))
+                           .add(jTextField15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 139, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                     .add(jLabel50)
+                     .add(jPanel8Layout.createSequentialGroup()
                         .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                           .add(jLabel50)
-                           .add(jPanel8Layout.createSequentialGroup()
-                              .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                 .add(jLabel54, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                 .add(jLabel53, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                 .add(jLabel52, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                 .add(jLabel51, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                              .add(18, 18, Short.MAX_VALUE)
-                              .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                                 .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextField47, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
-                                 .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextField46)
-                                 .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextField45)
-                                 .add(jTextField48))))))
+                           .add(jLabel54, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                           .add(jLabel53, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                           .add(jLabel52, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                           .add(jLabel51, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(18, 18, Short.MAX_VALUE)
+                        .add(jPanel8Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                           .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextField47, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                           .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextField46)
+                           .add(org.jdesktop.layout.GroupLayout.TRAILING, jTextField45)
+                           .add(jTextField48))))
                   .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                   .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                   .add(30, 30, 30)))
@@ -1064,6 +1063,10 @@ jLabel5.setText(obj.getFIO());
          {
             jTextField6KeyPressed(evt);
          }
+         public void keyReleased(java.awt.event.KeyEvent evt)
+         {
+            jTextField6KeyReleased(evt);
+         }
       });
 
       jComboBox2.addActionListener(new java.awt.event.ActionListener()
@@ -1076,6 +1079,19 @@ jLabel5.setText(obj.getFIO());
 
       jLabel1.setText("UKR");
 
+      jTextField49.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
+      jTextField49.addKeyListener(new java.awt.event.KeyAdapter()
+      {
+         public void keyPressed(java.awt.event.KeyEvent evt)
+         {
+            jTextField49KeyPressed(evt);
+         }
+         public void keyReleased(java.awt.event.KeyEvent evt)
+         {
+            jTextField49KeyReleased(evt);
+         }
+      });
+
       org.jdesktop.layout.GroupLayout jPanel6Layout = new org.jdesktop.layout.GroupLayout(jPanel6);
       jPanel6.setLayout(jPanel6Layout);
       jPanel6Layout.setHorizontalGroup(
@@ -1084,13 +1100,18 @@ jLabel5.setText(obj.getFIO());
             .add(14, 14, 14)
             .add(jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                .add(jTextField3)
-               .add(jButton1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-               .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+               .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
             .add(55, 55, 55)
             .add(jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-               .add(jButton2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-               .add(jComboBox2, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-               .add(jTextField6))
+               .add(jPanel6Layout.createSequentialGroup()
+                  .add(jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                     .add(jButton1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                     .add(jTextField6))
+                  .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                  .add(jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                     .add(jTextField49)
+                     .add(jButton2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)))
+               .add(jComboBox2, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
       jPanel6Layout.setVerticalGroup(
@@ -1098,12 +1119,13 @@ jLabel5.setText(obj.getFIO());
          .add(jPanel6Layout.createSequentialGroup()
             .addContainerGap(262, Short.MAX_VALUE)
             .add(jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-               .add(jComboBox2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+               .add(jComboBox2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
                .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
             .add(jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                .add(jTextField3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
-               .add(jTextField6))
+               .add(jTextField6)
+               .add(jTextField49))
             .add(18, 18, 18)
             .add(jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                .add(jButton1)
@@ -1631,13 +1653,13 @@ jLabel5.setText(obj.getFIO());
             .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                .add(jPanel1Layout.createSequentialGroup()
                   .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                     .add(jPanel12, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
+                     .add(jPanel12, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
                      .add(jPanel7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                      .add(jPanel6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                   .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                   .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                      .add(jPanel8, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                     .add(jPanel13, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)))
+                     .add(jPanel13, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE)))
                .add(jPanel14, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 1143, Short.MAX_VALUE)
                .add(jPanel1Layout.createSequentialGroup()
                   .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1776,6 +1798,41 @@ jLabel5.setText(obj.getFIO());
             jMenu2MouseClicked(evt);
          }
       });
+
+      jMenuItem9.setText("Купить");
+      jMenuItem9.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            jMenuItem9MouseClicked(evt);
+         }
+      });
+      jMenuItem9.addActionListener(new java.awt.event.ActionListener()
+      {
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            jMenuItem9ActionPerformed(evt);
+         }
+      });
+      jMenu2.add(jMenuItem9);
+
+      jMenuItem10.setText("Продать");
+      jMenuItem10.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            jMenuItem10MouseClicked(evt);
+         }
+      });
+      jMenuItem10.addActionListener(new java.awt.event.ActionListener()
+      {
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            jMenuItem10ActionPerformed(evt);
+         }
+      });
+      jMenu2.add(jMenuItem10);
+
       jMenuBar2.add(jMenu2);
 
       jMenu4.setText("Справочники");
@@ -2053,10 +2110,7 @@ jLabel5.setText(obj.getFIO());
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
-	 HideEl();
-	 jPanel6.setVisible(true);
-	 jPanel7.setVisible(true);
-	 jPanel8.setVisible(true);
+
 	 // TODO add your handling code here:
     }//GEN-LAST:event_jMenu2MouseClicked
 
@@ -2358,6 +2412,17 @@ jLabel5.setText(obj.getFIO());
 		    sum = 0;
 		 }
 		 sum += Double.parseDouble(jTextField3.getText());
+		 String s1="",s2="";
+			    int s3=0;
+try{
+s1=jTextField12.getText();
+s2=jTextField10.getText();
+s3=Integer.parseInt(jTextField11.getText());
+}
+catch(Exception e)
+{}
+		 
+		 
 		 SD.OperationX(
 			    jComboBox2.getSelectedIndex(),
 			    Resident(),
@@ -2367,9 +2432,9 @@ jLabel5.setText(obj.getFIO());
 			    sum,
 			    Double.parseDouble(jTextField6.getText()),
 			    "buy",
-			    jTextField10.getText(),
-			    Integer.parseInt(jTextField11.getText()),
-			    jTextField12.getText()
+			    s2,
+			    s3,
+			    s1
 		 );
 
 		 try
@@ -2416,91 +2481,22 @@ jLabel5.setText(obj.getFIO());
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseEntered
-	 pf = 0;
-	 inpf = false;
-	 if(!jTextField6.getText().equals(""))
-	 {
 
-	    StorageMemory SD = getInstance();
-
-	    String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
-
-	    ArrayList tmpz = new ArrayList();
-	    tmpz = (ArrayList) SD.curse.get(code);
-	    if(SD.Pfbuy != 0)
-	    {
-		 inpf = true;
-		 pf = round((Double.parseDouble((String) tmpz.get(0))) * Double.parseDouble((String) jTextField6.getText()) / 100 * SD.Pfbuy, 2);
-
-		 jTextField3.setText((Double.toString(round((Double.parseDouble((String) tmpz.get(0))) * Double.parseDouble((String) jTextField6.getText()) / 100 * SD.Pfbuy + ((Double.parseDouble((String) tmpz.get(0))) * Double.parseDouble((String) jTextField6.getText())), 2))));
-		 if(pf < 0)
-		 {
-		    pf *= (-1);
-		 }
-	    }
-	    else
-	    {
-		 jTextField3.setText((Double.toString(round(Double.parseDouble((String) tmpz.get(0)) * Double.parseDouble((String) jTextField6.getText()), 2))));
-	    }
-	    double tmp = Double.parseDouble((String) jTextField3.getText());
-	    double tmp2 = Double.parseDouble((String) jTextField6.getText());
-	    if(tmp > 0)
-	    {
-		 jTextField3.setText(Double.toString(round(tmp * (-1), 2)));
-	    }
-	    if(tmp2 < 0)
-	    {
-		 jTextField6.setText(Double.toString(round(tmp2 * (-1), 2)));
-	    }
-
-	 }
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton1MouseEntered
 
     private void jButton2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseEntered
-	 pf = 0;
-	 inpf = false;
-	 if(!jTextField6.getText().equals(""))
-	 {
-
-	    inpf = false;
-	    StorageMemory SD = getInstance();
-
-	    String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
-
-	    ArrayList tmpz = new ArrayList();
-	    tmpz = (ArrayList) SD.curse.get(code);
-	    if(SD.Pfsell != 0)
-	    {
-		 inpf = true;
-		 pf = round((Double.parseDouble((String) tmpz.get(1))) * Double.parseDouble((String) jTextField6.getText()) / 100 * SD.Pfsell, 2);
-		 jTextField3.setText((Double.toString(round((Double.parseDouble((String) tmpz.get(1))) * Double.parseDouble((String) jTextField6.getText()) / 100 * SD.Pfsell + ((Double.parseDouble((String) tmpz.get(1))) * Double.parseDouble((String) jTextField6.getText())), 2))));
-		 if(pf < 0)
-		 {
-		    pf *= (-1);
-		 }
-	    }
-	    else
-	    {
-		 jTextField3.setText((Double.toString(round(Double.parseDouble((String) tmpz.get(1)) * Double.parseDouble((String) jTextField6.getText()), 2))));
-	    }
-
-	    double tmp = Double.parseDouble((String) jTextField6.getText());
+	    double tmp = Double.parseDouble((String) jTextField49.getText());
 	    if(tmp > 0)
 	    {
-		 jTextField6.setText(Double.toString(round(tmp * (-1), 2)));
+	     jTextField49.setText(Double.toString(round(tmp*(-1), 2)));
 	    }
-	    double tmp2 = Double.parseDouble((String) jTextField3.getText());
-	    if(tmp2 < 0)
-	    {
-		 jTextField3.setText(Double.toString(round(tmp2 * (-1), 2)));
-	    }
-	 }
-
+	    
 
     }//GEN-LAST:event_jButton2MouseEntered
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+	//продажа
 	 StorageMemory SD = getInstance();
 
 	 try
@@ -2508,7 +2504,7 @@ jLabel5.setText(obj.getFIO());
 	    String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
 	    double bal = Double.parseDouble(GetDoubleStr((ArrayList) SD.balance.get(code)));
 	    double grn = Double.parseDouble(GetDoubleStr((ArrayList) SD.balance.get("980")));
-	    if((Double.parseDouble(jTextField6.getText()) + bal) > 0 || (grn - Double.parseDouble(jTextField3.getText())) > 0)
+	    if((Double.parseDouble(jTextField49.getText()) + bal) > 0 || (grn - Double.parseDouble(jTextField3.getText())) > 0)
 
 	    {
 
@@ -2531,7 +2527,14 @@ jLabel5.setText(obj.getFIO());
 
 		 }
 		 sum = round(sum, 2);
+String s1="",s2="",s3="";
+try{
+s1=jTextField12.getText();
 
+
+}
+catch(Exception e)
+{}
 		 SD.OperationX(
 			    jComboBox2.getSelectedIndex(),
 			    Resident(),
@@ -2539,11 +2542,11 @@ jLabel5.setText(obj.getFIO());
 			    jTextField8.getText(),
 			    jTextField9.getText(),
 			    sum,
-			    Double.parseDouble(jTextField6.getText()),
+			    Double.parseDouble(jTextField49.getText()),
 			    "sale",
 			    jTextField10.getText(),
 			    Integer.parseInt(jTextField11.getText()),
-			    jTextField12.getText()
+			    s1
 		 );
 
 		 try
@@ -2583,7 +2586,7 @@ jLabel5.setText(obj.getFIO());
 	 catch (NumberFormatException e)
 	 {
 	    showMessageDialog(null, "Проверьте введены ли все поля корректно.");
-	    jTextField6.setText("");
+	    jTextField49.setText("");
 	    jTextField3.setText("");
 	 }
 	 // TODO add your handling code here:
@@ -2772,19 +2775,7 @@ jLabel5.setText(obj.getFIO());
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-	 try
-	 {
-	    jButton1.setEnabled(true);
-	    jButton2.setEnabled(true);
-	    jComboBox2.setSelectedIndex((jComboBox2.getSelectedIndex() + 1));
-	    jComboBox2.setSelectedIndex((jComboBox2.getSelectedIndex() - 1));
 
-	 }
-	 catch (Exception e)
-	 {
-	    jButton1.setEnabled(false);
-	    jButton2.setEnabled(false);
-	 }
 
 // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox2ActionPerformed
@@ -2879,6 +2870,121 @@ jComboBox1.setSelectedIndex(tmpk);      // TODO add your handling code here:
 	    }
 	 }      // TODO add your handling code here:
    }//GEN-LAST:event_jTextField2KeyReleased
+
+   private void jTextField49KeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextField49KeyPressed
+   {//GEN-HEADEREND:event_jTextField49KeyPressed
+      // TODO add your handling code here:
+   }//GEN-LAST:event_jTextField49KeyPressed
+
+   private void jTextField6KeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextField6KeyReleased
+   {//GEN-HEADEREND:event_jTextField6KeyReleased
+	 pf = 0;
+	 inpf = false;
+	 if(!jTextField6.getText().equals(""))
+	 {
+
+	    StorageMemory SD = getInstance();
+
+	    String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
+
+	    ArrayList tmpz = new ArrayList();
+	    tmpz = (ArrayList) SD.curse.get(code);
+	    if(SD.Pfbuy != 0)
+	    {
+		 inpf = true;
+		 pf = round((Double.parseDouble((String) tmpz.get(0))) * Double.parseDouble((String) jTextField6.getText()) / 100 * SD.Pfbuy, 2);
+
+		 jTextField3.setText((Double.toString(round((Double.parseDouble((String) tmpz.get(0))) * Double.parseDouble((String) jTextField6.getText()) / 100 * SD.Pfbuy + ((Double.parseDouble((String) tmpz.get(0))) * Double.parseDouble((String) jTextField6.getText())), 2))));
+		 if(pf < 0)
+		 {
+		    pf *= (-1);
+		 }
+	    }
+	    else
+	    {
+		 jTextField3.setText((Double.toString(round(Double.parseDouble((String) tmpz.get(0)) * Double.parseDouble((String) jTextField6.getText()), 2))));
+	    }
+	    double tmp = Double.parseDouble((String) jTextField3.getText());
+	    double tmp2 = Double.parseDouble((String) jTextField6.getText());
+	    if(tmp > 0)
+	    {
+		 jTextField3.setText(Double.toString(round(tmp * (-1), 2)));
+	    }
+	    if(tmp2 < 0)
+	    {
+		 jTextField6.setText(Double.toString(round(tmp2 * (-1), 2)));
+	    }
+
+	 }      // TODO add your handling code here:
+   }//GEN-LAST:event_jTextField6KeyReleased
+
+   private void jTextField49KeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextField49KeyReleased
+   {//GEN-HEADEREND:event_jTextField49KeyReleased
+	 pf = 0;
+	 inpf = false;
+	 if(!jTextField49.getText().equals(""))
+	 {
+
+	    inpf = false;
+	    StorageMemory SD = getInstance();
+
+	    String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
+
+	    ArrayList tmpz = new ArrayList();
+	    tmpz = (ArrayList) SD.curse.get(code);
+	    if(SD.Pfsell != 0)
+	    {
+		 inpf = true;
+		 pf = round((Double.parseDouble((String) tmpz.get(1))) * Double.parseDouble((String) jTextField49.getText()) / 100 * SD.Pfsell, 2);
+		 jTextField3.setText((Double.toString(round((Double.parseDouble((String) tmpz.get(1))) * Double.parseDouble((String) jTextField49.getText()) / 100 * SD.Pfsell + ((Double.parseDouble((String) tmpz.get(1))) * Double.parseDouble((String) jTextField49.getText())), 2))));
+		 if(pf < 0)
+		 {
+		    pf *= (-1);
+		 }
+	    }
+	    else
+	    {
+		 jTextField49.setText((Double.toString(round(Double.parseDouble((String) tmpz.get(1)) * Double.parseDouble((String) jTextField6.getText()), 2))));
+	    }
+
+	   
+	 }
+     
+   }//GEN-LAST:event_jTextField49KeyReleased
+
+   private void jMenuItem9MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jMenuItem9MouseClicked
+   {//GEN-HEADEREND:event_jMenuItem9MouseClicked
+   // TODO add your handling code here:
+   }//GEN-LAST:event_jMenuItem9MouseClicked
+
+   private void jMenuItem10MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jMenuItem10MouseClicked
+   {//GEN-HEADEREND:event_jMenuItem10MouseClicked
+ // TODO add your handling code here:
+   }//GEN-LAST:event_jMenuItem10MouseClicked
+
+   private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItem9ActionPerformed
+   {//GEN-HEADEREND:event_jMenuItem9ActionPerformed
+ HideEl();
+	 jPanel6.setVisible(true);
+	 jPanel7.setVisible(true);
+	 jPanel8.setVisible(true);
+	 jTextField49.setVisible(false);
+	 jButton2.setVisible(false);
+ jTextField6.setVisible(true);
+	 jButton1.setVisible(true);         // TODO add your handling code here:
+   }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+   private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItem10ActionPerformed
+   {//GEN-HEADEREND:event_jMenuItem10ActionPerformed
+ HideEl();
+	 jPanel6.setVisible(true);
+	 jPanel7.setVisible(true);
+	 jPanel8.setVisible(true);
+	 jTextField49.setVisible(true);
+	 jButton2.setVisible(true);
+	 jTextField6.setVisible(false);
+	 jButton1.setVisible(false);           // TODO add your handling code here:
+   }//GEN-LAST:event_jMenuItem10ActionPerformed
 
    /**
     */
@@ -3088,6 +3194,7 @@ jComboBox1.setSelectedIndex(tmpk);      // TODO add your handling code here:
    private javax.swing.JMenu jMenu6;
    private javax.swing.JMenuBar jMenuBar2;
    private javax.swing.JMenuItem jMenuItem1;
+   private javax.swing.JMenuItem jMenuItem10;
    private javax.swing.JMenuItem jMenuItem2;
    private javax.swing.JMenuItem jMenuItem3;
    private javax.swing.JMenuItem jMenuItem4;
@@ -3095,6 +3202,7 @@ jComboBox1.setSelectedIndex(tmpk);      // TODO add your handling code here:
    private javax.swing.JMenuItem jMenuItem6;
    private javax.swing.JMenuItem jMenuItem7;
    private javax.swing.JMenuItem jMenuItem8;
+   private javax.swing.JMenuItem jMenuItem9;
    private javax.swing.JPanel jPanel1;
    private javax.swing.JPanel jPanel10;
    private javax.swing.JPanel jPanel11;
@@ -3169,6 +3277,7 @@ jComboBox1.setSelectedIndex(tmpk);      // TODO add your handling code here:
    private javax.swing.JTextField jTextField46;
    private javax.swing.JTextField jTextField47;
    private javax.swing.JTextField jTextField48;
+   private javax.swing.JTextField jTextField49;
    private javax.swing.JTextField jTextField6;
    private javax.swing.JFormattedTextField jTextField7;
    private javax.swing.JFormattedTextField jTextField8;
