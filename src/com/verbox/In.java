@@ -1138,6 +1138,14 @@ jLabel5.setText(obj.getFIO());
          }
       });
 
+      jXDatePicker1.addActionListener(new java.awt.event.ActionListener()
+      {
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            jXDatePicker1ActionPerformed(evt);
+         }
+      });
+
       jButton3.setText("Печать");
       jButton3.addMouseListener(new java.awt.event.MouseAdapter()
       {
@@ -2739,6 +2747,8 @@ jLabel5.setText(obj.getFIO());
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void jXDatePicker2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker2ActionPerformed
+int tmpk=jComboBox1.getSelectedIndex();
+jComboBox1.setSelectedIndex(tmpk);
 	 // TODO add your handling code here:
     }//GEN-LAST:event_jXDatePicker2ActionPerformed
 
@@ -2814,6 +2824,12 @@ jButton3.setEnabled(false);
 	 jProgressBar1.setValue(0); // TODO add your handling code here:
 	 jButton3.setEnabled(true);
    }//GEN-LAST:event_jButton3MouseClicked
+
+   private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jXDatePicker1ActionPerformed
+   {//GEN-HEADEREND:event_jXDatePicker1ActionPerformed
+int tmpk=jComboBox1.getSelectedIndex();
+jComboBox1.setSelectedIndex(tmpk);      // TODO add your handling code here:
+   }//GEN-LAST:event_jXDatePicker1ActionPerformed
 
    /**
     */
@@ -3130,9 +3146,7 @@ jButton3.setEnabled(false);
    private class ActionListenerImpl implements ActionListener
    {
 // обработчик на комбобокс
-	public ActionListenerImpl()
-	{
-	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e)
