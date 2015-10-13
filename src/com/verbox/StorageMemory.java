@@ -54,7 +54,9 @@ public class StorageMemory {
             grn_sum,
             receipt_currency,
             taxpf,
-            receipt_number;
+            receipt_number,
+		cartulary_id,
+		type;
 //поля покупателя валюты
     
     //хранение курсов в обьекте
@@ -768,6 +770,8 @@ public int Pfsell,
      * @param pspCode
      * @param Phone
      */
+    
+    //SELECT id_journal,cartulary_id,type,currency_code,currency_sum,currency_course,grn_sum FROM JOURNAL ORDER by id_journal DESC LIMIT 1;
     public void OperationX(
             int code,        //код валюты
             String resident,    //резидент не резидент
@@ -818,7 +822,13 @@ public int Pfsell,
                         }
                    
             //Код валюты передает кнопка купить /../ и получаем из дропдауна индекс выбраного и подтягиваем из массива.
+		if(!typeOx.equals("reversal")&&!typeOx.equals("delete"))
+		{
             currency_code=(String) TempForSelectDropdown.get(code);
+		currency_sum=Double.toString(csum);
+	      grn_sum=Double.toString(sum);
+            receipt_currency=Integer.toString(idqwi);
+		}
             //получить курс по данной валюте
                                             if(typeOx.equals("buy"))
                                             {  //купить 
@@ -838,12 +848,19 @@ public int Pfsell,
                                                     action_name="sale";
                                               // grn_sum=Double.toString(round(sum*Double.parseDouble((String)tmpz.get(1)),2));
                                             }
+							  else if(typeOx.equals("reversal"))
+							  {
+							  action_name="reversal";
+							  cartulary_id=resident;
+							  type=Fn;
+							  currency_sum=Double.toString(sum);	     
+							  currency_course=pspS;
+							  grn_sum=Phone;
+							  currency_code=Integer.toString(code);
+							  receipt_currency=Ln;
+							  }
                                           
-            currency_sum=Double.toString(csum);
-           
-            grn_sum=Double.toString(sum);
-            
-            receipt_currency=Integer.toString(idqwi);
+       
             
             
             
@@ -865,16 +882,16 @@ public int Pfsell,
                     }
                     if(!phone_number.equals("0"))
                     {
-                    forparam.put("phone_number", phone_number);
+				 forparam.put("phone_number", phone_number);
                     }
-            forparam.put("currency_code", currency_code);
-            forparam.put("currency_course", currency_course);
-            forparam.put("currency_sum", currency_sum);
-            forparam.put("grn_sum", grn_sum);
-            forparam.put("receipt_currency", receipt_currency);
-            forparam.put("buyer_first_name", buyer_first_name);
-            forparam.put("taxpf", taxpf);
-            setParams(forparam);
+		forparam.put("currency_code", currency_code);
+		forparam.put("currency_course", currency_course);
+		forparam.put("currency_sum", currency_sum);
+		forparam.put("grn_sum", grn_sum);
+		forparam.put("receipt_currency", receipt_currency);
+		forparam.put("buyer_first_name", buyer_first_name);
+		forparam.put("taxpf", taxpf);
+		setParams(forparam);
             }
             //есди подкрепление или инкасация
             if(typeOx.equals("replenish")||typeOx.equals("collection")){
@@ -886,11 +903,26 @@ public int Pfsell,
                 setReceipt_number(Integer.toString(idqwiadmin));
                 forparam.put("receipt_number", getReceipt_number());
                 setParams(forparam);
-                
-               
-                
-                
+      
             }
+		
+		//удаление или сторно
+		if(typeOx.equals("reversal")||typeOx.equals("delate"))
+		{
+	
+		forparam.put("cartulary_id", cartulary_id);
+		forparam.put("currency_code", currency_code);
+		forparam.put("currency_course", currency_course);
+		forparam.put("currency_sum", currency_sum);
+		forparam.put("grn_sum", grn_sum);
+		forparam.put("receipt_currency", receipt_currency);
+		
+		forparam.put("type", type);
+		 setParams(forparam);
+		}
+		
+		
+		
                 
                     
                     
@@ -926,9 +958,9 @@ public int Pfsell,
 
         if(curse!=null||!curse.isEmpty())
         {   
-    Set<Entry<String, ArrayList<String>>> setMap = curse.entrySet(); 
-   Iterator<Entry<String,  ArrayList<String>>> iteratorMap = setMap.iterator(); 
-        System.out.println("\nHashMap with Multiple Values"); 
+     Set<Entry<String, ArrayList<String>>> setMap = curse.entrySet(); 
+     Iterator<Entry<String,  ArrayList<String>>> iteratorMap = setMap.iterator(); 
+     System.out.println("\nHashMap with Multiple Values"); 
         
         while(iteratorMap.hasNext()) { 
             Map.Entry<String, ArrayList<String>> entry =  
@@ -1017,19 +1049,7 @@ public int Pfsell,
                 "\n Idqwi " + idqwi +
                 "\n idqwiadmin "+idqwiadmin+
                 "\n Pfsell " + Pfsell+
-                "\n Pfbuy "+Pfbuy
-
-        
-        
-        
-
-            
-
-            
-
-            
-                
-                );
+                "\n Pfbuy "+Pfbuy );
     }
     
     public static String ShablonThisHtml(String str)

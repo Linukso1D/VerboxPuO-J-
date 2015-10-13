@@ -28,6 +28,8 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -41,6 +43,7 @@ import javax.swing.UIManager;
 import org.json.simple.parser.ParseException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.BiConsumer;
 import javafx.application.Platform;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
@@ -120,7 +123,7 @@ public class In extends javax.swing.JFrame
 
 	//статусбар
 // create the status bar panel and shove it down the bottom of the frame
-        //общие сведения
+	//общие сведения
 	//Общие сведения
 	try
 	{
@@ -211,7 +214,7 @@ public class In extends javax.swing.JFrame
 	   jTextField40.setText(obj.StorageGetInfo("bookk_first_name"));
 	   jTextField41.setText(obj.StorageGetInfo("bookk_last_name"));
 
-	//   JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+	   //   JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
 	   //  jPanel2.setPreferredSize(new Dimension(topFrame.getWidth(), 16));
 	   //курсы USD
 	   RefreshINF();
@@ -392,6 +395,8 @@ public class In extends javax.swing.JFrame
       jPanel14 = new javax.swing.JPanel();
       jScrollPane7 = new javax.swing.JScrollPane();
       jTable6 = new javax.swing.JTable();
+      jButton9 = new javax.swing.JButton();
+      jButton10 = new javax.swing.JButton();
       jPanel15 = new javax.swing.JPanel();
       jLabel18 = new javax.swing.JLabel();
       jSeparator2 = new javax.swing.JSeparator();
@@ -1315,6 +1320,17 @@ public class In extends javax.swing.JFrame
          jTable6.getColumnModel().getColumn(3).setMaxWidth(200);
       }
 
+      jButton9.setText("Сторно ");
+      jButton9.addActionListener(new java.awt.event.ActionListener()
+      {
+         public void actionPerformed(java.awt.event.ActionEvent evt)
+         {
+            jButton9ActionPerformed(evt);
+         }
+      });
+
+      jButton10.setText("Удаление");
+
       org.jdesktop.layout.GroupLayout jPanel14Layout = new org.jdesktop.layout.GroupLayout(jPanel14);
       jPanel14.setLayout(jPanel14Layout);
       jPanel14Layout.setHorizontalGroup(
@@ -1323,13 +1339,22 @@ public class In extends javax.swing.JFrame
             .addContainerGap()
             .add(jScrollPane7)
             .addContainerGap())
+         .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel14Layout.createSequentialGroup()
+            .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(jButton9)
+            .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+            .add(jButton10)
+            .add(548, 548, 548))
       );
       jPanel14Layout.setVerticalGroup(
          jPanel14Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
          .add(jPanel14Layout.createSequentialGroup()
             .addContainerGap()
-            .add(jScrollPane7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
-            .addContainerGap())
+            .add(jScrollPane7, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 615, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(jPanel14Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+               .add(jButton9)
+               .add(jButton10)))
       );
 
       jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder("Данные о предприятии"));
@@ -2976,7 +3001,7 @@ public class In extends javax.swing.JFrame
 	jTextField49.setVisible(true);
 	jButton2.setVisible(true);
 	jTextField6.setVisible(false);
-	jButton1.setVisible(false);   
+	jButton1.setVisible(false);
 	jTextField7.setText("");
 	jTextField8.setText("");
 	jTextField9.setText("");
@@ -2988,6 +3013,64 @@ public class In extends javax.swing.JFrame
 	jTextField49.setText("");
 	jCheckBox1.setSelected(false);// TODO add your handling code here:
    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+   private void jButton9ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jButton9ActionPerformed
+   {//GEN-HEADEREND:event_jButton9ActionPerformed
+	StorageMemory SD = getInstance();
+	try
+	{
+	   //сторно
+	   Map tmp = new LinkedHashMap<String, ArrayList<String>>();
+	   ArrayList f2 = new ArrayList<String>();
+	   tmp = ReadSQLiteMulti("SELECT id_journal,"
+			+ "cartulary_id,"
+			+ "type,"
+			+ "currency_code,"
+			+ "currency_sum,"
+			+ "currency_course,"
+			+ "grn_sum, receipt_currency+1 "
+			+ "FROM JOURNAL ORDER by id_journal DESC LIMIT 1;");
+	
+		
+	   
+	   tmp.forEach((s,l)->f2.add(l)); 
+	   
+	   f2.forEach(System.out::println);
+	   ArrayList f = new ArrayList<String>();
+	//f2.parallelStream().forEach((index) -> f.add(index));
+	  // f.parallelStream()
+	   f.addAll((Collection) f2.get(0));
+	   
+	   
+	   SD.OperationX(
+			    Integer.parseInt(f.get(2).toString()),//currency_code
+			     f.get(0).toString(), //cartulary_id
+			   f.get(1).toString(),//type
+			    f.get(6).toString(),
+			    "",
+			    Integer.parseInt(f.get(3).toString()),//currency_sum
+			    0,
+			    "reversal",
+			    f.get(4).toString(), // курс
+			    0,
+			    f.get(5).toString() // грн сумма
+			   );
+	   
+	}
+	catch (ClassNotFoundException | SQLException ex)
+	{
+	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+	}
+	   try
+		 {
+		    ParseJson pjs = new ParseJson(SendPost(SD.GetSD()));
+		 }
+		 catch (IOException | ParseException | InterruptedException | SQLException | ClassNotFoundException | java.text.ParseException ex)
+		 {
+		    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+		 }
+
+   }//GEN-LAST:event_jButton9ActionPerformed
 
    /**
     */
@@ -3123,6 +3206,7 @@ public class In extends javax.swing.JFrame
 
    // Variables declaration - do not modify//GEN-BEGIN:variables
    private javax.swing.JButton jButton1;
+   private javax.swing.JButton jButton10;
    private javax.swing.JButton jButton2;
    private javax.swing.JButton jButton3;
    private javax.swing.JButton jButton4;
@@ -3130,6 +3214,7 @@ public class In extends javax.swing.JFrame
    private javax.swing.JButton jButton6;
    private javax.swing.JButton jButton7;
    private javax.swing.JButton jButton8;
+   private javax.swing.JButton jButton9;
    private javax.swing.JCheckBox jCheckBox1;
    private javax.swing.JComboBox jComboBox1;
    private javax.swing.JComboBox jComboBox2;
@@ -3331,7 +3416,7 @@ public class In extends javax.swing.JFrame
 		   //отчет по курсам
 		   case 1:
 		   {
-                        //  htm="";
+			//  htm="";
 
 			DefaultListModel listModel = new DefaultListModel();
 			ArrayList order = new ArrayList();

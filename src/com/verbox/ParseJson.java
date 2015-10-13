@@ -240,6 +240,8 @@ public class ParseJson {
                                    } 
                         }
                        
+			     
+			     
                        //Продажа sale
                        if(json.get("action_name").equals("sale"))
                        {
@@ -314,6 +316,73 @@ public class ParseJson {
                                             }       
                                    } 
                         }
+			     //Cторно
+			     if(json.get("action_name").equals("reversal"))
+                       {
+                                   if(json.get("params")!=null)
+                                   {
+                                    JSONObject tmp = (JSONObject) json.get("params");
+                                    
+                                            if(tmp.get("type").equals("reversal"))
+                                            {
+                                                showMessageDialog(null, "reversal");
+                                               StorageMemory sd =getInstance();
+                                                         date_create =  (String) tmp.get("date_create");
+                                                         time_create =  (String) tmp.get("time_create");
+                                                         cartulary_id =  tmp.get("cartulary_id").toString();
+
+                                                         ArrayList key = new ArrayList();
+                                                         
+                                                         key.add("currency_code");
+                                                         key.add("currency_course");
+                                                         key.add("currency_sum");
+                                                         key.add("grn_sum");
+                                                         
+                                                         key.add("receipt_currency");
+                                                         key.add("taxpf");
+                                                         key.add("date_create");
+                                                         key.add("time_create");
+                                                         key.add("type");
+                                                         key.add("cartulary_id");
+                                                         key.add("FIO");
+
+                                                         ArrayList value = new ArrayList();
+                                                         
+                                                         value.add(sd.getCurrency_code());
+                                                         value.add(sd.getCurrency_course());
+                                                         value.add(sd.getCurrency_sum());
+                                                         value.add(sd.getGrn_sum());
+                                                         
+                                                         value.add(sd.getReceipt_currency());
+                                                         value.add(sd.getTaxpf());
+                                                         value.add(date_create);
+                                                         value.add(time_create);
+                                                         value.add(tmp.get("type"));
+                                                         value.add(cartulary_id);
+                                                         value.add(sd.getFIO());
+
+                                                         sd.setBalance("980",Double.parseDouble(sd.getGrn_sum()));
+                                                         sd.setBalance(sd.getCurrency_code(),Double.parseDouble(sd.getCurrency_sum()));
+                                                        
+                                                         boolean ido=UPDATE("UPDATE SDobj SET id_operation= \""+(sd.getId_operation()+1)+"\" ;" );
+                                                         boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= \""+(sd.getIdqwi()+1)+"\" ;" );
+                                                         
+                                                         boolean ins =Insert("journal",key,value);
+                                                        showMessageDialog(null,"ID operation " + ido + "ID qwi updated "+ idqwi+"Insert "+ins);
+                                                       
+                                                        
+                                                        //обновляем локальную валюту
+                                                         sd.initCourse() ; 
+                                                         In mf=getInstanceMain();
+                                                        mf.RefreshINF();
+                                                        mf.repaint();
+                                                      
+                                            }       
+                                   } 
+                        }
+			     
+			     
+			     
                        
                        //Пополнение - "replenish"
                        if(json.get("action_name").equals("replenish")||json.get("action_name").equals("collection"))
