@@ -848,9 +848,9 @@ public int Pfsell,
                                                     action_name="sale";
                                               // grn_sum=Double.toString(round(sum*Double.parseDouble((String)tmpz.get(1)),2));
                                             }
-							  else if(typeOx.equals("reversal"))
+							  else if(typeOx.equals("reversal")||typeOx.equals("delete"))
 							  {
-							  action_name="reversal";
+							  action_name=typeOx;
 							  cartulary_id=resident;
 							  type=Fn;
 							  currency_sum=Double.toString(sum);	     
@@ -907,7 +907,7 @@ public int Pfsell,
             }
 		
 		//удаление или сторно
-		if(typeOx.equals("reversal")||typeOx.equals("delate"))
+		if(typeOx.equals("reversal")||typeOx.equals("delete"))
 		{
 	
 		forparam.put("cartulary_id", cartulary_id);
@@ -1067,6 +1067,7 @@ public int Pfsell,
     {
         return Double.parseDouble(GetDoubleStr((ArrayList) balance.get(codes)));
     }
+    
     public boolean setBalance(String codes,double value) throws SQLException
     {
         double d=Double.parseDouble(GetDoubleStr((ArrayList) balance.get(codes)));

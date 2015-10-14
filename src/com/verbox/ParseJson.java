@@ -325,7 +325,7 @@ public class ParseJson {
                                     
                                             if(tmp.get("type").equals("reversal"))
                                             {
-                                                showMessageDialog(null, "reversal");
+                                               showMessageDialog(null, "reversal");
                                                StorageMemory sd =getInstance();
                                                          date_create =  (String) tmp.get("date_create");
                                                          time_create =  (String) tmp.get("time_create");
@@ -361,8 +361,8 @@ public class ParseJson {
                                                          value.add(cartulary_id);
                                                          value.add(sd.getFIO());
 
-                                                         sd.setBalance("980",Double.parseDouble(sd.getGrn_sum()));
-                                                         sd.setBalance(sd.getCurrency_code(),Double.parseDouble(sd.getCurrency_sum()));
+                                                         sd.setBalance("980",Double.parseDouble(sd.getGrn_sum())*(-1));
+                                                         sd.setBalance(sd.getCurrency_code(),Double.parseDouble(sd.getCurrency_sum())*(-1));
                                                         
                                                          boolean ido=UPDATE("UPDATE SDobj SET id_operation= \""+(sd.getId_operation()+1)+"\" ;" );
                                                          boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= \""+(sd.getIdqwi()+1)+"\" ;" );
@@ -382,9 +382,70 @@ public class ParseJson {
                         }
 			     
 			     
+			     //удаление
+			     if(json.get("action_name").equals("delete"))
+                       {
+                                   if(json.get("params")!=null)
+                                   {
+                                    JSONObject tmp = (JSONObject) json.get("params");
+                                    
+                                            if(tmp.get("type").equals("delete"))
+                                            {
+                                                showMessageDialog(null, "delete");
+                                               StorageMemory sd =getInstance();
+                                                        
+                                                         time_create =  (String) tmp.get("timedelete");
+									   
+                                                         cartulary_id =  tmp.get("cartulary_id").toString();
+
+                                                         ArrayList key = new ArrayList();
+                                                         
+                                                         key.add("currency_code");
+                                                         key.add("currency_course");
+                                                         key.add("currency_sum");
+                                                         key.add("grn_sum");
+                                                         key.add("receipt_currency");
+                                                         key.add("timedelete");
+                                                         key.add("type");
+                                                         key.add("cartulary_id");
+                                                         key.add("FIO");
+
+                                                         ArrayList value = new ArrayList();
+                                                         
+                                                         value.add(sd.getCurrency_code());
+                                                         value.add(sd.getCurrency_course());
+                                                         value.add(sd.getCurrency_sum());
+                                                         value.add(sd.getGrn_sum());
+                                                         value.add(sd.getReceipt_currency());
+									   value.add(time_create);
+                                                         value.add(tmp.get("type"));
+                                                         value.add(cartulary_id);
+                                                         value.add(sd.getFIO());
+
+                                                         sd.setBalance("980",Double.parseDouble(sd.getGrn_sum())*(-1));
+                                                         sd.setBalance(sd.getCurrency_code(),Double.parseDouble(sd.getCurrency_sum())*(-1));
+                                                        
+                                                         boolean ido=UPDATE("UPDATE SDobj SET id_operation= \""+(sd.getId_operation()+1)+"\" ;" );
+									   boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= \""+(sd.getIdqwi()-1)+"\" ;" );
+                                                         boolean idqwiadmin=UPDATE("UPDATE SDobj SET idqwiadmin= \""+(sd.getIdqwiadmin()+1)+"\" ;" );
+                                                         
+                                                         boolean ins =Insert("journal",key,value);
+                                                         showMessageDialog(null,"ID operation " + ido + "ID qwi updated "+ idqwi+"Insert "+ins);
+                                                       
+                                                        
+                                                        //обновляем локальную валюту
+                                                         sd.initCourse() ; 
+                                                         In mf=getInstanceMain();
+                                                         mf.RefreshINF();
+                                                         mf.repaint();
+                                                      
+                                            }       
+                                   } 
+                        }
+			     
 			     
                        
-                       //Пополнение - "replenish"
+                       //Пополнение - "replenish" или инкасаци 
                        if(json.get("action_name").equals("replenish")||json.get("action_name").equals("collection"))
                        {
                                    if(json.get("params")!=null)
@@ -427,7 +488,7 @@ try {
         
       
       String balancedb; 
-    //запись в бд
+	 //запись в бд
       balancedb=  SELECT("SELECT balance From SDbalance Where currency_code=\""+sd.getCurrency_code()+"\";");
       double bal=Double.parseDouble(balancedb);
       bal+=Double.parseDouble(sd.getCurrency_sum());

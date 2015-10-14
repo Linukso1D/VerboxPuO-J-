@@ -1330,6 +1330,13 @@ public class In extends javax.swing.JFrame
       });
 
       jButton10.setText("Удаление");
+      jButton10.addMouseListener(new java.awt.event.MouseAdapter()
+      {
+         public void mouseClicked(java.awt.event.MouseEvent evt)
+         {
+            jButton10MouseClicked(evt);
+         }
+      });
 
       org.jdesktop.layout.GroupLayout jPanel14Layout = new org.jdesktop.layout.GroupLayout(jPanel14);
       jPanel14.setLayout(jPanel14Layout);
@@ -3022,14 +3029,7 @@ public class In extends javax.swing.JFrame
 	   //сторно
 	   Map tmp = new LinkedHashMap<String, ArrayList<String>>();
 	   ArrayList f2 = new ArrayList<String>();
-	   tmp = ReadSQLiteMulti("SELECT id_journal,"
-			+ "cartulary_id,"
-			+ "type,"
-			+ "currency_code,"
-			+ "currency_sum,"
-			+ "currency_course,"
-			+ "grn_sum, receipt_currency+1 "
-			+ "FROM JOURNAL ORDER by id_journal DESC LIMIT 1;");
+	   tmp = ReadSQLiteMulti("SELECT id_journal, cartulary_id, type, currency_code, currency_sum, currency_course,grn_sum, receipt_currency+1 FROM JOURNAL WHERE type=\"buy\" OR type=\"sale\" ORDER BY id_journal DESC LIMIT 1;");
 	
 		
 	   
@@ -3044,8 +3044,8 @@ public class In extends javax.swing.JFrame
 	   
 	   SD.OperationX(
 			    Integer.parseInt(f.get(2).toString()),//currency_code
-			     f.get(0).toString(), //cartulary_id
-			   f.get(1).toString(),//type
+			    f.get(0).toString(), //cartulary_id
+			    f.get(1).toString(),//type
 			    f.get(6).toString(),
 			    "",
 			    Integer.parseInt(f.get(3).toString()),//currency_sum
@@ -3071,6 +3071,57 @@ public class In extends javax.swing.JFrame
 		 }
 
    }//GEN-LAST:event_jButton9ActionPerformed
+
+   private void jButton10MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton10MouseClicked
+   {//GEN-HEADEREND:event_jButton10MouseClicked
+    StorageMemory SD = getInstance();
+	try
+	{
+	   //удаление
+	   Map tmp = new LinkedHashMap<String, ArrayList<String>>();
+	   ArrayList f2 = new ArrayList<String>();
+	   tmp = ReadSQLiteMulti("SELECT id_journal, cartulary_id, type, currency_code, currency_sum, currency_course,grn_sum, receipt_currency+1 FROM JOURNAL WHERE type=\"buy\" OR type=\"sale\" ORDER BY id_journal DESC LIMIT 1;");
+	
+		
+	   
+	   tmp.forEach((s,l)->f2.add(l)); 
+	   
+	   f2.forEach(System.out::println);
+	   ArrayList f = new ArrayList<String>();
+	//f2.parallelStream().forEach((index) -> f.add(index));
+	  // f.parallelStream()
+	   f.addAll((Collection) f2.get(0));
+	   
+	   
+	   SD.OperationX(
+			    Integer.parseInt(f.get(2).toString()),//currency_code
+			    f.get(0).toString(), //cartulary_id
+			    f.get(1).toString(),//type
+			    f.get(6).toString(),
+			    "",
+			    Integer.parseInt(f.get(3).toString()),//currency_sum
+			    0,
+			    "delete",
+			    f.get(4).toString(), // курс
+			    0,
+			    f.get(5).toString() // грн сумма
+			   );
+	   
+	}
+	catch (ClassNotFoundException | SQLException ex)
+	{
+	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+	}
+	   try
+		 {
+		    ParseJson pjs = new ParseJson(SendPost(SD.GetSD()));
+		 }
+		 catch (IOException | ParseException | InterruptedException | SQLException | ClassNotFoundException | java.text.ParseException ex)
+		 {
+		    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+		 }
+  // TODO add your handling code here:
+   }//GEN-LAST:event_jButton10MouseClicked
 
    /**
     */
