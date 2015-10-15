@@ -5,6 +5,7 @@
  */
 package com.verbox;
 
+import PrintPatterns.PrintBuySale;
 import static com.verbox.Date.IsAfterDateCompare;
 import static com.verbox.Date.getShortDate;
 import static com.verbox.DecodeUTF.DecodeUTF;
@@ -236,8 +237,13 @@ public class ParseJson {
                                                          In mf=getInstanceMain();
                                                         mf.RefreshINF();
                                                         mf.repaint();
+									  PrintBuySale obj = new PrintBuySale();
+									  
                                             }       
                                    } 
+					  
+									
+						
                         }
                        
 			     
@@ -312,7 +318,7 @@ public class ParseJson {
                                                          In mf=getInstanceMain();
                                                         mf.RefreshINF();
                                                         mf.repaint();
-                                                      
+                                                      PrintBuySale obj = new PrintBuySale();
                                             }       
                                    } 
                         }
@@ -405,7 +411,7 @@ public class ParseJson {
                                                          key.add("currency_sum");
                                                          key.add("grn_sum");
                                                          key.add("receipt_currency");
-                                                         key.add("timedelete");
+                                                         key.add("date_create");
                                                          key.add("type");
                                                          key.add("cartulary_id");
                                                          key.add("FIO");
@@ -669,11 +675,12 @@ try {
                                         {
                                        
                                         UPDATE("UPDATE SDobj SET patterns=\""+obj2.get("date_create").toString()+"\";");
-                                        
+                                     //   UPDATE("UPDATE print SET html=\""+obj2.get("description").toString()+"\", date_create=\""+ obj2.get("date_create").toString() +"\" ;");
+						    DELETEpatt(obj2.get("pattern_id").toString());
                                       
                                         }
                                     }
-                                        catch(Exception e)
+                                        catch(SQLException | java.text.ParseException e)
                                     {
                                         showMessageDialog(null, "Не смог обновить документ на печать");
                                     }
@@ -869,14 +876,5 @@ for (Object item : Currencies) {
         return flag;
 
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+  
 }

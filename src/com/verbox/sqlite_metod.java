@@ -570,7 +570,7 @@ public class sqlite_metod {
     
     public static void DELETEpatt(String Who) throws SQLException
        {
-       statmt.execute("DELETE  FROM print WHERE pattent_id=\""+Who+"\" ;");
+       statmt.execute("DELETE  FROM print WHERE pattern_id=\""+Who+"\" ;");
        }
        
        

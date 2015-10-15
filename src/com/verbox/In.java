@@ -6,6 +6,12 @@
 package com.verbox;
 
 import PrintPatterns.PreparePatterns;
+import PrintPatterns.PrintBuySale;
+import static RefreshTable.RefreshTable.BookCaisher;
+import static RefreshTable.RefreshTable.GeneralInformation;
+import static RefreshTable.RefreshTable.Journal;
+import static RefreshTable.RefreshTable.inCashier;
+import static RefreshTable.RefreshTable.replanish;
 import static com.verbox.Date.ConvertJXPiker;
 import static com.verbox.Date.getJXShortDate;
 import static com.verbox.Date.getShortDate;
@@ -52,6 +58,7 @@ import javax.swing.JLabel;
 import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -59,6 +66,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.ProgressBarUI;
 import javax.swing.table.DefaultTableModel;
+import static RefreshTable.RefreshTable.Сollaction;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  *
@@ -129,8 +138,15 @@ public class In extends javax.swing.JFrame
 	{
 
 	   Map mapData = new LinkedHashMap<String, ArrayList>();
-	   mapData = ReadSQLiteMulti(
-			"SELECT `j`.`type`, `j`.`type`, `s`.`currency_name`,SUM(j.grn_sum),SUM(currency_sum)\n"
+	    mapData = ReadSQLiteMulti(
+			"SELECT `j`.`type`, CASE (`j`.`type`)\n" +
+			   "        WHEN \"buy\" THEN \"Покупка\" \n" +
+			   "        WHEN \"sale\" THEN \"Продажа\" \n" +
+			   "        WHEN \"reversal\" THEN \"Сторно\" \n" +
+			   "        WHEN \"delete\" THEN \"Удаление\" \n" +
+			   "        WHEN \"replenish\" THEN \"Пополнение\" \n" +
+			   "        WHEN \"collection\" THEN \"Инкасация\"   \n" +
+			   "    END\n , `s`.`currency_name`,SUM(j.grn_sum),SUM(currency_sum)\n"
 			+ "FROM `journal` AS `j`\n"
 			+ "INNER JOIN `SDbalance` AS `s` ON `j`.`currency_code` = `s`.`currency_code`\n"
 			+ "WHERE DATE(\"" + getShortDate() + "\") = DATE(`j`.`date_create`) AND `s`.`active` = 'true'\n"
@@ -225,6 +241,13 @@ public class In extends javax.swing.JFrame
 	   showMessageDialog(null, "Не удалось загрузить информацию от предприятии!!!");
 	   System.out.println("EXEPTION" + e);
 	}
+	
+	
+	
+	
+	
+	
+	
 	jLabel5.setText(obj.getFIO());
 	//заполнения дропдауна активными валютами
 	try
@@ -292,6 +315,20 @@ public class In extends javax.swing.JFrame
 	// combobox 1 listener
 	jComboBox1.addActionListener(new ActionListenerImpl());
 
+	
+	//загружаем шаблоні документов в новом потоке
+	
+	try
+	{StorageMemory SD = getInstance();
+	SD.PrintTpl = new LinkedHashMap<String, String>();
+	   SD.PrintTpl = ReadSQLiteMulti("SELECT pattern_id||\" \"||name,html FROM print group by pattern_id ORDER BY pattern_id LIMIT 18 ;");
+	}
+	catch (SQLException ex)
+	{
+	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+	}
+	
+	
    }
 
    /**
@@ -1961,107 +1998,24 @@ public class In extends javax.swing.JFrame
 	 HideEl();
 	 jPanel11.setVisible(true);
 
-	 //Общие сведения
 	 try
 	 {
-
-	    Map mapData = new LinkedHashMap<String, ArrayList>();
-	    mapData = ReadSQLiteMulti(
-			 "SELECT `j`.`type`, `j`.`type`, `s`.`currency_name`,SUM(j.grn_sum),SUM(currency_sum)\n"
-			 + "FROM `journal` AS `j`\n"
-			 + "INNER JOIN `SDbalance` AS `s` ON `j`.`currency_code` = `s`.`currency_code`\n"
-			 + "WHERE DATE(\"" + getShortDate() + "\") = DATE(`j`.`date_create`) AND `s`.`active` = 'true'\n"
-			 + "GROUP BY j.type");
-	    Set<String> keys = mapData.keySet();
-	    DefaultTableModel mod = new DefaultTableModel();
-	    jTable2.setModel(mod);
-
-	    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-	    model.addColumn("Операция");
-	    model.addColumn("Валюта");
-	    model.addColumn("Приход по Грн");
-	    model.addColumn("Приход по валюте");
-
-	    Set<RowFilter.Entry<String, ArrayList<String>>> setMap = mapData.entrySet();
-	    Iterator<RowFilter.Entry<String, ArrayList<String>>> iteratorMap = setMap.iterator();
-	    while (iteratorMap.hasNext())
-	    {
-		 Map.Entry<String, ArrayList<String>> entry
-			    = (Map.Entry<String, ArrayList<String>>) iteratorMap.next();
-		 String key = entry.getKey();
-		 List<String> values = entry.getValue();
-
-		 ArrayList tmpz = new ArrayList();
-		 tmpz = (ArrayList) mapData.get(key);
-
-		 model.addRow(new Object[]
-		 {
-		    tmpz.get(0).toString(), tmpz.get(1).toString(), tmpz.get(2).toString(), tmpz.get(3).toString()
-		 });
-
-	    }
-
+	    //Общие сведения
+	    GeneralInformation();
 	 }
-	 catch (ClassNotFoundException ex)
+	 catch (java.text.ParseException ex)
 	 {
 	    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
 	 }
-	 catch (SQLException ex)
-	 {
-	    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-	 }
-
 
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
 	 try
 	 {
-	    //подкрепления
-
-	    Map mapData = new LinkedHashMap<String, ArrayList>();
-	    mapData = ReadSQLiteMulti(
-			 "SELECT j.id_journal,j.date_create,j.time_create,j.FIO,j.currency_sum, c.currency_name\n"
-			 + "FROM journal AS j\n"
-			 + "LEFT JOIN SDbalance AS c ON j.currency_code = c.currency_code\n"
-			 + "WHERE type=\"replenish\" ORDER by id_journal DESC");
-	    Set<String> keys = mapData.keySet();
-	    DefaultTableModel mod = new DefaultTableModel();
-
-	    jTable1.setModel(mod);
-	    jTable1.setEnabled(false);
-	    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-	    model.addColumn("Дата");
-	    model.addColumn("Время");
-	    model.addColumn("Кассир");
-	    model.addColumn("Сумма");
-	    model.addColumn("Валюта");
-
-	    Set<RowFilter.Entry<String, ArrayList<String>>> setMap = mapData.entrySet();
-	    Iterator<RowFilter.Entry<String, ArrayList<String>>> iteratorMap = setMap.iterator();
-	    while (iteratorMap.hasNext())
-	    {
-		 Map.Entry<String, ArrayList<String>> entry
-			    = (Map.Entry<String, ArrayList<String>>) iteratorMap.next();
-		 String key = entry.getKey();
-		 List<String> values = entry.getValue();
-
-		 ArrayList tmpz = new ArrayList();
-		 tmpz = (ArrayList) mapData.get(key);
-
-		 model.addRow(new Object[]
-		 {
-		    tmpz.get(0).toString(), tmpz.get(1).toString(), tmpz.get(2).toString(), tmpz.get(3).toString(), tmpz.get(4).toString()
-		 });
-
-	    }
-
+	    replanish();
 	 }
-	 catch (ClassNotFoundException ex)
-	 {
-	    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-	 }
-	 catch (SQLException ex)
+	 catch (java.text.ParseException ex)
 	 {
 	    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
 	 }
@@ -2072,50 +2026,9 @@ public class In extends javax.swing.JFrame
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
 	 try
 	 {
-	    //подкрепления
-
-	    Map mapData = new LinkedHashMap<String, ArrayList>();
-	    mapData = ReadSQLiteMulti(
-			 "SELECT j.id_journal,j.date_create,j.time_create,j.FIO,j.currency_sum, c.currency_name\n"
-			 + "FROM journal AS j\n"
-			 + "LEFT JOIN SDbalance AS c ON j.currency_code = c.currency_code\n"
-			 + "WHERE type=\"collection\" ORDER by id_journal DESC");
-	    Set<String> keys = mapData.keySet();
-	    DefaultTableModel mod = new DefaultTableModel();
-	    jTable3.setModel(mod);
-
-	    DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
-	    model.addColumn("Дата");
-	    model.addColumn("Время");
-	    model.addColumn("Кассир");
-	    model.addColumn("Сумма");
-	    model.addColumn("Валюта");
-
-	    Set<RowFilter.Entry<String, ArrayList<String>>> setMap = mapData.entrySet();
-	    Iterator<RowFilter.Entry<String, ArrayList<String>>> iteratorMap = setMap.iterator();
-	    while (iteratorMap.hasNext())
-	    {
-		 Map.Entry<String, ArrayList<String>> entry
-			    = (Map.Entry<String, ArrayList<String>>) iteratorMap.next();
-		 String key = entry.getKey();
-		 List<String> values = entry.getValue();
-
-		 ArrayList tmpz = new ArrayList();
-		 tmpz = (ArrayList) mapData.get(key);
-
-		 model.addRow(new Object[]
-		 {
-		    tmpz.get(0).toString(), tmpz.get(1).toString(), tmpz.get(2).toString(), tmpz.get(3).toString(), tmpz.get(4).toString()
-		 });
-
-	    }
-
+	    Сollaction();
 	 }
-	 catch (ClassNotFoundException ex)
-	 {
-	    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-	 }
-	 catch (SQLException ex)
+	 catch (java.text.ParseException ex)
 	 {
 	    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
 	 }
@@ -2132,35 +2045,13 @@ public class In extends javax.swing.JFrame
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
 //Кассиры
-
+	 HideEl();
+	 jPanel12.setVisible(true);
 	 try
 	 {
-	    Map mapData = new LinkedHashMap<String, String>();
-	    mapData = ReadSQLiteMulti("SELECT cash_id,surname||\" \"||first_name||\" \"||last_name FROM user where super=\"false\" ;");
-	    Set<String> keys = mapData.keySet();
-	    DefaultTableModel mod = new DefaultTableModel();
-	    jTable4.setModel(mod);
-
-	    DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
-	    model.addColumn("Фамилия");
-	    for (String key : keys)
-	    {
-
-		 model.addRow(new Object[]
-		 {
-		    GetDoubleStr((ArrayList) mapData.get(key))
-		 });
-
-	    }
-
-	    HideEl();
-	    jPanel12.setVisible(true);
+	    BookCaisher();
 	 }
-	 catch (ClassNotFoundException ex)
-	 {
-	    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-	 }
-	 catch (SQLException ex)
+	 catch (java.text.ParseException ex)
 	 {
 	    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
 	 }
@@ -2170,32 +2061,14 @@ public class In extends javax.swing.JFrame
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
 	 try
 	 {
-	    //пкункт меню инкассаторы
-	    Map mapData = new LinkedHashMap<String, String>();
-	    mapData = ReadSQLiteMulti("SELECT cash_id,surname||\" \"||first_name||\" \"||last_name FROM user where super=\"true\" ;");
-	    Set<String> keys = mapData.keySet();
-
-	    DefaultTableModel mod = new DefaultTableModel();
-	    jTable5.setModel(mod);
-	    DefaultTableModel model = (DefaultTableModel) jTable5.getModel();
-	    model.addColumn("Фамилия");
-	    for (String key : keys)
-	    {
-
-		 model.addRow(new Object[]
-		 {
-		    GetDoubleStr((ArrayList) mapData.get(key))
-		 });
-
-	    }
-
-	    HideEl();
-	    jPanel13.setVisible(true);
+	    inCashier();
 	 }
-	 catch (SQLException | ClassNotFoundException ex)
+	 catch (java.text.ParseException ex)
 	 {
 	    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
 	 }
+	 HideEl();
+	 jPanel13.setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
@@ -2210,51 +2083,9 @@ public class In extends javax.swing.JFrame
     private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
 	 try
 	 {
-	    //подкрепления
-
-	    Map mapData = new LinkedHashMap<String, ArrayList>();
-	    mapData = ReadSQLiteMulti(
-			 "SELECT j.id_journal,j.date_create,j.time_create,j.FIO,j.currency_sum, c.currency_name , j.type \n"
-			 + "FROM journal AS j\n"
-			 + "LEFT JOIN SDbalance AS c ON j.currency_code = c.currency_code\n"
-			 + " ORDER by id_journal DESC");
-	    Set<String> keys = mapData.keySet();
-	    DefaultTableModel mod = new DefaultTableModel();
-	    jTable6.setModel(mod);
-
-	    DefaultTableModel model = (DefaultTableModel) jTable6.getModel();
-	    model.addColumn("Дата");
-	    model.addColumn("Время");
-	    model.addColumn("Кассир");
-	    model.addColumn("Сумма");
-	    model.addColumn("Валюта");
-	    model.addColumn("Операция");
-
-	    Set<RowFilter.Entry<String, ArrayList<String>>> setMap = mapData.entrySet();
-	    Iterator<RowFilter.Entry<String, ArrayList<String>>> iteratorMap = setMap.iterator();
-	    while (iteratorMap.hasNext())
-	    {
-		 Map.Entry<String, ArrayList<String>> entry
-			    = (Map.Entry<String, ArrayList<String>>) iteratorMap.next();
-		 String key = entry.getKey();
-		 List<String> values = entry.getValue();
-
-		 ArrayList tmpz = new ArrayList();
-		 tmpz = (ArrayList) mapData.get(key);
-
-		 model.addRow(new Object[]
-		 {
-		    tmpz.get(0).toString(), tmpz.get(1).toString(), tmpz.get(2).toString(), tmpz.get(3).toString(), tmpz.get(4).toString(), tmpz.get(5).toString()
-		 });
-
-	    }
-
+	    Journal();
 	 }
-	 catch (ClassNotFoundException ex)
-	 {
-	    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-	 }
-	 catch (SQLException ex)
+	 catch (java.text.ParseException ex)
 	 {
 	    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
 	 }
@@ -2270,43 +2101,12 @@ public class In extends javax.swing.JFrame
 
 	 StorageMemory SD = getInstance();
 
-	 try
+	 ArrayList order = new ArrayList();
+	 Set<String> keys = SD.PrintTpl.keySet();
+	 for (String key : keys)
 	 {
-	    ArrayList order = new ArrayList();
-	    SD.PrintTpl = new LinkedHashMap<String, String>();
-	    SD.PrintTpl = ReadSQLiteMulti("SELECT pattern_id||\" \"||name,html FROM print group by pattern_id ORDER BY pattern_id LIMIT 18 ;");
-	    //WHERE order_id="+order.get(i)+"
-	    Set<String> keys = SD.PrintTpl.keySet();
-
-	    for (String key : keys)
-	    {
-		 //   System.out.println("key of balance "+key+ " balance "+ balance.get(key));
-		 jComboBox1.addItem(key);
-	    }
-
-	    // добавление елементов в лист на форме
-       /*     DefaultListModel listModel = new DefaultListModel();
-                
-               ArrayList tmp = new ArrayList();
-               tmp.add("order_id");
-               String date1 = jFormattedTextField1.getText();
-               String date2 = jFormattedTextField1.getText();
-               order= ReadSQLite(tmp,"currencies","Where DATE(TimetoStart) BETWEEN DATE(\""+date1+"\") AND DATE(\""+date2+"\") GROUP BY order_id;");
-               for(int i=0;i<order.size();i++)
-               {
-                   listModel.addElement(order.get(i));
-                   
-               }
-            jList1.setModel(listModel);
-	     */
-	 }
-	 catch (ClassNotFoundException ex)
-	 {
-	    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-	 }
-	 catch (SQLException ex)
-	 {
-	    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+	    //   System.out.println("key of balance "+key+ " balance "+ balance.get(key));
+	    jComboBox1.addItem(key);
 	 }
 
     }//GEN-LAST:event_jMenu6MouseClicked
@@ -2495,6 +2295,7 @@ public class In extends javax.swing.JFrame
 	    jTextField6.setText("");
 	    jTextField3.setText("");
 	 }
+	
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseEntered
@@ -3030,97 +2831,91 @@ public class In extends javax.swing.JFrame
 	   Map tmp = new LinkedHashMap<String, ArrayList<String>>();
 	   ArrayList f2 = new ArrayList<String>();
 	   tmp = ReadSQLiteMulti("SELECT id_journal, cartulary_id, type, currency_code, currency_sum, currency_course,grn_sum, receipt_currency+1 FROM JOURNAL WHERE type=\"buy\" OR type=\"sale\" ORDER BY id_journal DESC LIMIT 1;");
-	
-		
-	   
-	   tmp.forEach((s,l)->f2.add(l)); 
-	   
+
+	   tmp.forEach((s, l) -> f2.add(l));
+
 	   f2.forEach(System.out::println);
 	   ArrayList f = new ArrayList<String>();
 	//f2.parallelStream().forEach((index) -> f.add(index));
-	  // f.parallelStream()
+	   // f.parallelStream()
 	   f.addAll((Collection) f2.get(0));
-	   
-	   
+
 	   SD.OperationX(
-			    Integer.parseInt(f.get(2).toString()),//currency_code
-			    f.get(0).toString(), //cartulary_id
-			    f.get(1).toString(),//type
-			    f.get(6).toString(),
-			    "",
-			    Integer.parseInt(f.get(3).toString()),//currency_sum
-			    0,
-			    "reversal",
-			    f.get(4).toString(), // курс
-			    0,
-			    f.get(5).toString() // грн сумма
-			   );
-	   
+			Integer.parseInt(f.get(2).toString()),//currency_code
+			f.get(0).toString(), //cartulary_id
+			f.get(1).toString(),//type
+			f.get(6).toString(),
+			"",
+			Integer.parseInt(f.get(3).toString()),//currency_sum
+			0,
+			"reversal",
+			f.get(4).toString(), // курс
+			0,
+			f.get(5).toString() // грн сумма
+	   );
+
 	}
 	catch (ClassNotFoundException | SQLException ex)
 	{
 	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
 	}
-	   try
-		 {
-		    ParseJson pjs = new ParseJson(SendPost(SD.GetSD()));
-		 }
-		 catch (IOException | ParseException | InterruptedException | SQLException | ClassNotFoundException | java.text.ParseException ex)
-		 {
-		    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-		 }
+	try
+	{
+	   ParseJson pjs = new ParseJson(SendPost(SD.GetSD()));
+	}
+	catch (IOException | ParseException | InterruptedException | SQLException | ClassNotFoundException | java.text.ParseException ex)
+	{
+	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+	}
 
    }//GEN-LAST:event_jButton9ActionPerformed
 
    private void jButton10MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton10MouseClicked
    {//GEN-HEADEREND:event_jButton10MouseClicked
-    StorageMemory SD = getInstance();
+	StorageMemory SD = getInstance();
 	try
 	{
 	   //удаление
 	   Map tmp = new LinkedHashMap<String, ArrayList<String>>();
 	   ArrayList f2 = new ArrayList<String>();
 	   tmp = ReadSQLiteMulti("SELECT id_journal, cartulary_id, type, currency_code, currency_sum, currency_course,grn_sum, receipt_currency+1 FROM JOURNAL WHERE type=\"buy\" OR type=\"sale\" ORDER BY id_journal DESC LIMIT 1;");
-	
-		
-	   
-	   tmp.forEach((s,l)->f2.add(l)); 
-	   
+
+	   tmp.forEach((s, l) -> f2.add(l));
+
 	   f2.forEach(System.out::println);
 	   ArrayList f = new ArrayList<String>();
 	//f2.parallelStream().forEach((index) -> f.add(index));
-	  // f.parallelStream()
+	   // f.parallelStream()
 	   f.addAll((Collection) f2.get(0));
-	   
-	   
+
 	   SD.OperationX(
-			    Integer.parseInt(f.get(2).toString()),//currency_code
-			    f.get(0).toString(), //cartulary_id
-			    f.get(1).toString(),//type
-			    f.get(6).toString(),
-			    "",
-			    Integer.parseInt(f.get(3).toString()),//currency_sum
-			    0,
-			    "delete",
-			    f.get(4).toString(), // курс
-			    0,
-			    f.get(5).toString() // грн сумма
-			   );
-	   
+			Integer.parseInt(f.get(2).toString()),//currency_code
+			f.get(0).toString(), //cartulary_id
+			f.get(1).toString(),//type
+			f.get(6).toString(),
+			"",
+			Integer.parseInt(f.get(3).toString()),//currency_sum
+			0,
+			"delete",
+			f.get(4).toString(), // курс
+			0,
+			f.get(5).toString() // грн сумма
+	   );
+
 	}
 	catch (ClassNotFoundException | SQLException ex)
 	{
 	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
 	}
-	   try
-		 {
-		    ParseJson pjs = new ParseJson(SendPost(SD.GetSD()));
-		 }
-		 catch (IOException | ParseException | InterruptedException | SQLException | ClassNotFoundException | java.text.ParseException ex)
-		 {
-		    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-		 }
-  // TODO add your handling code here:
+	try
+	{
+	   ParseJson pjs = new ParseJson(SendPost(SD.GetSD()));
+	}
+	catch (IOException | ParseException | InterruptedException | SQLException | ClassNotFoundException | java.text.ParseException ex)
+	{
+	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+	}
+	// TODO add your handling code here:
    }//GEN-LAST:event_jButton10MouseClicked
 
    /**
@@ -3242,6 +3037,36 @@ public class In extends javax.swing.JFrame
 
 	});
 
+   }
+
+   public JTable getjTable2()
+   {
+	return jTable2;
+   }
+
+   public JTable getjTable1()
+   {
+	return jTable1;
+   }
+
+   public JTable getjTable3()
+   {
+	return jTable3;
+   }
+
+   public JTable getjTable4()
+   {
+	return jTable4;
+   }
+
+   public JTable getjTable5()
+   {
+	return jTable5;
+   }
+
+   public JTable getjTable6()
+   {
+	return jTable6;
    }
 
    public JComboBox getjComboBox1()

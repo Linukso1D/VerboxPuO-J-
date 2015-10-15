@@ -60,24 +60,6 @@ public class PreparePatterns
 	
 		//печать большого отчета по валютам
 		case 0:
-	
-		
-			
-	
-	
-
-
-		
-		
-		
-		//
-		
-
-// TODO add your handling code here:
-	
-		
-		
-		
 		   pre = SD.PrintTpl.get(String.valueOf(MainForm.getjComboBox1().getSelectedItem())).toString();
 		   //Прогнать через шаблонизатор 
 		   SD.TPLveloPrint = new LinkedHashMap<String, ArrayList>();
@@ -89,9 +71,8 @@ public class PreparePatterns
 		   RenderPDF_img_too(SD.ShablonThisHtml(pre));
 		   
 		   break;
+		   //печать маленького отчета по валютам
 		case 1:
-		  
-		   
 		   pre = SD.PrintTpl.get(String.valueOf(MainForm.getjComboBox1().getSelectedItem())).toString();
 		   //Прогнать через шаблонизатор 
 		   SD.TPLveloPrint = new LinkedHashMap<String, ArrayList>();

@@ -44,7 +44,8 @@ public class StorageMemory {
     private String 
             buyer_first_name,
             buyer_last_name,
-            buyer_surname,buyer_resident,
+            buyer_surname,
+		buyer_resident,
             passport_number,
             passport_serial,
             phone_number,
@@ -1040,22 +1041,37 @@ public int Pfsell,
         res= ReadSQLite(tmp, "SDobj",""); 
         this.patterns= (String) res.get(0);
         
+	  
+	  //очистка людей хвостов
+	setBuyer_surname("");
+	setBuyer_first_name("");
+	setBuyer_last_name("");
+	setPassport_serial("");
+	setPassport_number("");
+	setPhone_number("");
+	setCurrency_code("");
+	setCurrency_course("");
+	setCurrency_sum("");
+	setGrn_sum("");
+	
+	  
+	  
         
 
-        showMessageDialog(null, 
+       /* showMessageDialog(null, 
                 " Lastmess "+ lastmess+
                 "\n Patterns "+ patterns+
                 "\n Id operation "+ id_operation+
                 "\n Idqwi " + idqwi +
                 "\n idqwiadmin "+idqwiadmin+
                 "\n Pfsell " + Pfsell+
-                "\n Pfbuy "+Pfbuy );
+                "\n Pfbuy "+Pfbuy );*/
     }
     
     public static String ShablonThisHtml(String str)
             {
                
-                StorageMemory SD = getInstance();
+            StorageMemory SD = getInstance();
             StringWriter w = new StringWriter();
         
             Velocity.evaluate(SD.velocity, w, "", "cycle"
