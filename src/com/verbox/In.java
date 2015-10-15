@@ -2214,8 +2214,9 @@ public class In extends javax.swing.JFrame
 	    String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
 	    double bal = Double.parseDouble(GetDoubleStr((ArrayList) SD.balance.get(code)));
 	    double grn = Double.parseDouble(GetDoubleStr((ArrayList) SD.balance.get("980")));
-
-	    if(((Double.parseDouble(jTextField3.getText()) + grn) > 0) || (bal - Double.parseDouble(jTextField6.getText())) > 0)
+	    double grnin=Double.parseDouble(jTextField3.getText());
+	    double currin = Double.parseDouble(jTextField6.getText());
+	    if(((grnin + grn) > 0) && (bal - currin) > 0)
 	    {  //проверка на отрицательный баланс
 
 		 double sum = 0;
@@ -2322,7 +2323,9 @@ public class In extends javax.swing.JFrame
 	    String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
 	    double bal = Double.parseDouble(GetDoubleStr((ArrayList) SD.balance.get(code)));
 	    double grn = Double.parseDouble(GetDoubleStr((ArrayList) SD.balance.get("980")));
-	    if((Double.parseDouble(jTextField49.getText()) + bal) > 0 || (grn - Double.parseDouble(jTextField3.getText())) > 0)
+	    double grnin=Double.parseDouble(jTextField3.getText());
+	    double currin=Double.parseDouble(jTextField49.getText());
+	    if((currin + bal) > 0 && (grn + grnin ) > 0)
 
 	    {
 
@@ -2594,7 +2597,8 @@ public class In extends javax.swing.JFrame
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-
+	   jTextField6.setText("");
+	   jTextField49.setText("");
 // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox2ActionPerformed
 

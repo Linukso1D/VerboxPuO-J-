@@ -6,6 +6,7 @@
 package com.verbox;
 
 import PrintPatterns.PrintBuySale;
+import com.itextpdf.text.DocumentException;
 import static com.verbox.Date.IsAfterDateCompare;
 import static com.verbox.Date.getShortDate;
 import static com.verbox.DecodeUTF.DecodeUTF;
@@ -21,6 +22,7 @@ import static com.verbox.sqlite_metod.Insert;
 import static com.verbox.sqlite_metod.SELECT;
 import static com.verbox.sqlite_metod.UPDATE;
 import static com.verbox.sqlite_metod.viZ;
+import java.awt.print.PrinterException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
@@ -29,9 +31,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
+import javax.xml.parsers.ParserConfigurationException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -232,13 +236,19 @@ public class ParseJson {
                                                          
                                                          boolean ins =Insert("journal",key,value);
                                                         showMessageDialog(null,"ID operation " + ido + "ID qwi updated "+ idqwi+"Insert "+ins);
-                                                        //обновляем локальную валюту
+                                                        
+									   //печать чека
+                                                        PrintBuySale obj = new PrintBuySale();
+									   //обновляем локальную валюту
                                                          sd.initCourse() ; 
                                                          In mf=getInstanceMain();
+									  
+									   
                                                         mf.RefreshINF();
                                                         mf.repaint();
-									  PrintBuySale obj = new PrintBuySale();
-									  
+						
+							
+						    
                                             }       
                                    } 
 					  
@@ -311,14 +321,17 @@ public class ParseJson {
                                                          
                                                          boolean ins =Insert("journal",key,value);
                                                         showMessageDialog(null,"ID operation " + ido + "ID qwi updated "+ idqwi+"Insert "+ins);
-                                                       
-                                                        
+                                                       //печать чека
+                                                        PrintBuySale obj = new PrintBuySale();
                                                         //обновляем локальную валюту
                                                          sd.initCourse() ; 
                                                          In mf=getInstanceMain();
+									   
                                                         mf.RefreshINF();
                                                         mf.repaint();
-                                                      PrintBuySale obj = new PrintBuySale();
+						
+							
+						  
                                             }       
                                    } 
                         }
