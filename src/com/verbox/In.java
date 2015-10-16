@@ -67,6 +67,8 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.ProgressBarUI;
 import javax.swing.table.DefaultTableModel;
 import static RefreshTable.RefreshTable.Сollaction;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
@@ -537,9 +539,17 @@ public class In extends javax.swing.JFrame
 
       jTextField2.addKeyListener(new java.awt.event.KeyAdapter()
       {
+         public void keyPressed(java.awt.event.KeyEvent evt)
+         {
+            jTextField2KeyPressed(evt);
+         }
          public void keyReleased(java.awt.event.KeyEvent evt)
          {
             jTextField2KeyReleased(evt);
+         }
+         public void keyTyped(java.awt.event.KeyEvent evt)
+         {
+            jTextField2KeyTyped(evt);
          }
       });
 
@@ -552,7 +562,7 @@ public class In extends javax.swing.JFrame
             .addContainerGap())
          .add(jPanel9Layout.createSequentialGroup()
             .addContainerGap()
-            .add(jComboBox4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+            .add(jComboBox4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
             .add(jTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -590,6 +600,18 @@ public class In extends javax.swing.JFrame
          }
       });
 
+      jTextField1.addKeyListener(new java.awt.event.KeyAdapter()
+      {
+         public void keyPressed(java.awt.event.KeyEvent evt)
+         {
+            jTextField1KeyPressed(evt);
+         }
+         public void keyReleased(java.awt.event.KeyEvent evt)
+         {
+            jTextField1KeyReleased(evt);
+         }
+      });
+
       org.jdesktop.layout.GroupLayout jPanel10Layout = new org.jdesktop.layout.GroupLayout(jPanel10);
       jPanel10.setLayout(jPanel10Layout);
       jPanel10Layout.setHorizontalGroup(
@@ -599,7 +621,7 @@ public class In extends javax.swing.JFrame
             .addContainerGap())
          .add(jPanel10Layout.createSequentialGroup()
             .add(18, 18, 18)
-            .add(jComboBox3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+            .add(jComboBox3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 140, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
             .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
@@ -1131,12 +1153,12 @@ public class In extends javax.swing.JFrame
             .add(jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                .add(jPanel6Layout.createSequentialGroup()
                   .add(jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                     .add(jButton1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                     .add(jTextField6))
+                     .add(jButton1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                     .add(jTextField6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
                   .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                   .add(jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                      .add(jButton2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                     .add(jTextField49, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)))
+                     .add(jTextField49, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)))
                .add(jComboBox2, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
@@ -1311,10 +1333,10 @@ public class In extends javax.swing.JFrame
                   .add(0, 0, Short.MAX_VALUE)))
             .addContainerGap())
          .add(jPanel16Layout.createSequentialGroup()
-            .add(360, 360, 360)
-            .add(jButton3)
+            .add(419, 419, 419)
+            .add(jButton3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 120, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
             .add(18, 18, 18)
-            .add(jButton8)
+            .add(jButton8, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 120, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
             .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
       jPanel16Layout.setVerticalGroup(
@@ -1383,12 +1405,12 @@ public class In extends javax.swing.JFrame
             .addContainerGap()
             .add(jScrollPane7)
             .addContainerGap())
-         .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel14Layout.createSequentialGroup()
-            .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .add(jButton9)
+         .add(jPanel14Layout.createSequentialGroup()
+            .add(419, 419, 419)
+            .add(jButton9, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 120, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-            .add(jButton10)
-            .add(548, 548, 548))
+            .add(jButton10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 120, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
       );
       jPanel14Layout.setVerticalGroup(
          jPanel14Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1408,11 +1430,13 @@ public class In extends javax.swing.JFrame
 
       jLabel19.setText("Полное:");
 
+      jTextField19.setEditable(false);
       jTextField19.setHorizontalAlignment(javax.swing.JTextField.CENTER);
       jTextField19.setText("ТОВ \"ФІНАНСОВА АКАДЕМІЯ АБСОЛЮТ ФІНАНС\"");
 
       jLabel20.setText("Короткое:");
 
+      jTextField20.setEditable(false);
       jTextField20.setHorizontalAlignment(javax.swing.JTextField.CENTER);
       jTextField20.setText("ТОВ \"ФК АБСОЛЮТ ФІНАНС\"");
 
@@ -1433,24 +1457,34 @@ public class In extends javax.swing.JFrame
 
       jLabel28.setText("Офис");
 
+      jTextField21.setEditable(false);
       jTextField21.setText("1");
 
+      jTextField22.setEditable(false);
       jTextField22.setText("1");
 
+      jTextField23.setEditable(false);
       jTextField23.setText("1");
 
+      jTextField24.setEditable(false);
       jTextField24.setText("1");
 
+      jTextField25.setEditable(false);
       jTextField25.setText("1");
 
+      jTextField26.setEditable(false);
       jTextField26.setText("1");
 
+      jTextField27.setEditable(false);
       jTextField27.setText("1");
 
+      jTextField28.setEditable(false);
       jTextField28.setText("1");
 
+      jTextField29.setEditable(false);
       jTextField29.setText("1");
 
+      jTextField30.setEditable(false);
       jTextField30.setText("1");
 
       jLabel29.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -1458,9 +1492,15 @@ public class In extends javax.swing.JFrame
 
       jLabel30.setText("МФО:");
 
+      jTextField31.setEditable(false);
+
       jLabel31.setText("ОКПО:");
 
+      jTextField32.setEditable(false);
+
       jLabel32.setText("Расчетный счет:");
+
+      jTextField33.setEditable(false);
 
       jLabel33.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
       jLabel33.setText("Главный административный состав предприятия");
@@ -1478,17 +1518,23 @@ public class In extends javax.swing.JFrame
       jLabel38.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
       jLabel38.setText("Отчество");
 
+      jTextField34.setEditable(false);
       jTextField34.setText(" ");
 
+      jTextField35.setEditable(false);
       jTextField35.setText(" ");
 
+      jTextField36.setEditable(false);
       jTextField36.setText(" ");
 
       jLabel39.setText("Ф.И.О.");
 
+      jTextField37.setEditable(false);
+
       jLabel40.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
       jLabel40.setText("Ф.И.О");
 
+      jTextField38.setEditable(false);
       jTextField38.setText(" ");
 
       jLabel41.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -1500,10 +1546,13 @@ public class In extends javax.swing.JFrame
       jLabel43.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
       jLabel43.setText("Отчество");
 
+      jTextField39.setEditable(false);
       jTextField39.setText(" ");
 
+      jTextField40.setEditable(false);
       jTextField40.setText(" ");
 
+      jTextField41.setEditable(false);
       jTextField41.setText(" ");
 
       org.jdesktop.layout.GroupLayout jPanel15Layout = new org.jdesktop.layout.GroupLayout(jPanel15);
@@ -2456,31 +2505,16 @@ public class In extends javax.swing.JFrame
 	 try
 	 {
 	    ParseJson pjs = new ParseJson(SendPost(SD.GetSD()));
+	
+	   RefreshTable.RefreshTable.replanish();
+	
 	 }
-	 catch (IOException ex)
+	 catch (IOException | ParseException | InterruptedException | SQLException | ClassNotFoundException | java.text.ParseException ex)
 	 {
 	    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
 	 }
-	 catch (ParseException ex)
-	 {
-	    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-	 }
-	 catch (InterruptedException ex)
-	 {
-	    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-	 }
-	 catch (SQLException ex)
-	 {
-	    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-	 }
-	 catch (ClassNotFoundException ex)
-	 {
-	    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-	 }
-	 catch (java.text.ParseException ex)
-	 {
-	    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-	 }
+// TODO add your handling code here:
+
 
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton6MouseClicked
@@ -2537,12 +2571,22 @@ public class In extends javax.swing.JFrame
 	    {
 		 Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
 	    }
+	    try
+	{
+	   RefreshTable.RefreshTable.Сollaction();
+	}
+	catch (java.text.ParseException ex)
+	{
+	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+	}
+	    
 	 }
 	 else
 	 {
 	    showMessageDialog(null, "Недостаточно денег в кассе");
 
 	 }
+	 
 
 // TODO add your handling code here:
     }//GEN-LAST:event_jButton7MouseClicked
@@ -2680,6 +2724,17 @@ public class In extends javax.swing.JFrame
 
    private void jTextField2KeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextField2KeyReleased
    {//GEN-HEADEREND:event_jTextField2KeyReleased
+Pattern p = Pattern.compile("([0-9])+");
+                 Matcher m = p.matcher(jTextField2.getText());
+         
+                 if(!m.matches()) {
+			  showMessageDialog(null, "Вводить можно только цифры");
+                     jTextField2.setText("");
+                   
+                  }  
+	
+	
+	
 	if(!jTextField2.getText().equals(""))
 	{
 	   double tmp = Double.parseDouble((String) jTextField2.getText());
@@ -2697,6 +2752,15 @@ public class In extends javax.swing.JFrame
 
    private void jTextField6KeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextField6KeyReleased
    {//GEN-HEADEREND:event_jTextField6KeyReleased
+Pattern p = Pattern.compile("([0-9])+");
+                 Matcher m = p.matcher(jTextField6.getText());
+         
+                 if(!m.matches()) {
+			  showMessageDialog(null, "Вводить можно только цифры");
+                     jTextField6.setText("");
+                   
+                  }  
+	
 	pf = 0;
 	inpf = false;
 	if(!jTextField6.getText().equals(""))
@@ -2739,6 +2803,16 @@ public class In extends javax.swing.JFrame
 
    private void jTextField49KeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextField49KeyReleased
    {//GEN-HEADEREND:event_jTextField49KeyReleased
+
+	Pattern p = Pattern.compile("([0-9])+");
+                 Matcher m = p.matcher(jTextField49.getText());
+         
+                 if(!m.matches()) {
+			  showMessageDialog(null, "Вводить можно только цифры");
+                     jTextField49.setText("");
+                   
+                  }  
+	
 	pf = 0;
 	inpf = false;
 	if(!jTextField49.getText().equals(""))
@@ -2871,7 +2945,14 @@ public class In extends javax.swing.JFrame
 	{
 	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
 	}
-
+	try
+	{
+	   RefreshTable.RefreshTable.Journal();
+	}
+	catch (java.text.ParseException ex)
+	{
+	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+	}
    }//GEN-LAST:event_jButton9ActionPerformed
 
    private void jButton10MouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton10MouseClicked
@@ -2919,8 +3000,51 @@ public class In extends javax.swing.JFrame
 	{
 	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
 	}
+	
+	try
+	{
+	   RefreshTable.RefreshTable.Journal();
+	}
+	catch (java.text.ParseException ex)
+	{
+	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+	}
 	// TODO add your handling code here:
    }//GEN-LAST:event_jButton10MouseClicked
+
+   private void jTextField2KeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextField2KeyPressed
+   {//GEN-HEADEREND:event_jTextField2KeyPressed
+   
+                 
+       
+	
+
+
+// TODO add your handling code here:
+   }//GEN-LAST:event_jTextField2KeyPressed
+
+   private void jTextField1KeyPressed(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextField1KeyPressed
+   {//GEN-HEADEREND:event_jTextField1KeyPressed
+      // TODO add your handling code here:
+   }//GEN-LAST:event_jTextField1KeyPressed
+
+   private void jTextField2KeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextField2KeyTyped
+   {//GEN-HEADEREND:event_jTextField2KeyTyped
+       // TODO add your handling code here:
+   }//GEN-LAST:event_jTextField2KeyTyped
+
+   private void jTextField1KeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextField1KeyReleased
+   {//GEN-HEADEREND:event_jTextField1KeyReleased
+Pattern p = Pattern.compile("([0-9])+");
+                 Matcher m = p.matcher(jTextField1.getText());
+         
+                 if(!m.matches()) {
+			  showMessageDialog(null, "Вводить можно только цифры");
+                     jTextField1.setText("");
+                   
+                  }  
+	      // TODO add your handling code here:
+   }//GEN-LAST:event_jTextField1KeyReleased
 
    /**
     */

@@ -32,7 +32,8 @@ public class PrintBuySale
 	StorageMemory SD = getInstance();
 	
 	String pre="";
-	SD.getAction_name();
+	
+	SD.velocity.put("type", SD.getAction_name());
 	SD.velocity.put("buyer_surname", SD.getBuyer_surname());
 	SD.velocity.put("buyer_first_name", SD.getBuyer_first_name());
 	SD.velocity.put("buyer_last_name", SD.getBuyer_last_name());
@@ -42,7 +43,7 @@ public class PrintBuySale
 	SD.velocity.put("currency_course", SD.getCurrency_course());
 	SD.velocity.put("currency_sum()", SD.getCurrency_sum());
 	SD.velocity.put("grn_sum", SD.getGrn_sum());
-	SD.velocity.put("getIdqwi", SD.getIdqwi());
+	SD.velocity.put("receipt_currency", SD.getReceipt_currency());
 	
 	
 	pre=SD.PrintTpl.get("13 Квитанція про здійснення валютно-обмінної операції").toString();

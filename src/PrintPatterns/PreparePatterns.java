@@ -82,10 +82,38 @@ public class PreparePatterns
 		   SD.velocity.put("TimetoFinish", SELECT("SELECT TimetoFinish FROM `currencies` WHERE TimetoStart=\"" + dateoflist + "\" LIMIT 1;"));
 		   SD.velocity.put("map", SD.TPLveloPrint);
 		   //шаблонизируем
+	   	   RenderPDF_img_too(SD.ShablonThisHtml(pre));
+		   break;
 		   
+		case 12:
+		  //печать чеков
+		  //очистка 
+		   SD.velocity.put("type", "");
+		   SD.velocity.put("buyer_surname", "");
+		   SD.velocity.put("buyer_first_name", "");
+		   SD.velocity.put("buyer_last_name", "");
+		   SD.velocity.put("passport_number", "");
+		   SD.velocity.put("phone_number", "");
+		   SD.velocity.put("currency_code", "");
+		   SD.velocity.put("currency_course", "");
+		   SD.velocity.put("currency_sum()", "");
+		   SD.velocity.put("grn_sum", "");
+		   SD.velocity.put("receipt_currency", "");
 		   
-		   
-		   RenderPDF_img_too(SD.ShablonThisHtml(pre));
+		   //вытаскиваем html из обьекта шаблонов
+		    pre = SD.PrintTpl.get(String.valueOf(MainForm.getjComboBox1().getSelectedItem())).toString();
+		  
+	SD.velocity.put("type", SD.getAction_name());
+	SD.velocity.put("buyer_surname", SD.getBuyer_surname());
+	SD.velocity.put("buyer_first_name", SD.getBuyer_first_name());
+	SD.velocity.put("buyer_last_name", SD.getBuyer_last_name());
+	SD.velocity.put("passport_number", SD.getPassport_number());
+	SD.velocity.put("phone_number", SD.getPhone_number());
+	SD.velocity.put("currency_code", SD.getCurrency_code());
+	SD.velocity.put("currency_course", SD.getCurrency_course());
+	SD.velocity.put("currency_sum()", SD.getCurrency_sum());
+	SD.velocity.put("grn_sum", SD.getGrn_sum());
+	SD.velocity.put("receipt_currency", SD.getReceipt_currency());
 		   break;
 
 		//по умолчанию берем пустой шаблон и печатаем    
