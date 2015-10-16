@@ -67,6 +67,7 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.ProgressBarUI;
 import javax.swing.table.DefaultTableModel;
 import static RefreshTable.RefreshTable.Сollaction;
+import java.io.UnsupportedEncodingException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -2502,17 +2503,44 @@ public class In extends javax.swing.JFrame
 		    ""
 	 );
 
-	 try
-	 {
-	    ParseJson pjs = new ParseJson(SendPost(SD.GetSD()));
 	
-	   RefreshTable.RefreshTable.replanish();
+	try
+	{
+	   ParseJson pjs = new ParseJson(SendPost(SD.GetSD()));
+	    RefreshTable.RefreshTable.replanish();
+	}
+	catch (ClassNotFoundException ex)
+	{
+	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+	}
+	catch (SQLException ex)
+	{
+	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+	}
+	catch (java.text.ParseException ex)
+	{
+	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+	}
+	catch (UnsupportedEncodingException ex)
+	{
+	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+	}
+	catch (IOException ex)
+	{
+	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+	}
+	catch (ParseException ex)
+	{
+	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+	}
+	catch (InterruptedException ex)
+	{
+	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
+	}
 	
-	 }
-	 catch (IOException | ParseException | InterruptedException | SQLException | ClassNotFoundException | java.text.ParseException ex)
-	 {
-	    Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
-	 }
+	  
+	
+	 
 // TODO add your handling code here:
 
 

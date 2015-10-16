@@ -22,8 +22,8 @@ public class DecodeUTF {
     public static String DecodeUTF(String a) throws UnsupportedEncodingException
     {    
     byte[] utf8Bytes = a.getBytes("UTF8");
-    String out = new String(utf8Bytes,"UTF8"); 
-    System.out.println(out);
+    String out = new String(utf8Bytes, "UTF8");
+	 System.out.println(out);
     return out;
     }
 }
