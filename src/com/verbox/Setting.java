@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static javax.swing.JOptionPane.showMessageDialog;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  *
@@ -28,7 +29,7 @@ public class Setting extends javax.swing.JFrame {
 private Map Active,Bablo;
     /** Creates new form Setting
      * @return  */
-public static String GetDoubleStr(ArrayList tmpz )
+public static String GetZeroArr(ArrayList tmpz )
 {
   
    
@@ -58,54 +59,54 @@ public static String GetDoubleStr(ArrayList tmpz )
             
         
         
-        jTextField1.setText(GetDoubleStr((ArrayList) Bablo.get("840")));
-        jTextField2.setText(GetDoubleStr((ArrayList) Bablo.get("978")));
-        jTextField3.setText(GetDoubleStr((ArrayList) Bablo.get("643")));
-        jTextField4.setText(GetDoubleStr((ArrayList) Bablo.get("826")));
-        jTextField5.setText(GetDoubleStr((ArrayList) Bablo.get("756")));
-        jTextField6.setText(GetDoubleStr((ArrayList) Bablo.get("124")));
-        jTextField7.setText(GetDoubleStr((ArrayList) Bablo.get("30")));
-        jTextField8.setText(GetDoubleStr((ArrayList) Bablo.get("208")));
-        jTextField9.setText(GetDoubleStr((ArrayList) Bablo.get("578")));
-        jTextField10.setText(GetDoubleStr((ArrayList) Bablo.get("752")));
-        jTextField11.setText(GetDoubleStr((ArrayList) Bablo.get("352")));
-        jTextField12.setText(GetDoubleStr((ArrayList) Bablo.get("392")));
-        jTextField13.setText(GetDoubleStr((ArrayList) Bablo.get("156")));
-        jTextField14.setText(GetDoubleStr((ArrayList) Bablo.get("974")));
-        jTextField15.setText(GetDoubleStr((ArrayList) Bablo.get("203")));
-        jTextField16.setText(GetDoubleStr((ArrayList) Bablo.get("985")));
-        jTextField17.setText(GetDoubleStr((ArrayList) Bablo.get("348")));
-        jTextField18.setText(GetDoubleStr((ArrayList) Bablo.get("376")));
-        jTextField19.setText(GetDoubleStr((ArrayList) Bablo.get("398")));
-        jTextField20.setText(GetDoubleStr((ArrayList) Bablo.get("440")));
-        jTextField21.setText(GetDoubleStr((ArrayList) Bablo.get("498")));
-        jTextField22.setText(GetDoubleStr((ArrayList) Bablo.get("946")));
-        jTextField25.setText(GetDoubleStr((ArrayList) Bablo.get("980")));
+        jTextField1.setText(GetZeroArr((ArrayList) Bablo.get("840")));
+        jTextField2.setText(GetZeroArr((ArrayList) Bablo.get("978")));
+        jTextField3.setText(GetZeroArr((ArrayList) Bablo.get("643")));
+        jTextField4.setText(GetZeroArr((ArrayList) Bablo.get("826")));
+        jTextField5.setText(GetZeroArr((ArrayList) Bablo.get("756")));
+        jTextField6.setText(GetZeroArr((ArrayList) Bablo.get("124")));
+        jTextField7.setText(GetZeroArr((ArrayList) Bablo.get("30")));
+        jTextField8.setText(GetZeroArr((ArrayList) Bablo.get("208")));
+        jTextField9.setText(GetZeroArr((ArrayList) Bablo.get("578")));
+        jTextField10.setText(GetZeroArr((ArrayList) Bablo.get("752")));
+        jTextField11.setText(GetZeroArr((ArrayList) Bablo.get("352")));
+        jTextField12.setText(GetZeroArr((ArrayList) Bablo.get("392")));
+        jTextField13.setText(GetZeroArr((ArrayList) Bablo.get("156")));
+        jTextField14.setText(GetZeroArr((ArrayList) Bablo.get("974")));
+        jTextField15.setText(GetZeroArr((ArrayList) Bablo.get("203")));
+        jTextField16.setText(GetZeroArr((ArrayList) Bablo.get("985")));
+        jTextField17.setText(GetZeroArr((ArrayList) Bablo.get("348")));
+        jTextField18.setText(GetZeroArr((ArrayList) Bablo.get("376")));
+        jTextField19.setText(GetZeroArr((ArrayList) Bablo.get("398")));
+        jTextField20.setText(GetZeroArr((ArrayList) Bablo.get("440")));
+        jTextField21.setText(GetZeroArr((ArrayList) Bablo.get("498")));
+        jTextField22.setText(GetZeroArr((ArrayList) Bablo.get("946")));
+        jTextField25.setText(GetZeroArr((ArrayList) Bablo.get("980")));
         
         //включенность
-        jCheckBox1.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("840"))));
-        jCheckBox2.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("978"))));
-        jCheckBox3.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("643"))));
-        jCheckBox4.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("826"))));
-        jCheckBox5.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("756"))));
-        jCheckBox6.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("124"))));
-        jCheckBox7.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("30"))));
-        jCheckBox8.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("208"))));
-        jCheckBox9.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("578"))));
-        jCheckBox10.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("752"))));
-        jCheckBox11.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("352"))));
-        jCheckBox12.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("392"))));
-        jCheckBox13.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("156"))));
-        jCheckBox14.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("974"))));
-        jCheckBox15.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("203"))));
-        jCheckBox16.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("985"))));
-        jCheckBox17.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("348"))));
-        jCheckBox18.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("376"))));
-        jCheckBox19.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("398"))));
-        jCheckBox20.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("440"))));
-        jCheckBox21.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("498"))));
-        jCheckBox22.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("946"))));
-        jCheckBox23.setSelected(Boolean.parseBoolean(GetDoubleStr((ArrayList) Active.get("980"))));
+        jCheckBox1.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("840"))));
+        jCheckBox2.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("978"))));
+        jCheckBox3.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("643"))));
+        jCheckBox4.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("826"))));
+        jCheckBox5.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("756"))));
+        jCheckBox6.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("124"))));
+        jCheckBox7.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("30"))));
+        jCheckBox8.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("208"))));
+        jCheckBox9.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("578"))));
+        jCheckBox10.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("752"))));
+        jCheckBox11.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("352"))));
+        jCheckBox12.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("392"))));
+        jCheckBox13.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("156"))));
+        jCheckBox14.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("974"))));
+        jCheckBox15.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("203"))));
+        jCheckBox16.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("985"))));
+        jCheckBox17.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("348"))));
+        jCheckBox18.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("376"))));
+        jCheckBox19.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("398"))));
+        jCheckBox20.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("440"))));
+        jCheckBox21.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("498"))));
+        jCheckBox22.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("946"))));
+        jCheckBox23.setSelected(Boolean.parseBoolean(GetZeroArr((ArrayList) Active.get("980"))));
         
         
         }

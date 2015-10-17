@@ -8,6 +8,7 @@ package PrintPatterns;
 import com.itextpdf.text.DocumentException;
 import com.verbox.In;
 import static com.verbox.In.getInstanceMain;
+import static com.verbox.MyMath.round;
 import static com.verbox.PrintHtml.Print;
 import static com.verbox.PrintHtml.RenderPDF_img_too;
 import com.verbox.StorageMemory;
@@ -41,16 +42,18 @@ public class PrintBuySale
 	SD.velocity.put("phone_number", SD.getPhone_number());
 	SD.velocity.put("currency_code", SD.getCurrency_code());
 	SD.velocity.put("currency_course", SD.getCurrency_course());
-	SD.velocity.put("currency_sum()", SD.getCurrency_sum());
+	SD.velocity.put("currency_sum", SD.getCurrency_sum());
 	SD.velocity.put("grn_sum", SD.getGrn_sum());
 	SD.velocity.put("receipt_currency", SD.getReceipt_currency());
+	
+	SD.velocity.put("pfvalue",SD.pfvalue);
 	
 	
 	pre=SD.PrintTpl.get("13 Квитанція про здійснення валютно-обмінної операції").toString();
 	try
 	{
 	   RenderPDF_img_too(SD.ShablonThisHtml(pre));
-	   //   Print(true);
+	   Print(true);
 	}
 	catch (ParserConfigurationException ex)
 	{

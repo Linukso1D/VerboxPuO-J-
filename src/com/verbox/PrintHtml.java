@@ -76,9 +76,13 @@ public static boolean Print(boolean a) throws PrinterException
         doc.close();
         boolean flag = true;
         return flag;
-    } catch (IOException ex) {
-        Logger.getLogger(PrintHtml.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (PrinterException ex) {
+        JOptionPane.showMessageDialog(null,"Не удалось распечатать документ, по скольку принтер не отвечает.");
     }
+	catch (IOException ex)
+	{
+	   Logger.getLogger(PrintHtml.class.getName()).log(Level.SEVERE, null, ex);
+	}
 }
     return false;
 }

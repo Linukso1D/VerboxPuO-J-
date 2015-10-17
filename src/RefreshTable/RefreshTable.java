@@ -8,7 +8,6 @@ package RefreshTable;
 import static com.verbox.Date.getShortDate;
 import com.verbox.In;
 import static com.verbox.In.getInstanceMain;
-import static com.verbox.Setting.GetDoubleStr;
 import static com.verbox.sqlite_metod.ReadSQLiteMulti;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -22,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import static com.verbox.Setting.GetZeroArr;
 
 /**
  *
@@ -220,7 +220,7 @@ In mf = getInstanceMain();
 
 		 model.addRow(new Object[]
 		 {
-		    GetDoubleStr((ArrayList) mapData.get(key))
+		    GetZeroArr((ArrayList) mapData.get(key))
 		 });
 
 	    }
@@ -255,7 +255,7 @@ In mf = getInstanceMain();
 
 		 model.addRow(new Object[]
 		 {
-		    GetDoubleStr((ArrayList) mapData.get(key))
+		    GetZeroArr((ArrayList) mapData.get(key))
 		 });
 
 	    }

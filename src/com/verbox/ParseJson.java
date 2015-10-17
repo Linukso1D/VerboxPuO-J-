@@ -12,7 +12,6 @@ import static com.verbox.Date.getShortDate;
 import static com.verbox.DecodeUTF.DecodeUTF;
 import static com.verbox.ErrorList.DesctiptError;
 import static com.verbox.In.getInstanceMain;
-import static com.verbox.Setting.GetDoubleStr;
 import static com.verbox.StorageMemory.getInstance;
 import static com.verbox.json_metod.SendPost;
 import static com.verbox.sqlite_metod.DELETE_ALL;
@@ -36,6 +35,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.xml.sax.SAXException;
+import static com.verbox.Setting.GetZeroArr;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  *
@@ -206,6 +207,7 @@ public class ParseJson {
                                                          key.add("type");
                                                          key.add("cartulary_id");
                                                          key.add("FIO");
+									   key.add("pfvalue");
 
                                                          ArrayList value = new ArrayList();
                                                          value.add(sd.getBuyer_first_name());
@@ -226,6 +228,7 @@ public class ParseJson {
                                                          value.add(tmp.get("type"));
                                                          value.add(cartulary_id);
                                                          value.add(sd.getFIO());
+									   value.add(sd.pfvalue);
 
                                                          
                                                          sd.setBalance("980",Double.parseDouble(sd.getGrn_sum()));
@@ -292,7 +295,7 @@ public class ParseJson {
                                                          key.add("type");
                                                          key.add("cartulary_id");
                                                          key.add("FIO");
-
+									   key.add("pfvalue");
                                                          ArrayList value = new ArrayList();
                                                          value.add(sd.getBuyer_first_name());
                                                          value.add(sd.getBuyer_last_name());
@@ -312,7 +315,7 @@ public class ParseJson {
                                                          value.add(tmp.get("type"));
                                                          value.add(cartulary_id);
                                                          value.add(sd.getFIO());
-
+									    value.add(sd.pfvalue);	
                                                          sd.setBalance("980",Double.parseDouble(sd.getGrn_sum()));
                                                          sd.setBalance(sd.getCurrency_code(),Double.parseDouble(sd.getCurrency_sum()));
                                                          

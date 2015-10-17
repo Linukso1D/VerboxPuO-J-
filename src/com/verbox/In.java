@@ -17,7 +17,6 @@ import static com.verbox.Date.getJXShortDate;
 import static com.verbox.Date.getShortDate;
 import static com.verbox.MyMath.round;
 
-import static com.verbox.Setting.GetDoubleStr;
 import static com.verbox.StorageMemory.getInstance;
 import static com.verbox.json_metod.SendPost;
 import static com.verbox.sqlite_metod.ReadSQLite;
@@ -70,6 +69,9 @@ import static RefreshTable.RefreshTable.Сollaction;
 import java.io.UnsupportedEncodingException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import static javax.swing.JOptionPane.showMessageDialog;
+import static com.verbox.Setting.GetZeroArr;
+import static javax.swing.JOptionPane.showMessageDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
@@ -2262,8 +2264,8 @@ public class In extends javax.swing.JFrame
 	 try
 	 {
 	    String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
-	    double bal = Double.parseDouble(GetDoubleStr((ArrayList) SD.balance.get(code)));
-	    double grn = Double.parseDouble(GetDoubleStr((ArrayList) SD.balance.get("980")));
+	    double bal = Double.parseDouble(GetZeroArr((ArrayList) SD.balance.get(code)));
+	    double grn = Double.parseDouble(GetZeroArr((ArrayList) SD.balance.get("980")));
 	    double grnin=Double.parseDouble(jTextField3.getText());
 	    double currin = Double.parseDouble(jTextField6.getText());
 	    if(((grnin + grn) > 0) && (bal - currin) > 0)
@@ -2273,6 +2275,7 @@ public class In extends javax.swing.JFrame
 		 if(inpf)
 		 {
 		    sum = pf;
+		    SD.pfvalue=pf;
 		 }
 		 else
 		 {
@@ -2281,15 +2284,22 @@ public class In extends javax.swing.JFrame
 		 sum += Double.parseDouble(jTextField3.getText());
 		 String s1 = "", s2 = "";
 		 int s3 = 0;
-		 try
+		
+		 if(jTextField12.getText()!=null)
 		 {
 		    s1 = jTextField12.getText();
-		    s2 = jTextField10.getText();
-		    s3 = Integer.parseInt(jTextField11.getText());
 		 }
-		 catch (Exception e)
+		 if(jTextField10.getText().equals(""))
 		 {
+		 s2 = jTextField10.getText();
 		 }
+		 if(jTextField11.getText().equals(""))
+		 {
+		  s3 = Integer.parseInt(jTextField11.getText());
+		 }
+		    
+		   
+		
 
 		 SD.OperationX(
 			    jComboBox2.getSelectedIndex(),
@@ -2371,8 +2381,8 @@ public class In extends javax.swing.JFrame
 	 try
 	 {
 	    String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
-	    double bal = Double.parseDouble(GetDoubleStr((ArrayList) SD.balance.get(code)));
-	    double grn = Double.parseDouble(GetDoubleStr((ArrayList) SD.balance.get("980")));
+	    double bal = Double.parseDouble(GetZeroArr((ArrayList) SD.balance.get(code)));
+	    double grn = Double.parseDouble(GetZeroArr((ArrayList) SD.balance.get("980")));
 	    double grnin=Double.parseDouble(jTextField3.getText());
 	    double currin=Double.parseDouble(jTextField49.getText());
 	    if((currin + bal) > 0 && (grn + grnin ) > 0)
@@ -2383,6 +2393,7 @@ public class In extends javax.swing.JFrame
 		 if(inpf)
 		 {
 		    sum = pf;
+		    SD.pfvalue=pf;
 		 }
 		 else
 		 {
@@ -2398,15 +2409,16 @@ public class In extends javax.swing.JFrame
 
 		 }
 		 sum = round(sum, 2);
-		 String s1 = "", s2 = "", s3 = "";
-		 try
+		 String s1 = "";
+		 
+		
+		   
+		if(jTextField12.getText()!=null)
 		 {
 		    s1 = jTextField12.getText();
-
 		 }
-		 catch (Exception e)
-		 {
-		 }
+		 
+		
 		 SD.OperationX(
 			    jComboBox2.getSelectedIndex(),
 			    Resident(),
@@ -2485,7 +2497,7 @@ public class In extends javax.swing.JFrame
 	 StorageMemory SD = getInstance();
 //валюты
 	 String code = (String) SD.TempForSelectDropdown.get(jComboBox4.getSelectedIndex());
-	 double bal = Double.parseDouble(GetDoubleStr((ArrayList) SD.balance.get(code)));
+	 double bal = Double.parseDouble(GetZeroArr((ArrayList) SD.balance.get(code)));
 
 	 System.out.println("Пополнение");
 
@@ -2551,7 +2563,7 @@ public class In extends javax.swing.JFrame
 	 StorageMemory SD = getInstance();
 //валюты
 	 String code = (String) SD.TempForSelectDropdown.get(jComboBox3.getSelectedIndex());
-	 double bal = Double.parseDouble(GetDoubleStr((ArrayList) SD.balance.get(code)));
+	 double bal = Double.parseDouble(GetZeroArr((ArrayList) SD.balance.get(code)));
 
 	 if(bal + (Double.parseDouble(jTextField1.getText())) > 0.0)
 	 {
@@ -2780,7 +2792,8 @@ Pattern p = Pattern.compile("([0-9])+");
 
    private void jTextField6KeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextField6KeyReleased
    {//GEN-HEADEREND:event_jTextField6KeyReleased
-Pattern p = Pattern.compile("([0-9])+");
+StorageMemory SD = getInstance();
+	Pattern p = Pattern.compile("([0-9])+");
                  Matcher m = p.matcher(jTextField6.getText());
          
                  if(!m.matches()) {
@@ -2788,13 +2801,13 @@ Pattern p = Pattern.compile("([0-9])+");
                      jTextField6.setText("");
                    
                   }  
-	
+	SD.pfvalue=0;
 	pf = 0;
 	inpf = false;
 	if(!jTextField6.getText().equals(""))
 	{
 
-	   StorageMemory SD = getInstance();
+	   
 
 	   String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
 
@@ -2831,7 +2844,7 @@ Pattern p = Pattern.compile("([0-9])+");
 
    private void jTextField49KeyReleased(java.awt.event.KeyEvent evt)//GEN-FIRST:event_jTextField49KeyReleased
    {//GEN-HEADEREND:event_jTextField49KeyReleased
-
+StorageMemory SD = getInstance();
 	Pattern p = Pattern.compile("([0-9])+");
                  Matcher m = p.matcher(jTextField49.getText());
          
@@ -2840,14 +2853,14 @@ Pattern p = Pattern.compile("([0-9])+");
                      jTextField49.setText("");
                    
                   }  
-	
+	SD.pfvalue=0;
 	pf = 0;
 	inpf = false;
 	if(!jTextField49.getText().equals(""))
 	{
 
 	   inpf = false;
-	   StorageMemory SD = getInstance();
+	   
 
 	   String code = (String) SD.TempForSelectDropdown.get(jComboBox2.getSelectedIndex());
 
@@ -3118,10 +3131,10 @@ Pattern p = Pattern.compile("([0-9])+");
 	jTextField18.setText(Double.toString(round(Double.parseDouble((String) tmpz.get(1)), 2)));
 	jTextField44.setText(Double.toString(round(Double.parseDouble((String) tmpz.get(2)), 2)));
 
-	jTextField45.setText(Double.toString(Double.parseDouble(GetDoubleStr((ArrayList) obj.balance.get("840")))));
-	jTextField46.setText(Double.toString(Double.parseDouble(GetDoubleStr((ArrayList) obj.balance.get("978")))));
-	jTextField47.setText(Double.toString(Double.parseDouble(GetDoubleStr((ArrayList) obj.balance.get("643")))));
-	jTextField48.setText(Double.toString(Double.parseDouble(GetDoubleStr((ArrayList) obj.balance.get("980")))));
+	jTextField45.setText(Double.toString(Double.parseDouble(GetZeroArr((ArrayList) obj.balance.get("840")))));
+	jTextField46.setText(Double.toString(Double.parseDouble(GetZeroArr((ArrayList) obj.balance.get("978")))));
+	jTextField47.setText(Double.toString(Double.parseDouble(GetZeroArr((ArrayList) obj.balance.get("643")))));
+	jTextField48.setText(Double.toString(Double.parseDouble(GetZeroArr((ArrayList) obj.balance.get("980")))));
 
    }
 
@@ -3477,7 +3490,7 @@ Pattern p = Pattern.compile("([0-9])+");
 			break;
 		   }
 		   case 2:
-
+		   {
 			DefaultListModel listModel = new DefaultListModel();
 			ArrayList order = new ArrayList();
 			ArrayList tmp = new ArrayList();
@@ -3491,6 +3504,7 @@ Pattern p = Pattern.compile("([0-9])+");
 			}
 			jList1.setModel(listModel);
 			break;
+		   }
 		   case 3:
 		   case 4:
 		   case 5:
@@ -3501,7 +3515,40 @@ Pattern p = Pattern.compile("([0-9])+");
 		   case 10:
 		   case 11:
 		   case 12:
+		   //это у меня такой default
+		   {
+			
+
+			DefaultListModel listMod = new DefaultListModel();
+			listMod.addElement("Пустой шаблон (2015-10-03)");
+			jList1.setModel(listMod);
+
+			break;
+		   }
 		   case 13:
+		   { //Чеки про покупку / продажу
+			DefaultListModel listModel = new DefaultListModel();
+	
+			
+			
+			
+			String date1 = ConvertJXPiker(jXDatePicker2);
+			String date2 = ConvertJXPiker(jXDatePicker1);
+			
+			
+			
+			
+			SD.ListLinkedForPr = new LinkedHashMap<String, String>();
+			SD.ListLinkedForPr =ReadSQLiteMulti("SELECT id_journal,cartulary_id||\"-№ чека [\"|| CASE (`type`) WHEN \"buy\" THEN \"Покупка\" WHEN \"sale\" THEN \"Продажа\" END  ||\"] совершена в \"||time_create||\" (\"||date_create||\")\""
+				   + "FROM journal Where DATE(date_create) BETWEEN DATE(\"" + date1 + "\") AND DATE(\"" + date2 + "\") AND (type=\"buy\" OR type=\"sale\") ORDER BY `id_journal`  DESC    ;");
+			
+			
+			SD.ListLinkedForPr.forEach((key,value)->{listModel.addElement(GetZeroArr((ArrayList) value));});
+			
+			
+			jList1.setModel(listModel);
+			break;
+		   }
 		   case 14:
 		   case 15:
 		   case 16:

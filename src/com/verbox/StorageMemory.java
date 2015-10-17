@@ -8,7 +8,6 @@ package com.verbox;
 import static com.verbox.MyMath.round;
 import static com.verbox.Serial_XDD.Serial_XDDGet;
 import static com.verbox.Serial_XDD.Serial_XDDGetHash;
-import static com.verbox.Setting.GetDoubleStr;
 import static com.verbox.sqlite_metod.GetMd5;
 import static com.verbox.sqlite_metod.ReadSQLite;
 import static com.verbox.sqlite_metod.ReadSQLiteMulti;
@@ -28,6 +27,8 @@ import javax.swing.RowFilter.Entry;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.json.simple.JSONObject;
+import static com.verbox.Setting.GetZeroArr;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  *
@@ -95,7 +96,10 @@ public int Pfsell,
     public Map PrintTpl;
     
     public VelocityContext velocity;
-    public Map TPLveloPrint;
+    public Map TPLveloPrint,
+		 ListLinkedForPr;
+    //для индексов
+  public double pfvalue;//для количества комисии
     StorageMemory() {
     }
 
@@ -1081,12 +1085,12 @@ public int Pfsell,
             }
     public Double getBalance(String codes)
     {
-        return Double.parseDouble(GetDoubleStr((ArrayList) balance.get(codes)));
+        return Double.parseDouble(GetZeroArr((ArrayList) balance.get(codes)));
     }
     
     public boolean setBalance(String codes,double value) throws SQLException
     {
-        double d=Double.parseDouble(GetDoubleStr((ArrayList) balance.get(codes)));
+        double d=Double.parseDouble(GetZeroArr((ArrayList) balance.get(codes)));
         double end =d+value;
       return  UPDATE("UPDATE SDbalance SET balance=\""+end+"\" WHERE currency_code=\""+codes+"\";");
     }
