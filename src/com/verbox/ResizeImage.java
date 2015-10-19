@@ -89,14 +89,14 @@ public class ResizeImage {
                     } catch (PrinterException ex) {
                         Logger.getLogger(ResizeImage.class.getName()).log(Level.SEVERE, null, ex);
                     }
-       if(pr)
+      /* if(pr)
        {
             JOptionPane.showMessageDialog(null,"Напечатал");
        }
        else
        {
            JOptionPane.showMessageDialog(null,"Проверьте конфигурацию принтера");
-       }
+       }*/
 }
                 
                 

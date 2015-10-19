@@ -71,6 +71,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import static javax.swing.JOptionPane.showMessageDialog;
 import static com.verbox.Setting.GetZeroArr;
+import static com.verbox.sqlite_metod.CloseDB;
+import java.awt.Container;
+import java.awt.Window;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -134,29 +141,28 @@ public class In extends javax.swing.JFrame
 	initComponents();
 	//ныкать панели
 	HideEl();
-
-	//статусбар
-// create the status bar panel and shove it down the bottom of the frame
-	//общие сведения
-	//Общие сведения
+	//заполняем общей информацией
 	try
 	{
-
+	   StorageMemory SD = getInstance();
+	   if (!SD.superuser)
+	   {
+		   
+	   
 	   Map mapData = new LinkedHashMap<String, ArrayList>();
-	    mapData = ReadSQLiteMulti(
+	   mapData = ReadSQLiteMulti(
 			"SELECT `j`.`type`, CASE (`j`.`type`)\n" +
 			   "        WHEN \"buy\" THEN \"Покупка\" \n" +
 			   "        WHEN \"sale\" THEN \"Продажа\" \n" +
 			   "        WHEN \"reversal\" THEN \"Сторно\" \n" +
-			   "        WHEN \"delete\" THEN \"Удаление\" \n" +
 			   "        WHEN \"replenish\" THEN \"Пополнение\" \n" +
 			   "        WHEN \"collection\" THEN \"Инкасация\"   \n" +
 			   "    END\n , `s`.`currency_name`,SUM(j.grn_sum),SUM(currency_sum)\n"
 			+ "FROM `journal` AS `j`\n"
 			+ "INNER JOIN `SDbalance` AS `s` ON `j`.`currency_code` = `s`.`currency_code`\n"
-			+ "WHERE DATE(\"" + getShortDate() + "\") = DATE(`j`.`date_create`) AND `s`.`active` = 'true'\n"
+			+ "WHERE `j`.`timedelete`=\"_\" AND DATE(\"" + getShortDate() + "\") = DATE(`j`.`date_create`) AND `s`.`active` = 'true'\n"
 			+ "GROUP BY j.type");
-	   Set<String> keys = mapData.keySet();
+	 
 	   DefaultTableModel mod = new DefaultTableModel();
 	   jTable2.setModel(mod);
 
@@ -185,6 +191,88 @@ public class In extends javax.swing.JFrame
 
 	   }
 
+	   }
+	   else
+	   {
+		
+	   
+			   Map mapData = new LinkedHashMap<String, ArrayList>();
+			   mapData = ReadSQLiteMulti(
+					"SELECT `j`.`type`, CASE (`j`.`type`)\n" +
+					   "        WHEN \"buy\" THEN \"Покупка\" \n" +
+					   "        WHEN \"sale\" THEN \"Продажа\" \n" +
+					   "        WHEN \"reversal\" THEN \"Сторно\" \n" +
+					   "        WHEN \"replenish\" THEN \"Пополнение\" \n" +
+					   "        WHEN \"collection\" THEN \"Инкасация\"   \n" +
+					   "    END\n , `s`.`currency_name`,SUM(j.grn_sum),SUM(currency_sum)\n"
+					+ "FROM `journal` AS `j`\n"
+					+ "INNER JOIN `SDbalance` AS `s` ON `j`.`currency_code` = `s`.`currency_code`\n"
+					+ "WHERE DATE(\"" + getShortDate() + "\") = DATE(`j`.`date_create`) AND `s`.`active` = 'true'\n"
+					+ "GROUP BY j.type");
+
+			   DefaultTableModel mod = new DefaultTableModel();
+			  jTable2.setModel(mod);
+
+			   DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+			   model.addColumn("Операция");
+			   model.addColumn("Валюта");
+			   model.addColumn("Приход по Грн");
+			   model.addColumn("Приход по валюте");
+
+			   Set<RowFilter.Entry<String, ArrayList<String>>> setMap = mapData.entrySet();
+			   Iterator<RowFilter.Entry<String, ArrayList<String>>> iteratorMap = setMap.iterator();
+			   while (iteratorMap.hasNext())
+			   {
+				Map.Entry<String, ArrayList<String>> entry
+					   = (Map.Entry<String, ArrayList<String>>) iteratorMap.next();
+				String key = entry.getKey();
+				ArrayList tmpz = new ArrayList();
+				tmpz = (ArrayList) mapData.get(key);
+
+				model.addRow(new Object[]
+				{
+				   tmpz.get(0).toString(), tmpz.get(1).toString(), tmpz.get(2).toString(), tmpz.get(3).toString()
+				});
+
+			   }
+			   //отчет по удаленным
+			   Map mapdat = new LinkedHashMap<String, ArrayList>();
+			   mapdat = ReadSQLiteMulti(
+					"SELECT `j`.`type`, CASE (`j`.`type`)\n" +
+					   "        WHEN \"buy\" THEN \"Покупка[x]\" \n" +
+					   "        WHEN \"sale\" THEN \"Продажа[x]\" \n" +
+					   "        WHEN \"reversal\" THEN \"Сторно[x]\" \n" +
+					   "        WHEN \"replenish\" THEN \"Пополнение[x]\" \n" +
+					   "        WHEN \"collection\" THEN \"Инкасация[x]\"   \n" +
+					   "    END\n , `s`.`currency_name`,SUM(j.grn_sum),SUM(currency_sum)\n"
+					+ "FROM `journal` AS `j`\n"
+					+ "INNER JOIN `SDbalance` AS `s` ON `j`.`currency_code` = `s`.`currency_code`\n"
+					+ "WHERE `j`.`timedelete`!=\"_\" AND DATE(\"" + getShortDate() + "\") = DATE(`j`.`date_create`) AND `s`.`active` = 'true'\n"
+					+ "GROUP BY j.type");
+
+
+
+			   DefaultTableModel model2 = (DefaultTableModel) jTable2.getModel();
+			   Set<RowFilter.Entry<String, ArrayList<String>>> setmap2 = mapdat.entrySet();
+			   Iterator<RowFilter.Entry<String, ArrayList<String>>> IteratorMap = setmap2.iterator();
+			   while (IteratorMap.hasNext())
+			   {
+				Map.Entry<String, ArrayList<String>> entry
+					   = (Map.Entry<String, ArrayList<String>>) IteratorMap.next();
+				String key = entry.getKey();
+				ArrayList tmpz = new ArrayList();
+				tmpz = (ArrayList) mapdat.get(key);
+
+				model2.addRow(new Object[]
+				{
+				   tmpz.get(0).toString(), tmpz.get(1).toString(), tmpz.get(2).toString(), tmpz.get(3).toString()
+				});
+
+			   }
+			   
+			   
+
+	   }
 	}
 	catch (ClassNotFoundException ex)
 	{
@@ -194,6 +282,7 @@ public class In extends javax.swing.JFrame
 	{
 	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
 	}
+
 
 	///конец общие сведения
 	//  размер окна
@@ -333,7 +422,17 @@ public class In extends javax.swing.JFrame
 	   Logger.getLogger(In.class.getName()).log(Level.SEVERE, null, ex);
 	}
 	
-	
+StorageMemory SD = getInstance();	
+
+jButton1.setEnabled(SD.internet);
+jButton2.setEnabled(SD.internet);
+jButton7.setEnabled(SD.internet);
+jButton6.setEnabled(SD.internet);
+jButton9.setEnabled(SD.internet);
+jButton10.setEnabled(SD.internet);
+jButton4.setEnabled(SD.internet);
+jButton5.setEnabled(SD.internet);
+
    }
 
    /**
@@ -519,6 +618,13 @@ public class In extends javax.swing.JFrame
       setBackground(new java.awt.Color(252, 252, 252));
       setBounds(new java.awt.Rectangle(0, 0, 0, 0));
       setModalExclusionType(java.awt.Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
+      addWindowListener(new java.awt.event.WindowAdapter()
+      {
+         public void windowClosing(java.awt.event.WindowEvent evt)
+         {
+            formWindowClosing(evt);
+         }
+      });
 
       jPanel1.setMinimumSize(new java.awt.Dimension(640, 480));
 
@@ -1397,6 +1503,10 @@ public class In extends javax.swing.JFrame
          public void mouseClicked(java.awt.event.MouseEvent evt)
          {
             jButton10MouseClicked(evt);
+         }
+         public void mouseEntered(java.awt.event.MouseEvent evt)
+         {
+            jButton10MouseEntered(evt);
          }
       });
 
@@ -3004,7 +3114,7 @@ StorageMemory SD = getInstance();
 	   //удаление
 	   Map tmp = new LinkedHashMap<String, ArrayList<String>>();
 	   ArrayList f2 = new ArrayList<String>();
-	   tmp = ReadSQLiteMulti("SELECT id_journal, cartulary_id, type, currency_code, currency_sum, currency_course,grn_sum, receipt_currency+1 FROM JOURNAL WHERE type=\"buy\" OR type=\"sale\" ORDER BY id_journal DESC LIMIT 1;");
+	   tmp = ReadSQLiteMulti("SELECT id_journal, cartulary_id, type, currency_code, currency_sum, currency_course,grn_sum, receipt_currency+1 FROM JOURNAL WHERE type=\"buy\" OR type=\"sale\" AND timedelete=\"_\" ORDER BY id_journal DESC LIMIT 1;");
 
 	   tmp.forEach((s, l) -> f2.add(l));
 
@@ -3086,6 +3196,16 @@ Pattern p = Pattern.compile("([0-9])+");
                   }  
 	      // TODO add your handling code here:
    }//GEN-LAST:event_jTextField1KeyReleased
+
+   private void formWindowClosing(java.awt.event.WindowEvent evt)//GEN-FIRST:event_formWindowClosing
+   {//GEN-HEADEREND:event_formWindowClosing
+	
+   }//GEN-LAST:event_formWindowClosing
+
+   private void jButton10MouseEntered(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jButton10MouseEntered
+   {//GEN-HEADEREND:event_jButton10MouseEntered
+      // TODO add your handling code here:
+   }//GEN-LAST:event_jButton10MouseEntered
 
    /**
     */
@@ -3595,5 +3715,6 @@ Pattern p = Pattern.compile("([0-9])+");
 	   return "0";
 	}
    }
+   
 
 }

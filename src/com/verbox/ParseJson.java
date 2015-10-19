@@ -420,29 +420,6 @@ public class ParseJson {
 									   
                                                          cartulary_id =  tmp.get("cartulary_id").toString();
 
-                                                         ArrayList key = new ArrayList();
-                                                         
-                                                         key.add("currency_code");
-                                                         key.add("currency_course");
-                                                         key.add("currency_sum");
-                                                         key.add("grn_sum");
-                                                         key.add("receipt_currency");
-                                                         key.add("date_create");
-                                                         key.add("type");
-                                                         key.add("cartulary_id");
-                                                         key.add("FIO");
-
-                                                         ArrayList value = new ArrayList();
-                                                         
-                                                         value.add(sd.getCurrency_code());
-                                                         value.add(sd.getCurrency_course());
-                                                         value.add(sd.getCurrency_sum());
-                                                         value.add(sd.getGrn_sum());
-                                                         value.add(sd.getReceipt_currency());
-									   value.add(time_create);
-                                                         value.add(tmp.get("type"));
-                                                         value.add(cartulary_id);
-                                                         value.add(sd.getFIO());
 
                                                          sd.setBalance("980",Double.parseDouble(sd.getGrn_sum())*(-1));
                                                          sd.setBalance(sd.getCurrency_code(),Double.parseDouble(sd.getCurrency_sum())*(-1));
@@ -451,8 +428,8 @@ public class ParseJson {
 									   boolean idqwi=UPDATE("UPDATE SDobj SET idqwi= \""+(sd.getIdqwi()-1)+"\" ;" );
                                                          boolean idqwiadmin=UPDATE("UPDATE SDobj SET idqwiadmin= \""+(sd.getIdqwiadmin()+1)+"\" ;" );
                                                          
-                                                         boolean ins =Insert("journal",key,value);
-                                                         showMessageDialog(null,"ID operation " + ido + "ID qwi updated "+ idqwi+"Insert "+ins);
+                                                         boolean updaTimeDel=UPDATE("UPDATE journal SET timedelete= \""+time_create+"\" WHERE cartulary_id=\""+cartulary_id+"\";" );
+                                                      
                                                        
                                                         
                                                         //обновляем локальную валюту
@@ -793,7 +770,11 @@ try {
      * @throws ClassNotFoundException
      */
     public boolean Write_CurrenciesToSQLite() throws SQLException, ClassNotFoundException {
-        boolean flag = false;
+        
+	 StorageMemory sd =getInstance();
+	 boolean flag = false;
+	  if(sd.internet)
+	  {
         if (!Currencies.isEmpty()) {
                    
             int i = 0;
@@ -834,13 +815,15 @@ for (Object item : Currencies) {
         System.out.println("Currencies "+item.toString());
 }
 */
-            StorageMemory sd =getInstance();
+            
             sd.initCourse() ; 
            
            
            
             return flag;
         }
+	      }
+
         return flag;
 
     }
@@ -887,7 +870,11 @@ for (Object item : Currencies) {
         catch(NullPointerException e)
         {
             showMessageDialog(null, "Не удалось записать кассиров в базу (Проверьте настройки кассы в настроечном листе)");
-            viZ(0);
+            StorageMemory sd = getInstance();
+		if(sd.internet)
+		{
+		viZ(0);
+		}
         }
         return flag;
 

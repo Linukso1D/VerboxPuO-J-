@@ -114,12 +114,15 @@ public class json_metod {
      * @throws SQLException
      */
      public static JSONObject SendPost(JSONObject obj) throws IOException, org.json.simple.parser.ParseException, InterruptedException, SQLException {
-         if(!CheckInet())
+        StorageMemory sd = getInstance();
+	  if(!CheckInet())
          {
+		sd.internet=false;
              JSONObject js = new JSONObject();
              showMessageDialog(null, "Отсутствует соединение с интернетом.");
          return js;
          }
+	  sd.internet=true;
         URL url = new URL("http://verbox.biz/application/apimanager");
         Base64 b = new Base64();
         String encoding = b.encodeAsString(new String(cureList_GetLog()+":"+cureList_GetPass()).getBytes());

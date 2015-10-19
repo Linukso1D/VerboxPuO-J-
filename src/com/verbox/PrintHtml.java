@@ -67,24 +67,28 @@ public static boolean Print(boolean a) throws PrinterException
 {
    if(a)
 {
-    try {
-        PDDocument doc = PDDocument.load("pdf.pdf");
-        PrinterJob job = PrinterJob.getPrinterJob();
-        PrintService printer = PrintServiceLookup.lookupDefaultPrintService();
-        job.setPrintService(printer);
-        doc.silentPrint(job);
-        doc.close();
-        boolean flag = true;
-        return flag;
-    } catch (PrinterException ex) {
-        JOptionPane.showMessageDialog(null,"Не удалось распечатать документ, по скольку принтер не отвечает.");
-    }
+   boolean flag = true;
+   ( new Thread(() ->
+   {
+	try {
+	   try (PDDocument doc = PDDocument.load("pdf.pdf"))
+	   {
+		PrinterJob job = PrinterJob.getPrinterJob();
+		PrintService printer = PrintServiceLookup.lookupDefaultPrintService();
+		job.setPrintService(printer);
+		doc.silentPrint(job);
+	   }
+	   
+	} catch (PrinterException ex) {
+	   JOptionPane.showMessageDialog(null,"Не удалось распечатать документ, по скольку принтер не отвечает.");
+	}
 	catch (IOException ex)
 	{
 	   Logger.getLogger(PrintHtml.class.getName()).log(Level.SEVERE, null, ex);
 	}
+   })).start();
 }
-    return false;
+    return true;
 }
     public static void RenderPDF_img_too(String inpHtml) throws FileNotFoundException, ParserConfigurationException, SAXException, IOException, DocumentException, PrinterException {
                     try

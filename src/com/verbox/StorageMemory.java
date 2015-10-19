@@ -38,6 +38,7 @@ public class StorageMemory {
 
     //generate cashier_id and cashier_password for sign in
     private static JSONObject obj = new JSONObject();
+    public boolean internet,superuser;
     private String cash_id, cash_password, cashier_id, cashier_password, action_name, lastmess,patterns,FIO;
     JSONObject params;
     private ArrayList get_info;

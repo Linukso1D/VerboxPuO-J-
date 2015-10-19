@@ -125,7 +125,7 @@ public class sqlite_metod {
             String pas = resSet.getString("cashier_password");
 
 
-   
+		String superuser=resSet.getString("super");
    
    
    
@@ -145,7 +145,14 @@ public class sqlite_metod {
                 temp.put("patterns", patt);
                
                 StorageMemory SD=getInstance();
-               
+		    if(superuser.equals("true"))
+		    {
+		    SD.superuser=true;
+		    }
+		    else
+		    {
+		    SD.superuser=false;
+		    }
                 SD.StorageMemorySet(
                         resSet.getString("cash_id"),
                         resSet.getString("cashier_id"),
@@ -199,7 +206,7 @@ public class sqlite_metod {
         con.close();
         statmt.close();
         resSet.close();
-        System.out.println("Соединения закрыты");
+       showMessageDialog(null, "Соединение разорвано с бд");
     }
 
     //get md5
